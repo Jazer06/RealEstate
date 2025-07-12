@@ -6,4 +6,6 @@
     <p>Добро пожаловать, {{ Auth::user()->name }}!</p>
     <a href="{{ route('dashboard.properties.index') }}" class="btn btn-primary">Управление объектами</a>
 </div>
+
+
 @endsection
