@@ -21,21 +21,34 @@ class PropertyController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
+        // Валидация данных
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'price' => 'required|numeric|min:0',
-            'address' => 'required|string|max:255',
+            'price' => 'required|numeric',
+            'address' => 'required|string',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
+        // Обработка изображения
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageName = time() . '_' . $image->getClientOriginalName(); 
+            $imagePath = $image->storeAs('images', $imageName, 'public'); 
+        }
+
+        // Создание объекта Property
         Property::create([
-            'title' => $request->title,
-            'description' => $request->description,
-            'price' => $request->price,
-            'address' => $request->address,
+            'title' => $validated['title'],
+            'description' => $validated['description'],
+            'price' => $validated['price'],
+            'address' => $validated['address'],
             'user_id' => Auth::id(),
+            'image' => $imagePath, // Сохраняем путь к файлу
         ]);
 
+        // Редирект с сообщением об успехе
         return redirect()->route('dashboard.properties.index')->with('success', 'Объект добавлен!');
     }
 
@@ -48,14 +61,26 @@ class PropertyController extends Controller
     public function update(Request $request, Property $property)
     {
         $this->authorize('update', $property);
-        $request->validate([
+
+        $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'address' => 'required|string|max:255',
+            'image' => 'nullable|image|max:2048', 
         ]);
 
-        $property->update($request->only(['title', 'description', 'price', 'address']));
+        $imageData = $property->image; // Сохраняем старую картинку, если новая не загружена
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imageData = base64_encode(file_get_contents($image->getRealPath()));
+        }
+
+        $property->update(array_merge(
+            $validated,
+            ['image' => $imageData]
+        ));
+
         return redirect()->route('dashboard.properties.index')->with('success', 'Объект обновлён!');
     }
 

@@ -15,6 +15,7 @@ class CreatePropertiesTable extends Migration
             $table->string('address');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->text('image')->nullable(); // Добавляем поле для base64
             $table->timestamps();
         });
     }

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -8,7 +9,14 @@ class Property extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['title', 'description', 'price', 'address', 'user_id'];
+    protected $fillable = [
+        'title',
+        'description',
+        'price',
+        'address',
+        'user_id',
+        'image', 
+    ];
 
     public function user()
     {

@@ -14,29 +14,31 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    @auth
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard') }}">Админка</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('dashboard.properties.index') }}">Объекты</a>
-                        </li>
-                        <li class="nav-item">
-                            <form action="{{ route('logout') }}" method="POST" style="display:inline;">
-                                @csrf
-                                <button type="submit" class="nav-link btn btn-link">Выйти</button>
-                            </form>
-                        </li>
-                    @else
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('login') }}">Вход</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('register') }}">Регистрация</a>
-                        </li>
-                    @endauth
-                </ul>
+                    <ul class="navbar-nav ms-auto">
+                        @auth
+                            @if (Auth::user()->isAdmin())
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('dashboard') }}">Админка</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ route('dashboard.properties.index') }}">Объекты</a>
+                                </li>
+                            @endif
+                            <li class="nav-item">
+                                <form action="{{ route('logout') }}" method="POST" style="display:inline;">
+                                    @csrf
+                                    <button type="submit" class="nav-link btn btn-link">Выйти</button>
+                                </form>
+                            </li>
+                        @else
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('login') }}">Вход</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="{{ route('register') }}">Регистрация</a>
+                            </li>
+                        @endauth
+                    </ul>
             </div>
         </div>
     </nav>
