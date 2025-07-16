@@ -1,13 +1,20 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\PropertyController;
+use App\Http\Controllers\Dashboard\ProfileController;
 
 Auth::routes();
 
 // Главная страница для всех
 Route::get('/', function () {
-    return view('welcome'); 
+    return view('welcome');
 })->name('home');
+
+// Профиль для всех авторизованных пользователей
+Route::middleware(['auth'])->group(function () {
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile'); // Изменил имя маршрута
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update'); // Изменил имя маршрута
+});
 
 // Панель администратора
 Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
