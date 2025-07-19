@@ -1,0 +1,124 @@
+.navbar:hover {
+    background-color: #000000 !important;
+
+}
+#mainNavbar.hidden {
+    transform: translateY(-100%);
+}
+.nav-link:focus, .nav-link:hover{
+    color: #754be9;
+}
+.navbar {
+    background: transparent; /* Прозрачный фон по умолчанию */
+    border-bottom: none; /* Убираем линию */
+    box-shadow: none; /* Убираем тень по умолчанию */
+    padding: 1rem 0;
+    transition: all 0.3s ease; /* Плавный переход */
+    position: fixed; /* Фиксируем шапку */
+    width: 100%;
+    top: 0;
+    z-index: 1000;
+}
+
+/* Эффект при наведении или скролле */
+.navbar.scrolled {
+    background: #000000; /* Чёрный фон при скролле */
+    padding: 0px;
+    font-size: 12px;
+    color: #999999; /* Серый цвет при скролле */
+}
+
+/* Стили для бренда */
+.navbar-brand {
+    color: #ffffff; /* Белый цвет бренда по умолчанию */
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.navbar.scrolled .navbar-brand {
+    color: #ffffff; /* Белый цвет при чёрном фоне */
+}
+.navbar-brand:hover {
+    color: #ecf0f1;
+}
+
+/* Стили для ссылок */
+.nav-link {
+    color: #ecf0f1; /* Светлый текст по умолчанию */
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+.navbar.scrolled .nav-link {
+     color: #555555; /* Темно-серый при наведении на скролле */
+}
+
+
+/* Стили для аватара */
+.navbar .rounded-circle {
+    border: 3px solid #ffffff;
+    transition: transform 0.3s ease;
+}
+.navbar.scrolled .rounded-circle {
+    border-color: #ffffff; /* Белая граница при чёрном фоне */
+}
+.navbar .rounded-circle:hover {
+    transform: scale(1.1); /* Увеличение при наведении */
+}
+
+/* Стили для кнопки выхода */
+.navbar .btn-link {
+    color: #ecf0f1;
+    transition: color 0.3s ease;
+}
+.navbar.scrolled .btn-link {
+    color: #ffffff;
+}
+.navbar .btn-link:hover {
+    color: #3498db;
+}
+
+/* Стили для иконки телефона */
+.navbar .phone-icon {
+    color: #ffffff;
+    font-size: 1.5rem;
+    margin-left: 1rem;
+}
+.navbar.scrolled .phone-icon {
+    color: #ffffff;
+}
+
+/* Стили для бургер-меню */
+.navbar-toggler {
+    border: none;
+    padding: 0.25rem 0.75rem;
+    display: block !important; /* Всегда виден */
+}
+.navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 10h22M4 20h22'/%3e%3c/svg%3e");
+    /* Две полоски вместо трёх */
+}
+.navbar.scrolled .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 10h22M4 20h22'/%3e%3c/svg%3e");
+}
+.dropdown-menu-large {
+    min-width: 250px;
+}
+.fs-14 {
+    font-size: 14px !important;
+}
+.fs-12 {
+    font-size: 12px !important;
+}
+/* Убираем адаптивное сворачивание */
+@media (max-width: 991px) {
+    .navbar-collapse {
+        display: block !important; /* Всегда виден */
+    }
+    .navbar-nav {
+        flex-direction: row;
+        margin-left: auto;
+    }
+}
