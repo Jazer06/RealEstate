@@ -13,6 +13,59 @@ body {
     flex: 1 0 auto; /* Делаем контейнер растяжимым для подвала */
 }
 
+
+
+/*margin__________*/
 .mt-6 {
     margin-top: 6rem !important;
 }
+/*margin__________*/
+
+/*carusel__________*/
+.full-screen-carousel {
+    width: 100%;
+    height: 100vh;
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+}
+.full-screen-carousel img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+}
+.slide-content {
+    position: absolute;
+    top: 50%;
+    left: 50px;
+    transform: translateY(-50%);
+    color: white;
+    text-align: left;
+    z-index: 10;
+}
+.iphone-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: transparent; /* Прозрачный фон */
+    color: white; /* Белый текст */
+    text-decoration: none;
+    border: 2px solid white; /* Белый бордер */
+    border-radius: 25px; /* Закругление в стиле iPhone */
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.iphone-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+.slide-description {
+    margin-top: 10px;
+    font-size: 18px;
+    font-weight: 400;
+    max-width: 300px;
+}
+
+/*carusel__________*/
