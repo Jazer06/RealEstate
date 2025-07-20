@@ -1,6 +1,6 @@
 body {
     font-family: 'Roboto', sans-serif;
-    background: url('https://guxzs9e8qz.a.trbcdn.net/ioss(resize=x1200)/upload/iblock/f5e/f5e999466357b181938032be7de22559/4f26f1f8f2b5a9fe24f1ec070d802cae.webp') no-repeat center center fixed;
+    /*background: url('https://guxzs9e8qz.a.trbcdn.net/ioss(resize=x1200)/upload/iblock/f5e/f5e999466357b181938032be7de22559/4f26f1f8f2b5a9fe24f1ec070d802cae.webp') no-repeat center center fixed;*/
     background-size: cover;
     color: #2c3e50;
     margin: 0;
@@ -69,3 +69,114 @@ body {
 }
 
 /*carusel__________*/
+
+
+
+
+
+/*Login*/
+.login-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: black;
+    margin-bottom: 1rem;
+}
+
+.login-subtitle {
+    font-family: 'Roboto', sans-serif;
+    color: #2c3e50;
+    margin-bottom: 1.5rem;
+}
+
+/* === Стили для инпутов (без бордера вообще) === */
+.form-control,
+.custom-input {
+    font-family: 'Roboto', sans-serif;
+    border-radius: 12px; /* Убираем скругление */
+    background-color: transparent;
+    color: #2c3e50;
+    box-shadow: none;
+    border: 1 px solid black;
+    outline: none;
+    position: relative;
+}
+
+/* Добавляем нижнюю черту только как линию */
+.form-control::after,
+.custom-input::after {
+    content: '';
+    display: block;
+    height: 2px;
+    background-color: #bdc3c7;
+    transition: background-color 0.3s ease;
+}
+
+/* Меняем цвет линии при фокусе */
+.form-control:focus::after,
+.custom-input:focus::after {
+    background-color: #4b0082;
+}
+
+/* Плейсхолдер */
+.form-control::placeholder,
+.custom-input::placeholder {
+    color: #95a5a6;
+    opacity: 1;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* === Стили для чекбокса === */
+.custom-checkbox {
+    border: 2px solid #2c3e50;
+    margin-right: 5px;
+}
+
+
+/* === Кнопки === */
+.iphone-button {
+    display: inline-block;
+    width: 100%;
+    padding: 10px 20px;
+    background-color: transparent;
+    color: white;
+    text-decoration: none;
+    border: 2px solid white;
+    border-radius: 25px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    text-align: center;
+    cursor: pointer;
+    user-select: none;
+    margin-bottom: 10px;
+}
+
+.btn-login {
+    background-color: #4b0082;
+    color: white;
+}
+
+.btn-forgot,
+.btn-register {
+    background-color: transparent;
+    color: #2c3e50;
+    border: 1px solid black;
+}
+
+.iphone-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+/* === Утилиты === */
+.text-left {
+    text-align: left !important;
+}
+
+.text-dark {
+    color: #2c3e50 !important;
+}
+/*Login________________________________________*/
+
