@@ -22,8 +22,11 @@
     background-image: url("image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%280, 0, 0, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 10h22M4 20h22'/%3e%3c/svg%3e");
 }
 
+
 .navbar:hover .rounded-circle {
-    border-color: #000;
+    border: 2px solid rgba(0, 0, 0, 0.3); /* Полупрозрачная черная граница */
+    backdrop-filter: blur(8px); /* Эффект стекла */
+    background: rgba(0, 0, 0, 0.05); /* Легкий черный фон */
 }
 
 /* === Скрытие навбара при скролле вниз === */
@@ -39,6 +42,11 @@
 .nav-link:focus,
 .nav-link:hover {
     color: #fff;
+}
+.navbar-toggler:focus,
+.navbar-toggler-icon:focus {
+    outline: none !important;
+    box-shadow: none !important;
 }
 
 /* === Основные стили навбара === */
@@ -99,7 +107,12 @@
 }
 
 .navbar.scrolled .rounded-circle {
-    border-color: #000; /* Чёрная граница при белом фоне */
+    border: 2px solid rgba(255, 255, 255, 0.3); /* Полупрозрачная белая граница */
+    backdrop-filter: blur(8px); /* Эффект стекла */
+    box-shadow: 
+        0 0 15px rgba(255, 255, 255, 0.2), /* Внешнее свечение */
+        inset 0 0 10px rgba(255, 255, 255, 0.1); /* Внутреннее свечение */
+    background: rgba(255, 255, 255, 0.05); /* Легкий белый фон */
 }
 
 .navbar .rounded-circle:hover {
@@ -160,6 +173,7 @@
     min-width: 250px;
 }
 
+/*Шрифт______*/
 .fs-14 {
     font-size: 14px !important;
 }
@@ -167,6 +181,99 @@
 .fs-12 {
     font-size: 12px !important;
 }
+/*__________________*/
+
+/*dromduwn*/
+.dropdown-item {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 10px 10px;
+    color: #333; /* Цвет текста по умолчанию */
+    position: relative;
+    border-radius: 0;
+    backdrop-filter: blur(12px);
+    transition: all 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #4b0082; 
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.dropdown-item:hover::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, #4b0082, #8a6cff);
+    border-radius: 0 3px 3px 0;
+    box-shadow: 0 0 10px rgba(75, 0, 130, 0.3);
+}
+_________
+
+/*iphone-btn*/
+
+
+.iphone-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: transparent; /* Прозрачный фон */
+    color: white; /* Белый текст */
+    text-decoration: none;
+    border: 2px solid white; /* Белый бордер */
+    border-radius: 25px; /* Закругление в стиле iPhone */
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.iphone-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.iphone-button-black {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: transparent; /* Прозрачный фон */
+    color: black;
+    text-decoration: none;
+    border: 2px solid black; /* Белый бордер */
+    border-radius: 25px; /* Закругление в стиле iPhone */
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Лёгкая тень */
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.iphone-button-black:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+/*__________________________*/
+
+/*стеклянный бордер*/
+.black-glass-border-left {
+  padding-left: 10px;
+  padding-top: 10px;
+    border-top-left-radius: 30px;
+border-bottom-left-radius: 30px;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  border: none;
+  color: white;
+}
+
+/*______________________*/
+
+
 
 /* === Отключение адаптивного сворачивания === */
 @media (max-width: 991px) {
