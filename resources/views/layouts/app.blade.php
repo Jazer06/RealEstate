@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('css/body.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
 </head>
+@include('profile.settings-modal', ['user' => auth()->user()])
 <body>
     <nav class="navbar navbar-light" id="mainNavbar">
         <div class="container">
@@ -22,24 +23,35 @@
                     <i class="bi bi-telephone-fill"></i>
                 </a>
                 @auth
-                    <div class="nav-item">
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         @if (Auth::user()->avatar)
-                            <a class="nav-link" href="{{ route('profile') }}">
-                                <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
-                            </a>
+                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
                         @else
-                            <a class="nav-link" href="{{ route('profile') }}">
-                                <span class="rounded-circle" style="width: 40px; height: 40px; background: #ccc; display: inline-flex; align-items: center; justify-content: center; color: white;">{{ substr(Auth::user()->name, 0, 1) }}</span>
-                            </a>
+                            <span class="rounded-circle" style="width: 40px; height: 40px; background: #ccc; display: inline-flex; align-items: center; justify-content: center; color: white;">{{ substr(Auth::user()->name, 0, 1) }}</span>
                         @endif
-                    </div>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="{{ route('profile') }}">В профиль</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileSettingsModal">Настройки профиля</a></li>
+                        @if (Auth::user()->isAdmin())
+                            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Админка</a></li>
+                            <li><a class="dropdown-item" href="{{ route('dashboard.properties.index') }}">Объекты</a></li>
+                        @endif
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                @csrf
+                                <button type="submit" class="dropdown-item btn btn-link">Выход</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
                     @if (Auth::user()->isAdmin())
                         <a class="nav-link ms-3" href="{{ route('dashboard') }}">Админка</a>
                         <a class="nav-link ms-3" href="{{ route('dashboard.properties.index') }}">Объекты</a>
                     @endif
                     <form action="{{ route('logout') }}" method="POST" class="ms-3" style="display:inline;">
                         @csrf
-                        <button type="submit" class="nav-link btn btn-link">Выйти</button>
                     </form>
                 @else
                     <a class="nav-link ms-3" href="{{ route('login') }}" title="Вход или регистрация">

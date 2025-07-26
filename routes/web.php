@@ -12,8 +12,9 @@ Route::get('/', function () {
 
 // Профиль для всех авторизованных пользователей
 Route::middleware(['auth'])->group(function () {
-    Route::get('/profile', [ProfileController::class, 'index'])->name('profile'); // Изменил имя маршрута
-    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update'); // Изменил имя маршрута
+    Route::get('/profile', [ProfileController::class, 'index'])->name('profile'); // Показ профиля
+    Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update'); // Обновление профиля
+    Route::get('/settings/profile', [ProfileController::class, 'index'])->name('settings.profile'); // Настройки профиля
 });
 
 // Панель администратора
