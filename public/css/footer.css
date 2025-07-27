@@ -1,21 +1,18 @@
-/* Стили для подвала (footer) */
+/* Стили для футера */
 footer {
-    background: linear-gradient(90deg, #2c3e50, #1a252f); /* Обратный градиент */
-    color: #ffffff;
-    padding: 25px 0;
-    border-top: 3px solid #3498db;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.2); /* Тень сверху */
-    flex-shrink: 0; /* Подвал не сжимается */
+    background-color: #090714;
+    color: white;
 }
+
+footer .bi {
+    font-size: 1.5rem;
+}
+
 footer a {
-    color: #ecf0f1;
+    color: white;
     text-decoration: none;
-    transition: color 0.3s ease;
 }
+
 footer a:hover {
-    color: #3498db;
+    text-decoration: underline;
 }
-footer p {
-    margin: 0;
-    font-size: 0.9rem;
-}123

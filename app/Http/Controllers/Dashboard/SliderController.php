@@ -45,13 +45,13 @@ class SliderController extends Controller
             'image_path' => $imagePath,
         ]);
 
-        return redirect()->route('dashboard.sliders.index')->with('success', 'Слайд добавлен!');
+        return redirect()->route('dashboard')->with('success', 'Слайд добавлен!');
     }
 
     public function edit(Slider $slider)
     {
         $this->authorize('update', $slider);
-        return view('dashboard.sliders.edit', compact('slider'));
+        return view('dashboard', compact('slider'));
     }
 
     public function update(Request $request, Slider $slider)
@@ -85,7 +85,7 @@ class SliderController extends Controller
             'image_path' => $imagePath,
         ]);
 
-        return redirect()->route('dashboard.sliders.index')->with('success', 'Слайд обновлен!');
+        return redirect()->route('dashboard')->with('success', 'Слайд обновлен!');
     }
 
     public function destroy(Slider $slider)
@@ -95,6 +95,6 @@ class SliderController extends Controller
             unlink(storage_path('app/public/' . $slider->image_path));
         }
         $slider->delete();
-        return redirect()->route('dashboard.sliders.index')->with('success', 'Слайд удален!');
+        return redirect()->route('dashboard')->with('success', 'Слайд удален!');
     }
 }

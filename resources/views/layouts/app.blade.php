@@ -23,7 +23,7 @@
             <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name') }}</a>
             <div class="d-flex align-items-center">
                 <a href="tel:+1234567890" class="nav-link phone-icon me-3">
-                    <i class="bi bi-telephone-fill"></i>
+                        +7(953)-555-33-32
                 </a>
                 @auth
                 <div class="nav-item dropdown">
@@ -141,14 +141,49 @@
         @yield('content')
     </div>
 
-    <footer class="bg-dark text-white text-center py-3 mt-4">
+    <footer class="text-white text-center py-3 mt-4">
         <div class="container">
-            <p>© {{ date('Y') }} {{ config('app.name') }}. Все права защищены.</p>
-            <p>
-                <a href="#" class="text-white">О нас</a> |
-                <a href="#" class="text-white">Контакты</a> |
-                <a href="#" class="text-white">Политика конфиденциальности</a>
-            </p>
+            <div class="row">
+                <!-- Колонка 1: Адрес -->
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5 class="text-white">Контактная информация</h5>
+                    <p class="mb-0">
+                        123112, Москва)
+                    </p>
+                </div>
+
+                <!-- Колонка 2: Политика конфиденциальности -->
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5 class="text-white">Полезные ссылки</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-white">Политика обработки персональных данных</a></li>
+                        <li><a href="#" class="text-white">Третьи лица</a></li>
+                    </ul>
+                </div>
+
+                <!-- Колонка 3: Контакты -->
+                <div class="col-md-4 mb-3 mb-md-0">
+                    <h5 class="text-white">Центр клиентской поддержки</h5>
+                    <p class="mb-0">
+                        <i class="bi bi-telephone-fill me-1"></i> +7 (495) 514-11-11<br>
+                        <i class="bi bi-envelope-fill me-1"></i>group.ru
+                    </p>
+                </div>
+            </div>
+
+            <!-- Соцсети -->
+            <div class="d-flex justify-content-center mt-3">
+                <a href="#" class="text-white me-2"><i class="bi bi-vk"></i></a>
+                <a href="#" class="text-white me-2"><i class="bi bi-instagram"></i></a>
+                <a href="#" class="text-white"><i class="bi bi-youtube"></i></a>
+            </div>
+
+            <!-- Авторские права -->
+            <div class="mt-3">
+                <p class="mb-0">
+                    © Group {{ date('Y') }}. Все права защищены.
+                </p>
+            </div>
         </div>
     </footer>
 
