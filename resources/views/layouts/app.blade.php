@@ -9,6 +9,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
+    <!-- Подключаем стили Slick Slider -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" />
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/body.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
@@ -62,11 +65,10 @@
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
-        </div>
-        <div class="container">
-            <ul class="nav justify-content-center fs-6">
+            <!-- Нижнее меню внутри того же container -->
+            <ul class="nav justify-content-start fs-6 mt-2 w-100">
                 <li class="nav-item dropdown">
-                    <a class="nav-link fs-14 dropdown-toggle" href="#" role="button" id="propertiesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    <a class="nav-link fs-14 dropdown-toggle" href="#" role="button" id="propertiesDropdown" data-bs-toggle="dropdown" aria-expanded="false">3
                         Объекты
                     </a>
                     <ul class="dropdown-menu dropdown-menu-large" aria-labelledby="propertiesDropdown">
@@ -151,6 +153,10 @@
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+    <!-- Подключаем jQuery и Slick JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+    <!-- Инициализация карусели -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const dropdowns = document.querySelectorAll('.nav-item.dropdown');
@@ -174,6 +180,28 @@
                     } else {
                         navbar.classList.remove('scrolled');
                     }
+                });
+            }
+
+            // Инициализация карусели
+            if ($('.carousel-inner').length) {
+                console.log('jQuery loaded:', typeof $ !== 'undefined');
+                console.log('Slick loaded:', typeof $.fn.slick !== 'undefined');
+                $('.carousel-inner').slick({
+                    autoplay: true,
+                    autoplaySpeed: 3000,
+                    arrows: false,
+                    dots: false,
+                    fade: true,
+                    speed: 800,
+                    infinite: true,
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                });
+
+                // Листание по клику на слайд
+                $('.carousel-inner').on('click', '.slick-slide', function(){
+                    $('.carousel-inner').slick('slickNext');
                 });
             }
         });

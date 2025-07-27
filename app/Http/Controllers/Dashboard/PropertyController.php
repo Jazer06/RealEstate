@@ -21,7 +21,6 @@ class PropertyController extends Controller
 
     public function store(Request $request)
     {
-        // Валидация данных
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
@@ -30,7 +29,6 @@ class PropertyController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', 
         ]);
 
-        // Обработка изображения
         $imagePath = null;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
@@ -38,17 +36,15 @@ class PropertyController extends Controller
             $imagePath = $image->storeAs('images', $imageName, 'public'); 
         }
 
-        // Создание объекта Property
         Property::create([
             'title' => $validated['title'],
             'description' => $validated['description'],
             'price' => $validated['price'],
             'address' => $validated['address'],
             'user_id' => Auth::id(),
-            'image' => $imagePath, // Сохраняем путь к файлу
+            'image' => $imagePath,
         ]);
 
-        // Редирект с сообщением об успехе
         return redirect()->route('dashboard.properties.index')->with('success', 'Объект добавлен!');
     }
 
@@ -70,10 +66,11 @@ class PropertyController extends Controller
             'image' => 'nullable|image|max:2048', 
         ]);
 
-        $imageData = $property->image; // Сохраняем старую картинку, если новая не загружена
+        $imageData = $property->image;
         if ($request->hasFile('image')) {
             $image = $request->file('image');
-            $imageData = base64_encode(file_get_contents($image->getRealPath()));
+            $imageName = time() . '_' . $image->getClientOriginalName();
+            $imageData = $image->storeAs('images', $imageName, 'public');
         }
 
         $property->update(array_merge(
