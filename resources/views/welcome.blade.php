@@ -3,6 +3,8 @@
 @section('carousel')
 <div class="full-screen-carousel">
     <div class="carousel-inner">
+
+
         @foreach ($sliders as $slider)
             <div class="carousel-slide">
                 <img src="{{ $slider->image_path ? asset('storage/' . $slider->image_path) : 'https://via.placeholder.com/1200x800' }}" alt="{{ $slider->title }}">
@@ -17,7 +19,34 @@
         @endforeach
     </div>
 </div>
-
+<div class="container">
+        <div class="carousel-nav-buttons">
+            <button class="carousel-nav-btn up">→</button>
+            <button class="carousel-nav-btn down">←</button>
+        </div>
+    <div class="row">
+        <div class="custom-thumbs-container">
+            @foreach ($sliders as $index => $slider)
+                <div class="thumb-item @if ($loop->first) active @endif" data-slide-index="{{ $index }}">
+                    <div class="thumb-content">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="thumb-text">
+                                    <h5>{{ $slider->title }}</h5>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <img src="{{ $slider->image_path ? asset('storage/' . $slider->image_path) : 'https://via.placeholder.com/1200x800' }}" 
+                                     alt="{{ $slider->title }}" class="thumb-image">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endforeach
+        </div>
+    </div>
+    
+</div>
 @endsection
 @section('content')
 <div class="container">
@@ -26,26 +55,18 @@
 </div>
 @endsection
 
-<!-- Инициализация карусели -->
-<script>
-    $(document).ready(function(){
-        console.log('jQuery loaded:', typeof $ !== 'undefined');
-        console.log('Slick loaded:', typeof $.fn.slick !== 'undefined');
-        $('.carousel-inner').slick({
-            autoplay: true,
-            autoplaySpeed: 3000,
-            arrows: false,
-            dots: false,
-            fade: true,
-            speed: 800,
-            infinite: true,
-            slidesToShow: 1,
-            slidesToScroll: 1
-        });
 
-        // Листание по клику на слайд
-        $('.carousel-inner').on('click', '.slick-slide', function(){
-            $('.carousel-inner').slick('slickNext');
-        });
-    });
-</script>
+<style>
+
+/* ========================== */
+/* СТИЛИ КАРУСЕЛИ С МИНИАТЮРАМИ */
+/* ========================== */
+
+
+
+
+
+
+
+
+</style>

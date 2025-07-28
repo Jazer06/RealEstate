@@ -4,19 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{{ config('app.name', 'RealEstate') }}</title>
+
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+
+    <!-- Bootstrap Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+
+    <!-- Preconnect для Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Infant:ital,wght@0,300..700;1,300..700&display=swap" rel="stylesheet">
-    <!-- Подключаем стили Slick Slider -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css" />
+
+    <!-- Slick Slider CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+
+    <!-- Ваши CSS -->
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/body.css') }}">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
+
+    <!-- Модальное окно настроек профиля вставлено в head, что нестандартно, но допустимо -->
+    @include('profile.settings-modal', ['user' => auth()->user()])
 </head>
-@include('profile.settings-modal', ['user' => auth()->user()])
+
 <body>
     <nav class="navbar navbar-light" id="mainNavbar">
         <div class="container">
@@ -192,67 +206,80 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
     <!-- Инициализация карусели -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            const dropdowns = document.querySelectorAll('.nav-item.dropdown');
-            dropdowns.forEach(dropdown => {
-                const toggle = dropdown.querySelector('.dropdown-toggle');
-                dropdown.addEventListener('mouseenter', () => {
-                    toggle.classList.add('show');
-                    dropdown.querySelector('.dropdown-menu').classList.add('show');
-                });
-                dropdown.addEventListener('mouseleave', () => {
-                    toggle.classList.remove('show');
-                    dropdown.querySelector('.dropdown-menu').classList.remove('show');
-                });
-            });
+<script>
+$(document).ready(function() {
+    console.log('jQuery loaded:', typeof $ !== 'undefined');
+    console.log('Slick loaded:', typeof $.fn.slick !== 'undefined');
 
-            const navbar = document.getElementById('mainNavbar');
-            if (navbar) {
-                window.addEventListener('scroll', function () {
-                    if (window.scrollY > 50) {
-                        navbar.classList.add('scrolled');
-                    } else {
-                        navbar.classList.remove('scrolled');
-                    }
-                });
+    // Инициализация основного слайдера
+    $('.carousel-inner').slick({
+        autoplay: true,
+        autoplaySpeed: 3000,
+        arrows: false,
+        dots: false,
+        fade: true,
+        speed: 800,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1
+    });
+
+    // Инициализация миниатюр (правки здесь!)
+    $('.custom-thumbs-container').slick({
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        asNavFor: '.carousel-inner',
+        focusOnSelect: true,
+        arrows: false,
+        infinite: false,         // ❌ Не нужно бесконечное прокручивание
+        centerMode: false,       // ❌ Центрирование ломает верстку
+        variableWidth: false,    // ❌ Он добавляет инлайн стили и ширину 100%
+        responsive: [
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 2
+                }
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1
+                }
             }
+        ]
+    });
 
-            // Инициализация карусели
-            if ($('.carousel-inner').length) {
-                console.log('jQuery loaded:', typeof $ !== 'undefined');
-                console.log('Slick loaded:', typeof $.fn.slick !== 'undefined');
-                $('.carousel-inner').slick({
-                    autoplay: true,
-                    autoplaySpeed: 3000,
-                    arrows: false,
-                    dots: false,
-                    fade: true,
-                    speed: 800,
-                    infinite: true,
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                });
+    // Клик по миниатюре — переход к слайду
+    $('.thumb-item').on('click', function(e) {
+        e.preventDefault();
+        var index = $(this).data('slide-index');
+        $('.carousel-inner').slick('slickGoTo', index);
+    });
 
-                // Листание по клику на слайд
-                $('.carousel-inner').on('click', '.slick-slide', function(){
-                    $('.carousel-inner').slick('slickNext');
-                });
-            }
-        });
+    // Обновление активной миниатюры
+    $('.carousel-inner').on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+        $('.thumb-item').removeClass('active');
+        $('.thumb-item').eq(nextSlide).addClass('active');
+    });
 
-        let lastScrollTop = 0;
-        window.addEventListener('scroll', function () {
-            const navbar = document.getElementById('mainNavbar');
-            if (!navbar) return;
-            const currentScrollTop = window.scrollY || document.documentElement.scrollTop;
-            if (currentScrollTop > lastScrollTop && currentScrollTop > 50) {
-                navbar.classList.add('hidden');
-            } else {
-                navbar.classList.remove('hidden');
-            }
-            lastScrollTop = currentScrollTop <= 0 ? 0 : currentScrollTop;
-        });
-    </script>
+    // Переключение по клику на основной слайд
+    $('.carousel-inner .carousel-slide').on('click', function(e) {
+        if (!$(e.target).closest('.custom-thumbs-container').length) {
+            $('.carousel-inner').slick('slickNext');
+        }
+    });
+});
+    // Навигация с помощью боковых кнопок
+    $('.carousel-nav-btn.up').on('click', function() {
+        $('.carousel-inner').slick('slickPrev');
+    });
+
+    $('.carousel-nav-btn.down').on('click', function() {
+        $('.carousel-inner').slick('slickNext');
+    });
+
+</script>
+
 </body>
 </html>
