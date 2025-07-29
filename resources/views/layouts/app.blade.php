@@ -36,12 +36,12 @@
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name') }}</a>
             <div class="d-flex align-items-center">
-                <a href="tel:+1234567890" class="nav-link phone-icon me-3">
+                <a href="tel:+1234567890" class="nav-link">
                     +7(953)-555-33-32
                 </a>
                 @auth
                     <!-- Кнопка избранного левее аватарки -->
-                    <a class="nav-link me-3 favorite-icon" href="{{ route('favorites.index') }}" title="Избранное">
+                    <a class="nav-link me-3 favorite-icon" href="{{ route('profile') }}" title="Избранное">
                         <i class="bi bi-heart"></i>
                     </a>
                     <div class="nav-item dropdown">
@@ -57,7 +57,6 @@
                             <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileSettingsModal">Настройки профиля</a></li>
                             @if (Auth::user()->isAdmin())
                                 <li><a class="dropdown-item" href="{{ route('dashboard') }}">Админка</a></li>
-                                <li><a class="dropdown-item" href="{{ route('dashboard.properties.index') }}">Объекты</a></li>
                             @endif
                             <li>
                                 <form action="{{ route('logout') }}" method="POST" class="m-0">
@@ -69,7 +68,6 @@
                     </div>
                     @if (Auth::user()->isAdmin())
                         <a class="nav-link ms-3" href="{{ route('dashboard') }}">Админка</a>
-                        <a class="nav-link ms-3" href="{{ route('dashboard.properties.index') }}">Объекты</a>
                     @endif
                     <form action="{{ route('logout') }}" method="POST" class="ms-3" style="display:inline;">
                         @csrf
@@ -129,14 +127,11 @@
                                 <a href="{{ route('profile') }}" class="text-decoration-none">Профиль</a>
                             </li>
                             <li class="list-group-item">
-                                <a href="{{ route('favorites.index') }}" class="text-decoration-none">Избранное</a>
+                                <a href="{{ route('profile') }}" class="text-decoration-none">Избранное</a>
                             </li>
                             @if (Auth::user()->isAdmin())
                                 <li class="list-group-item">
                                     <a href="{{ route('dashboard') }}" class="text-decoration-none">Админка</a>
-                                </li>
-                                <li class="list-group-item">
-                                    <a href="{{ route('dashboard.properties.index') }}" class="text-decoration-none">Объекты</a>
                                 </li>
                             @endif
                             <li class="list-group-item">

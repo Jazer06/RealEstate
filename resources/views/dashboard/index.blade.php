@@ -13,7 +13,7 @@
             <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">Главная страница</button>
         </li>
         <li class="nav-item" role="presentation">
-            <button class="nav-link" id="projects-tab" data-bs-toggle="tab" data-bs-target="#projects" type="button" role="tab" aria-controls="projects" aria-selected="false">Проекты</button>
+            <button class="nav-link" id="properties-tab" data-bs-toggle="tab" data-bs-target="#properties" type="button" role="tab" aria-controls="properties" aria-selected="false">Объекты</button>
         </li>
     </ul>
 
@@ -28,39 +28,180 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            <a href="{{ route('dashboard.sliders.create') }}" class="btn btn-primary dashboard-btn-primary mb-3">Добавить слайд</a>
+
+            <!-- Форма создания слайда -->
+            @if (isset($createSlider))
+                <h6 class="text-lg font-semibold mb-2">Добавить новый слайд</h6>
+                <form method="POST" action="{{ route('dashboard.sliders.store') }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Название</label>
+                        <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}">
+                        @error('title') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="subtitle" class="form-label">Подпись</label>
+                        <input type="text" name="subtitle" id="subtitle" class="form-control" value="{{ old('subtitle') }}">
+                        @error('subtitle') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="button_text" class="form-label">Текст кнопки</label>
+                        <input type="text" name="button_text" id="button_text" class="form-control" value="{{ old('button_text') }}">
+                        @error('button_text') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="button_link" class="form-label">Ссылка кнопки</label>
+                        <input type="text" name="button_link" id="button_link" class="form-control" value="{{ old('button_link') }}">
+                        @error('button_link') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Изображение</label>
+                        <input type="file" name="image" id="image" class="form-control">
+                        @error('image') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <button type="submit" class="btn btn-primary dashboard-btn-primary">Создать</button>
+                    <a href="{{ route('dashboard') }}" class="btn btn-secondary ms-2">Отмена</a>
+                </form>
+            <!-- Форма редактирования слайда -->
+            @elseif (isset($editSlider) && isset($slider))
+                <h6 class="text-lg font-semibold mb-2">Редактировать слайд</h6>
+                <form method="POST" action="{{ route('dashboard.sliders.update', $slider) }}" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <div class="mb-3">
+                        <label for="title" class="form-label">Название</label>
+                        <input type="text" name="title" id="title" class="form-control" value="{{ old('title', $slider->title) }}">
+                        @error('title') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="subtitle" class="form-label">Подпись</label>
+                        <input type="text" name="subtitle" id="subtitle" class="form-control" value="{{ old('subtitle', $slider->subtitle) }}">
+                        @error('subtitle') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="button_text" class="form-label">Текст кнопки</label>
+                        <input type="text" name="button_text" id="button_text" class="form-control" value="{{ old('button_text', $slider->button_text) }}">
+                        @error('button_text') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="button_link" class="form-label">Ссылка кнопки</label>
+                        <input type="text" name="button_link" id="button_link" class="form-control" value="{{ old('button_link', $slider->button_link) }}">
+                        @error('button_link') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <div class="mb-3">
+                        <label for="image" class="form-label">Изображение</label>
+                        @if ($slider->image_path)
+                            <img src="{{ asset('storage/' . $slider->image_path) }}" alt="Текущее изображение" class="img-thumbnail mb-2" style="max-width: 200px;">
+                        @endif
+                        <input type="file" name="image" id="image" class="form-control">
+                        @error('image') <span class="text-danger">{{ $message }}</span> @enderror
+                    </div>
+                    <button type="submit" class="btn btn-primary dashboard-btn-primary">Обновить</button>
+                    <a href="{{ route('dashboard') }}" class="btn btn-secondary ms-2">Отмена</a>
+                </form>
+            @else
+                <a href="{{ route('dashboard.sliders.create') }}" class="btn btn-primary mb-3">Добавить слайд</a>
+                <div class="table-responsive">
+                    <table class="table table-dark table-striped table-hover dashboard-table">
+                        <thead>
+                            <tr>
+                                <th scope="col">Название</th>
+                                <th scope="col">Заголовок</th>
+                                <th scope="col">Подпись</th>
+                                <th scope="col">Текст кнопки</th>
+                                <th scope="col">Ссылка</th>
+                                <th scope="col">Изображение</th>
+                                <th scope="col">Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @forelse ($sliders as $slider)
+                                <tr class="align-middle">
+                                    <td>Sлайд {{ $loop->index + 1 }}</td>
+                                    <td>{{ $slider->title ?: '-' }}</td>
+                                    <td>{{ $slider->subtitle ?: '-' }}</td>
+                                    <td>{{ $slider->button_text ?: '-' }}</td>
+                                    <td>{{ $slider->button_link ?: '-' }}</td>
+                                    <td>
+                                        @if ($slider->image_path)
+                                            <img src="{{ asset('storage/' . $slider->image_path) }}" alt="{{ $slider->title }}" class="img-thumbnail">
+                                        @else
+                                            <span class="text-muted">Нет изображения</span>
+                                        @endif
+                                    </td>
+                                    <td>
+                                        <div class="btn-group" role="group">
+                                            <a href="{{ route('dashboard.sliders.edit', $slider) }}" class="btn btn-warning btn-sm text-white hover:bg-yellow-600">Редактировать</a>
+                                            <form action="{{ route('dashboard.sliders.destroy', $slider) }}" method="POST" style="display:inline;" onsubmit="return confirm('Вы уверены?')">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger btn-sm text-white hover:bg-red-600">Удалить</button>
+                                            </form>
+                                        </div>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-3">Слайдеров нет. Добавьте новый!</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Вложенные вкладки внутри Главная страница -->
+                <div class="tab-content mt-3">
+                    <div class="tab-pane fade show active p-3" style="background-color: #444; border-radius: 8px;" id="home-main" role="tabpanel" aria-labelledby="home-main-tab">
+                        <p>Здесь основной контент главной страницы (например, настройки баннеров или текста).</p>
+                    </div>
+                    <div class="tab-pane fade p-3" style="background-color: #444; border-radius: 8px;" id="home-test" role="tabpanel" aria-labelledby="home-test-tab">
+                        <h6 class="text-lg font-semibold mb-2">Тестовая секция</h6>
+                        <p>Это тестовый раздел для будущих функций. Пока в разработке.</p>
+                        <a href="#" class="btn btn-primary dashboard-btn-primary mt-2">Добавить что-то</a>
+                    </div>
+                </div>
+            @endif
+        </div>
+
+
+        <!-- Вкладка Объекты -->
+        <div class="tab-pane fade p-4" id="properties" role="tabpanel" aria-labelledby="properties-tab">
+            <h5 class="card-title text-xl font-semibold mb-3">Управление объектами недвижимости</h5>
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show mb-4 dashboard-alert-success" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            <a href="{{ route('dashboard.properties.create') }}" class="btn btn-primary  mb-3">Добавить объект</a>
             <div class="table-responsive">
                 <table class="table table-dark table-striped table-hover dashboard-table">
                     <thead>
                         <tr>
                             <th scope="col">Название</th>
-                            <th scope="col">Заголовок</th>
-                            <th scope="col">Подпись</th>
-                            <th scope="col">Текст кнопки</th>
-                            <th scope="col">Ссылка</th>
+                            <th scope="col">Адрес</th>
+                            <th scope="col">Цена</th>
                             <th scope="col">Изображение</th>
                             <th scope="col">Действия</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($sliders as $slider)
+                        @forelse ($properties as $property)
                             <tr class="align-middle">
-                                <td>Sлайд {{ $loop->index + 1 }}</td>
-                                <td>{{ $slider->title ?: '-' }}</td>
-                                <td>{{ $slider->subtitle ?: '-' }}</td>
-                                <td>{{ $slider->button_text ?: '-' }}</td>
-                                <td>{{ $slider->button_link ?: '-' }}</td>
+                                <td>{{ $property->title ?: '-' }}</td>
+                                <td>{{ $property->address ?: '-' }}</td>
+                                <td>{{ number_format($property->price, 0, ',', ' ') }} ₽</td>
                                 <td>
-                                    @if ($slider->image_path)
-                                        <img src="{{ asset('storage/' . $slider->image_path) }}" alt="{{ $slider->title }}" class="img-thumbnail">
+                                    @if ($property->image_path)
+                                        <img src="{{ asset('storage/' . $property->image_path) }}" alt="{{ $property->title }}" class="img-thumbnail">
                                     @else
                                         <span class="text-muted">Нет изображения</span>
                                     @endif
                                 </td>
                                 <td>
                                     <div class="btn-group" role="group">
-                                        <a href="{{ route('dashboard.sliders.edit', $slider) }}" class="btn btn-warning btn-sm text-white hover:bg-yellow-600">Редактировать</a>
-                                        <form action="{{ route('dashboard.sliders.destroy', $slider) }}" method="POST" style="display:inline;" onsubmit="return confirm('Вы уверены?')">
+                                        <a href="{{ route('dashboard.properties.edit', $property) }}" class="btn btn-warning btn-sm text-white hover:bg-yellow-600">Редактировать</a>
+                                        <form action="{{ route('dashboard.properties.destroy', $property) }}" method="POST" style="display:inline;" onsubmit="return confirm('Вы уверены?')">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger btn-sm text-white hover:bg-red-600">Удалить</button>
@@ -70,31 +211,12 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="7" class="text-center text-muted py-3">Слайдеров нет. Добавьте новый!</td>
+                                <td colspan="5" class="text-center text-muted py-3">Объектов нет. Добавьте новый!</td>
                             </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
-
-            <!-- Вложенные вкладки внутри Главная страница -->
-            <div class="tab-content mt-3">
-                <div class="tab-pane fade show active p-3" style="background-color: #444; border-radius: 8px;" id="home-main" role="tabpanel" aria-labelledby="home-main-tab">
-                    <p>Здесь основной контент главной страницы (например, настройки баннеров или текста).</p>
-                </div>
-                <div class="tab-pane fade p-3" style="background-color: #444; border-radius: 8px;" id="home-test" role="tabpanel" aria-labelledby="home-test-tab">
-                    <h6 class="text-lg font-semibold mb-2">Тестовая секция</h6>
-                    <p>Это тестовый раздел для будущих функций. Пока в разработке.</p>
-                    <a href="#" class="btn btn-primary dashboard-btn-primary mt-2">Добавить что-то</a>
-                </div>
-            </div>
-        </div>
-
-        <!-- Вкладка Проекты -->
-        <div class="tab-pane fade p-4" id="projects" role="tabpanel" aria-labelledby="projects-tab">
-            <h5 class="card-title text-xl font-semibold mb-3">Управление проектами</h5>
-            <p class="mb-4">Здесь будет список проектов. Пока в разработке.</p>
-            <a href="#" class="btn btn-primary dashboard-btn-primary">Добавить проект</a>
         </div>
     </div>
 </div>

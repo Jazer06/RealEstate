@@ -51,7 +51,8 @@ class SliderController extends Controller
     public function edit(Slider $slider)
     {
         $this->authorize('update', $slider);
-        return view('dashboard', compact('slider'));
+
+        return view('dashboard.sliders.edit', compact('slider'));
     }
 
     public function update(Request $request, Slider $slider)

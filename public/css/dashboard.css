@@ -50,13 +50,3 @@ body{
     max-width: 100px;
     height: auto;
 }
-
-.dashboard-btn-primary {
-    background-color: #343a40;
-    border-color: #343a40;
-}
-
-.dashboard-btn-primary:hover {
-    background-color: #23272b;
-    border-color: #23272b;
-}

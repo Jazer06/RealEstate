@@ -3,7 +3,7 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
-<div class="dashboard-container py-4">
+<div class="dashboard-container py-4 mt-6">
     <h1 class="text-3xl font-bold mb-4">Редактировать слайд</h1>
 
     @if ($errors->any())

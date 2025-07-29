@@ -8,13 +8,15 @@ use App\Models\PropertyImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Slider;
 
 class PropertyController extends Controller
 {
     public function index()
     {
         $properties = Property::where('user_id', Auth::id())->get();
-        return view('dashboard.properties.index', compact('properties'));
+        $sliders = Slider::all();
+        return view('dashboard.index', compact('properties', 'sliders'));
     }
 
     public function create()

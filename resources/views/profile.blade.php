@@ -75,8 +75,42 @@
                     <div class="tab-pane fade show active" id="favorites" role="tabpanel">
                         <div class="depth-card" style="background: #ffffff; border-radius: 12px; border: 1px solid #e9ecef; padding: 25px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);">
                             <h4>Избранные объекты</h4>
-                            <p>Здесь будет отображаться список избранных объектов недвижимости.</p>
-                            <!-- Добавь сюда нужный контент для избранного -->
+                            <div class="row">
+                                @forelse ($favorites as $property)
+                                    <div class="col-md-4 mb-4">
+                                        <div class="card">
+                                            <img src="{{ $property->image_path ? asset('storage/' . $property->image_path) : 'https://via.placeholder.com/300x200' }}" 
+                                                 class="card-img-top" 
+                                                 alt="{{ $property->title }}">
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ $property->title }}</h5>
+                                                <p class="card-text">
+                                                    Цена: {{ number_format($property->price, 0, '.', ' ') }} ₽<br>
+                                                    @if($property->area) Площадь: {{ $property->area }} m²<br> @endif
+                                                    @if($property->rooms) Комнат: {{ $property->rooms }}<br> @endif
+                                                    @if($property->type) Тип: {{ $property->type }}<br> @endif
+                                                    Адрес: {{ $property->address ?? 'Не указан' }}
+                                                </p>
+                                                <div class="d-flex justify-content-between">
+                                                    <a href="{{ route('properties.show', $property->id) }}" class="btn btn-primary">Подробнее</a>
+                                                    <form action="{{ route('favorites.toggle', $property->id) }}" method="POST">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-outline-danger">
+                                                            Убрать из избранного
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @empty
+                                    <p>У вас нет избранной недвижимости.</p>
+                                @endforelse
+                            </div>
+                            <!-- Пагинация -->
+                            <div class="d-flex justify-content-center">
+                                {{ $favorites->links() }}
+                            </div>
                         </div>
                     </div>
                     
@@ -93,5 +127,4 @@
         </div>
     </div>
 </div>
-
 @endsection
