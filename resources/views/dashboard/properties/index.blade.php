@@ -12,7 +12,9 @@
             @foreach ($properties as $property)
                 <div class="col-md-4 mb-3">
                     <div class="card">
-                        <img src="{{ $property->image ? asset('storage/' . $property->image) : 'https://via.placeholder.com/300x200' }}" class="card-img-top" alt="{{ $property->title }}">
+                        <img src="{{ $property->image_path ? asset('storage/' . $property->image_path) : 'https://via.placeholder.com/300x200' }}" 
+                             class="card-img-top" 
+                             alt="{{ $property->title }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ $property->title }}</h5>
                             <p class="card-text">{{ $property->address }}</p>

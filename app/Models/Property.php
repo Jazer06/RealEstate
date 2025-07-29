@@ -15,11 +15,24 @@ class Property extends Model
         'price',
         'address',
         'user_id',
-        'image', 
+        'image_path',
+        'area',
+        'rooms',
+        'type',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function favoritedBy()
+    {
+        return $this->belongsToMany(User::class, 'favorites', 'property_id', 'user_id')->withTimestamps();
+    }
+
+    public function images()
+    {
+        return $this->hasMany(PropertyImage::class);
     }
 }

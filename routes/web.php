@@ -7,24 +7,31 @@ use App\Http\Controllers\Dashboard\ProfileController;
 use App\Http\Controllers\Dashboard\SliderController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\FavoriteController;
+use App\Http\Controllers\PublicPropertyController; // Новый контроллер
 
 Auth::routes();
 
 // Главная страница для всех
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Профиль для всех авторизованных пользователей
+// Публичный маршрут для просмотра объекта
+Route::get('/properties/{property}', [PublicPropertyController::class, 'show'])->name('properties.show');
+
+// Профиль и избранное для авторизованных пользователей
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/settings/profile', [ProfileController::class, 'index'])->name('settings.profile');
+    
+    Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
+    Route::post('/favorites/{property}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
 });
 
 // Панель администратора
 Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Ресурс для недвижимости
     Route::resource('properties', PropertyController::class)->names([
         'index' => 'dashboard.properties.index',
         'create' => 'dashboard.properties.create',
@@ -35,7 +42,6 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
         'destroy' => 'dashboard.properties.destroy',
     ]);
 
-    // Ресурс для слайдера
     Route::resource('sliders', SliderController::class)->names([
         'index' => 'dashboard.sliders.index',
         'create' => 'dashboard.sliders.create',

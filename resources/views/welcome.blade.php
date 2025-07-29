@@ -50,23 +50,58 @@
 @endsection
 @section('content')
 <div class="container">
-    <h1>Добро пожаловать!</h1>
-    <p>Это контент внутри container.</p>
+    <h1>Каталог недвижимости</h1>
+
+    <!-- Форма фильтров -->
+    <form method="GET" action="{{ route('home') }}" class="mb-4">
+        <div class="row g-3">
+            <!-- Цена -->
+            <div class="col-md-3">
+                <label for="price_min" class="form-label">Цена, ₽ (мин)</label>
+                <input type="number" name="price_min" id="price_min" class="form-control" value="{{ request('price_min') }}" placeholder="От">
+            </div>
+            <div class="col-md-3">
+                <label for="price_max" class="form-label">Цена, ₽ (макс)</label>
+                <input type="number" name="price_max" id="price_max" class="form-control" value="{{ request('price_max') }}" placeholder="До">
+            </div>
+            <!-- Площадь -->
+            <div class="col-md-3">
+                <label for="area_min" class="form-label">Площадь, м² (мин)</label>
+                <input type="number" name="area_min" id="area_min" class="form-control" value="{{ request('area_min') }}" placeholder="От">
+            </div>
+            <div class="col-md-3">
+                <label for="area_max" class="form-label">Площадь, м² (макс)</label>
+                <input type="number" name="area_max" id="area_max" class="form-control" value="{{ request('area_max') }}" placeholder="До">
+            </div>
+            <!-- Комнаты -->
+            <div class="col-md-3">
+                <label for="rooms" class="form-label">Комнаты</label>
+                <select name="rooms" id="rooms" class="form-select">
+                    <option value="">Все</option>
+                    <option value="1" {{ request('rooms') == '1' ? 'selected' : '' }}>1</option>
+                    <option value="2" {{ request('rooms') == '2' ? 'selected' : '' }}>2</option>
+                    <option value="3" {{ request('rooms') == '3' ? 'selected' : '' }}>3</option>
+                    <option value="4" {{ request('rooms') == '4' ? 'selected' : '' }}>4+</option>
+                </select>
+            </div>
+            <!-- Тип недвижимости -->
+            <div class="col-md-3">
+                <label for="type" class="form-label">Тип недвижимости</label>
+                <select name="type" id="type" class="form-select">
+                    <option value="">Все</option>
+                    <option value="квартира" {{ request('type') == 'квартира' ? 'selected' : '' }}>Квартира</option>
+                    <option value="дом" {{ request('type') == 'дом' ? 'selected' : '' }}>Дом</option>
+                    <option value="коммерческая" {{ request('type') == 'коммерческая' ? 'selected' : '' }}>Коммерческая</option>
+                </select>
+            </div>
+            <!-- Кнопка -->
+            <div class="col-md-3 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100">Фильтровать</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Список недвижимости -->
+    @include('components.property-list', ['properties' => $properties])
 </div>
 @endsection
-
-
-<style>
-
-/* ========================== */
-/* СТИЛИ КАРУСЕЛИ С МИНИАТЮРАМИ */
-/* ========================== */
-
-
-
-
-
-
-
-
-</style>

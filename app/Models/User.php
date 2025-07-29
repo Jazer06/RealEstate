@@ -16,7 +16,8 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name','phone', 'email', 'password', 'role', 'avatar'];
+    protected $fillable = ['name', 'phone', 'email', 'password', 'role', 'avatar'];
+
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -45,5 +46,13 @@ class User extends Authenticatable
     public function isAdmin()
     {
         return $this->role === 'admin';
+    }
+
+    /**
+     * Get the properties favorited by the user.
+     */
+    public function favorites()
+    {
+        return $this->belongsToMany(Property::class, 'favorites', 'user_id', 'property_id')->withTimestamps();
     }
 }
