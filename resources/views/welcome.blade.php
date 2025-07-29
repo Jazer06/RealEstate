@@ -20,9 +20,9 @@
     </div>
 </div>
 <div class="container">
-        <div class="carousel-nav-buttons">
-            <button class="carousel-nav-btn up">→</button>
+        <div class="carousel-nav-buttons d-sm-block d-none">
             <button class="carousel-nav-btn down">←</button>
+            <button class="carousel-nav-btn up">→</button>
         </div>
     <div class="row">
         <div class="custom-thumbs-container">
@@ -49,7 +49,7 @@
 </div>
 @endsection
 @section('content')
-<div class="container">
+<div class="container mt-6">
     <h1>Каталог недвижимости</h1>
 
     <!-- Форма фильтров -->

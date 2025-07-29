@@ -35,7 +35,7 @@
     <nav class="navbar navbar-light" id="mainNavbar">
         <div class="container">
             <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name') }}</a>
-            <div class="d-flex align-items-center">
+            <div class="d-flex align-items-center gap-2">
                 <a href="tel:+1234567890" class="nav-link">
                     +7(953)-555-33-32
                 </a>
@@ -77,12 +77,12 @@
                         <i class="bi bi-person-fill" style="font-size: 1.5rem;"></i>
                     </a>
                 @endauth
-                <button class="navbar-toggler ms-3" type="button" data-bs-toggle="modal" data-bs-target="#menuModal">
+                <button class="navbar-toggler" type="button" data-bs-toggle="modal" data-bs-target="#menuModal">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
             <!-- Нижнее меню внутри того же container -->
-            <ul class="nav justify-content-start fs-6 mt-2 w-100 border-top">
+            <ul class="nav justify-content-start fs-6 mt-2 w-100 border-to fw-bold">
                 <li class="nav-item dropdown">
                     <a class="nav-link fs-14 dropdown-toggle" href="#" role="button" id="propertiesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         Объекты
@@ -207,72 +207,82 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
     <script>
-        $(document).ready(function() {
-            console.log('jQuery loaded:', typeof $ !== 'undefined');
-            console.log('Slick loaded:', typeof $.fn.slick !== 'undefined');
+$(document).ready(function() {
+    console.log('jQuery loaded:', typeof $ !== 'undefined');
+    console.log('Slick loaded:', typeof $.fn.slick !== 'undefined');
 
-            $('.carousel-inner').slick({
-                autoplay: true,
-                autoplaySpeed: 3000,
-                arrows: false,
-                dots: false,
-                fade: true,
-                speed: 800,
-                infinite: true,
-                slidesToShow: 1,
-                slidesToScroll: 1
-            });
+    // Initialize main carousel first
+    const $mainCarousel = $('.carousel-inner').slick({
+        autoplay: true,
+        autoplaySpeed: 3000,
+        arrows: false,
+        dots: false,
+        fade: true,
+        speed: 800,
+        infinite: true,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        asNavFor: '.custom-thumbs-container' // Ensure sync with thumbnail carousel
+    });
 
-            $('.custom-thumbs-container').slick({
-                slidesToShow: 3,
-                slidesToScroll: 1,
-                asNavFor: '.carousel-inner',
-                focusOnSelect: true,
-                arrows: false,
-                infinite: false,
-                centerMode: false,
-                variableWidth: false,
-                responsive: [
-                    {
-                        breakpoint: 1200,
-                        settings: {
-                            slidesToShow: 2
-                        }
-                    },
-                    {
-                        breakpoint: 768,
-                        settings: {
-                            slidesToShow: 1
-                        }
-                    }
-                ]
-            });
-
-            $('.thumb-item').on('click', function(e) {
-                e.preventDefault();
-                var index = $(this).data('slide-index');
-                $('.carousel-inner').slick('slickGoTo', index);
-            });
-
-            $('.carousel-inner').on('beforeChange', function(event, slick, currentSlide, nextSlide) {
-                $('.thumb-item').removeClass('active');
-                $('.thumb-item').eq(nextSlide).addClass('active');
-            });
-
-            $('.carousel-inner .carousel-slide').on('click', function(e) {
-                if (!$(e.target).closest('.custom-thumbs-container').length) {
-                    $('.carousel-inner').slick('slickNext');
+    // Initialize thumbnail carousel after main carousel
+    const $thumbCarousel = $('.custom-thumbs-container').slick({
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        asNavFor: '.carousel-inner',
+        focusOnSelect: true,
+        arrows: false,
+        infinite: false,
+        centerMode: false,
+        variableWidth: false,
+        responsive: [
+            {
+                breakpoint: 1200,
+                settings: {
+                    slidesToShow: 2
                 }
-            });
+            },
+            {
+                breakpoint: 768,
+                settings: {
+                    slidesToShow: 1
+                }
+            }
+        ]
+    });
 
-            $('.carousel-nav-btn.up').on('click', function() {
-                $('.carousel-inner').slick('slickPrev');
-            });
+    // Handle thumbnail clicks
+    $('.thumb-item').on('click', function(e) {
+        e.preventDefault();
+        const index = $(this).data('slide-index');
+        $mainCarousel.slick('slickGoTo', index);
+    });
 
-            $('.carousel-nav-btn.down').on('click', function() {
-                $('.carousel-inner').slick('slickNext');
-            });
-        });
+    // Update active thumbnail on main carousel change
+    $mainCarousel.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+        console.log('Switching to slide:', nextSlide);
+        $('.thumb-item').removeClass('active');
+        $('.thumb-item').eq(nextSlide).addClass('active');
+        // Ensure thumbnail carousel moves to show the active thumbnail
+        $thumbCarousel.slick('slickGoTo', nextSlide);
+    });
+
+    // Handle navigation buttons
+    $('.carousel-nav-btn.up').on('click', function() {
+        $mainCarousel.slick('slickPrev');
+    });
+
+    $('.carousel-nav-btn.down').on('click', function() {
+        $mainCarousel.slick('slickNext');
+    });
+
+    // Optional: Handle click on main slide to go to next
+    $('.carousel-inner .carousel-slide').on('click', function(e) {
+        if (!$(e.target).closest('.custom-thumbs-container').length) {
+            $mainCarousel.slick('slickNext');
+        }
+    });
+});
     </script>
 </body>
 </html>
