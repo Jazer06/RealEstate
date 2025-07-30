@@ -49,7 +49,14 @@
 
             <div class="col-md-6">
                 <label for="rooms" class="form-label text-light">Комнаты</label>
-                <input type="number" name="rooms" id="rooms" class="form-control bg-dark text-light" value="{{ old('rooms') }}">
+                <select name="rooms" id="rooms" class="form-select bg-dark text-light">
+                    <option value="">Выберите</option>
+                    <option value="0" {{ old('rooms') === '0' ? 'selected' : '' }}>Студия</option>
+                    <option value="1" {{ old('rooms') == '1' ? 'selected' : '' }}>1</option>
+                    <option value="2" {{ old('rooms') == '2' ? 'selected' : '' }}>2</option>
+                    <option value="3" {{ old('rooms') == '3' ? 'selected' : '' }}>3</option>
+                    <option value="4" {{ old('rooms') == '4' ? 'selected' : '' }}>4+</option>
+                </select>
                 @error('rooms') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
             </div>
 

@@ -21,6 +21,7 @@
     <!-- Slick Slider CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick-theme.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.css">
 
     <!-- Ваши CSS -->
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
@@ -34,7 +35,9 @@
 <body>
     <nav class="navbar navbar-light" id="mainNavbar">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">{{ config('app.name') }}</a>
+            <a class="navbar-brand" href="{{ url('/') }}">
+                <img src="{{ asset('storage/logo/logo.svg') }}" alt="{{ config('app.name') }}" style="height: 40px; width: auto;">
+            </a>
             <div class="d-flex align-items-center gap-2">
                 <a href="tel:+1234567890" class="nav-link">
                     +7(953)-555-33-32
@@ -201,88 +204,178 @@
                 </p>
             </div>
         </div>
-    </footer>
+!-- Скрипты -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/noUiSlider/15.7.1/nouislider.min.js"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.9.0/slick.min.js"></script>
-    <script>
-$(document).ready(function() {
-    console.log('jQuery loaded:', typeof $ !== 'undefined');
-    console.log('Slick loaded:', typeof $.fn.slick !== 'undefined');
+<script>
+    $(document).ready(function() {
+        console.log('jQuery loaded:', typeof $ !== 'undefined');
+        console.log('Slick loaded:', typeof $.fn.slick !== 'undefined');
+        console.log('noUiSlider loaded:', typeof noUiSlider !== 'undefined');
 
-    // Initialize main carousel first
-    const $mainCarousel = $('.carousel-inner').slick({
-        autoplay: true,
-        autoplaySpeed: 3000,
-        arrows: false,
-        dots: false,
-        fade: true,
-        speed: 800,
-        infinite: true,
-        slidesToShow: 1,
-        slidesToScroll: 1,
-        asNavFor: '.custom-thumbs-container' // Ensure sync with thumbnail carousel
-    });
+        // Initialize main carousel first
+        const $mainCarousel = $('.carousel-inner').slick({
+            autoplay: true,
+            autoplaySpeed: 3000,
+            arrows: false,
+            dots: false,
+            fade: true,
+            speed: 800,
+            infinite: true,
+            slidesToShow: 1,
+            slidesToScroll: 1,
+            asNavFor: '.custom-thumbs-container'
+        });
 
-    // Initialize thumbnail carousel after main carousel
-    const $thumbCarousel = $('.custom-thumbs-container').slick({
-        slidesToShow: 3,
-        slidesToScroll: 1,
-        asNavFor: '.carousel-inner',
-        focusOnSelect: true,
-        arrows: false,
-        infinite: false,
-        centerMode: false,
-        variableWidth: false,
-        responsive: [
-            {
-                breakpoint: 1200,
-                settings: {
-                    slidesToShow: 2
+        // Initialize thumbnail carousel after main carousel
+        const $thumbCarousel = $('.custom-thumbs-container').slick({
+            slidesToShow: 3,
+            slidesToScroll: 1,
+            asNavFor: '.carousel-inner',
+            focusOnSelect: true,
+            arrows: false,
+            infinite: false,
+            centerMode: false,
+            variableWidth: false,
+            responsive: [
+                {
+                    breakpoint: 1200,
+                    settings: {
+                        slidesToShow: 2
+                    }
+                },
+                {
+                    breakpoint: 768,
+                    settings: {
+                        slidesToShow: 1
+                    }
                 }
-            },
-            {
-                breakpoint: 768,
-                settings: {
-                    slidesToShow: 1
-                }
-            }
-        ]
-    });
+            ]
+        });
 
-    // Handle thumbnail clicks
-    $('.thumb-item').on('click', function(e) {
-        e.preventDefault();
-        const index = $(this).data('slide-index');
-        $mainCarousel.slick('slickGoTo', index);
-    });
+        // Handle thumbnail clicks
+        $('.thumb-item').on('click', function(e) {
+            e.preventDefault();
+            const index = $(this).data('slide-index');
+            $mainCarousel.slick('slickGoTo', index);
+        });
 
-    // Update active thumbnail on main carousel change
-    $mainCarousel.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
-        console.log('Switching to slide:', nextSlide);
-        $('.thumb-item').removeClass('active');
-        $('.thumb-item').eq(nextSlide).addClass('active');
-        // Ensure thumbnail carousel moves to show the active thumbnail
-        $thumbCarousel.slick('slickGoTo', nextSlide);
-    });
+        // Update active thumbnail on main carousel change
+        $mainCarousel.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+            console.log('Switching to slide:', nextSlide);
+            $('.thumb-item').removeClass('active');
+            $('.thumb-item').eq(nextSlide).addClass('active');
+            $thumbCarousel.slick('slickGoTo', nextSlide);
+        });
 
-    // Handle navigation buttons
-    $('.carousel-nav-btn.up').on('click', function() {
-        $mainCarousel.slick('slickPrev');
-    });
+        // Handle navigation buttons
+        $('.carousel-nav-btn.up').on('click', function() {
+            $mainCarousel.slick('slickPrev');
+        });
 
-    $('.carousel-nav-btn.down').on('click', function() {
-        $mainCarousel.slick('slickNext');
-    });
-
-    // Optional: Handle click on main slide to go to next
-    $('.carousel-inner .carousel-slide').on('click', function(e) {
-        if (!$(e.target).closest('.custom-thumbs-container').length) {
+        $('.carousel-nav-btn.down').on('click', function() {
             $mainCarousel.slick('slickNext');
+        });
+
+        // Optional: Handle click on main slide to go to next
+        $('.carousel-inner .carousel-slide').on('click', function(e) {
+            if (!$(e.target).closest('.custom-thumbs-container').length) {
+                $mainCarousel.slick('slickNext');
+            }
+        });
+
+        // =============== ТВОЙ СКРИПТ С ФИЛЬТРАМИ (внутри $(document).ready) ===============
+        // Цена
+        const priceSlider = document.getElementById('price-range-slider');
+        const priceMinInput = document.getElementById('price-range-min');
+        const priceMaxInput = document.getElementById('price-range-max');
+        const priceMinValue = document.getElementById('price-min-value');
+        const priceMaxValue = document.getElementById('price-max-value');
+        const minPrice = {{ isset($minPrice) ? $minPrice : 0 }};
+        const maxPrice = {{ isset($maxPrice) ? $maxPrice : 100000000 }};
+
+        if (priceSlider && priceMinInput && priceMaxInput && priceMinValue && priceMaxValue) {
+            noUiSlider.create(priceSlider, {
+                start: [
+                    parseFloat(priceMinInput.value) || minPrice,
+                    parseFloat(priceMaxInput.value) || maxPrice
+                ],
+                connect: true,
+                range: { min: minPrice, max: maxPrice },
+                step: 10000,
+                format: {
+                    to: value => Math.round(value),
+                    from: value => Number(value)
+                }
+            });
+
+            priceSlider.noUiSlider.on('update', (values, handle) => {
+                if (handle === 0) {
+                    priceMinInput.value = values[0];
+                    priceMinValue.textContent = '₽' + number_format(values[0]);
+                } else {
+                    priceMaxInput.value = values[1];
+                    priceMaxValue.textContent = '₽' + number_format(values[1]);
+                }
+            });
         }
+
+        // Площадь
+        const areaSlider = document.getElementById('area-range-slider');
+        const areaMinInput = document.getElementById('area-range-min');
+        const areaMaxInput = document.getElementById('area-range-max');
+        const areaMinValue = document.getElementById('area-min-value');
+        const areaMaxValue = document.getElementById('area-max-value');
+
+        if (areaSlider && areaMinInput && areaMaxInput && areaMinValue && areaMaxValue) {
+            noUiSlider.create(areaSlider, {
+                start: [
+                    parseInt(areaMinInput.value) || 20,
+                    parseInt(areaMaxInput.value) || 200
+                ],
+                connect: true,
+                range: { min: 10, max: 500 },
+                step: 1
+            });
+
+            areaSlider.noUiSlider.on('update', (values, handle) => {
+                if (handle === 0) {
+                    areaMinInput.value = Math.round(values[0]);
+                    areaMinValue.textContent = Math.round(values[0]);
+                } else {
+                    areaMaxInput.value = Math.round(values[1]);
+                    areaMaxValue.textContent = Math.round(values[1]);
+                }
+            });
+        }
+
+        // Сброс фильтров
+        document.getElementById('resetFilters')?.addEventListener('click', () => {
+            if (priceSlider && priceSlider.noUiSlider) {
+                priceSlider.noUiSlider.set([minPrice, maxPrice]);
+            }
+            if (areaSlider && areaSlider.noUiSlider) {
+                areaSlider.noUiSlider.set([20, 200]);
+            }
+            document.querySelectorAll('input[name="rooms"]').forEach(r => r.checked = false);
+            if (document.getElementById('type')) {
+                document.getElementById('type').value = '';
+            }
+            if (document.getElementById('filterForm')) {
+                document.getElementById('filterForm').submit();
+            }
+        });
+
+        function number_format(number, decimals = 0) {
+            return parseFloat(number).toFixed(decimals).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        }
+        // =============== КОНЕЦ ФИЛЬТРОВ ===============
     });
-});
-    </script>
+</script>
+
+@yield('scripts')
 </body>
 </html>

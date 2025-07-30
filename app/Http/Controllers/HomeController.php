@@ -6,28 +6,29 @@ use App\Models\Slider;
 use App\Models\Property;
 use Illuminate\Http\Request;
 
-
 class HomeController extends Controller
 {
-public function index(Request $request)
+    public function index(Request $request)
     {
         $sliders = Slider::all();
+        
+        // Диапазоны по умолчанию
+        $minPrice = 0;
+        $maxPrice = 30000000;
 
-        // Получаем параметры фильтров
         $query = Property::query();
 
-        if ($request->filled('price_min')) {
-            $query->where('price', '>=', $request->input('price_min'));
+        // Фильтр по типу: apartment, house, commercial
+        if ($request->filled('type')) {
+            $query->where('type', $request->input('type'));
         }
-        if ($request->filled('price_max')) {
-            $query->where('price', '<=', $request->input('price_max'));
-        }
-        if ($request->filled('area_min')) {
-            $query->where('area', '>=', $request->input('area_min'));
-        }
-        if ($request->filled('area_max')) {
-            $query->where('area', '<=', $request->input('area_max'));
-        }
+
+        // Цена
+        $priceMin = $request->input('price_range_min', $minPrice);
+        $priceMax = $request->input('price_range_max', $maxPrice);
+        $query->whereBetween('price', [$priceMin, $priceMax]);
+
+        // Комнаты
         if ($request->filled('rooms')) {
             if ($request->input('rooms') == '4') {
                 $query->where('rooms', '>=', 4);
@@ -35,12 +36,25 @@ public function index(Request $request)
                 $query->where('rooms', $request->input('rooms'));
             }
         }
-        if ($request->filled('type')) {
-            $query->where('type', $request->input('type'));
-        }
+
+        // Площадь
+        $areaMin = $request->input('area_range_min', 20);
+        $areaMax = $request->input('area_range_max', 200);
+        $query->whereBetween('area', [$areaMin, $areaMax]);
 
         $properties = $query->latest()->paginate(9);
+        $totalProperties = $properties->total();
 
-        return view('welcome', compact('sliders', 'properties'));
+        return view('welcome', compact(
+            'sliders',
+            'properties',
+            'totalProperties',
+            'minPrice',
+            'maxPrice',
+            'priceMin',
+            'priceMax',
+            'areaMin',
+            'areaMax'
+        ));
     }
 }
