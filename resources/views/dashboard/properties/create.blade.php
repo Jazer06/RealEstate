@@ -1,4 +1,3 @@
-<!-- resources/views/dashboard/properties/create.blade.php -->
 @extends('layouts.app')
 
 @section('content')
@@ -84,7 +83,13 @@
             </div>
 
             <div class="col-md-6">
-                <label for="additional_images" class="form-label text-light">Дополнительные фото</label>
+                <label for="plan_image" class="form-label text-light">План дома</label>
+                <input type="file" name="plan_image" id="plan_image" class="form-control bg-dark text-light" accept="image/*">
+                @error('plan_image') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="col-md-6">
+                <label for="additional_images" class="form-label text-light">Дополнительные фото (до 5)</label>
                 <input type="file" name="additional_images[]" id="additional_images" class="form-control bg-dark text-light" multiple accept="image/*">
                 @error('additional_images.*') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
             </div>

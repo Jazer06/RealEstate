@@ -35,7 +35,9 @@ class PropertyController extends Controller
             'rooms' => 'nullable|integer|min:0',
             'type' => 'nullable|string|in:квартира,дом,коммерческая',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'plan_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'additional_images' => 'nullable|array|max:5',
+            'additional_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
         $property = new Property($validated);
@@ -47,12 +49,23 @@ class PropertyController extends Controller
 
         $property->save();
 
+        if ($request->hasFile('plan_image')) {
+            $path = $request->file('plan_image')->store('property_images', 'public');
+            PropertyImage::create([
+                'property_id' => $property->id,
+                'image_path' => $path,
+                'is_plan' => true,
+            ]);
+        }
+
         if ($request->hasFile('additional_images')) {
-            foreach ($request->file('additional_images') as $image) {
+            $additionalImages = array_slice($request->file('additional_images'), 0, 5);
+            foreach ($additionalImages as $image) {
                 $path = $image->store('property_images', 'public');
                 PropertyImage::create([
                     'property_id' => $property->id,
                     'image_path' => $path,
+                    'is_plan' => false,
                 ]);
             }
         }
@@ -84,11 +97,15 @@ class PropertyController extends Controller
             'rooms' => 'nullable|integer|min:0',
             'type' => 'nullable|string|in:квартира,дом,коммерческая',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'plan_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'additional_images' => 'nullable|array|max:5',
+            'additional_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'delete_images' => 'nullable|array', // Для удаления выбранных изображений
+            'delete_images.*' => 'integer|exists:property_images,id',
         ]);
 
+        // Обновляем основное фото
         if ($request->hasFile('image_path')) {
-            // Удаляем старое основное изображение, если оно есть
             if ($property->image_path) {
                 Storage::disk('public')->delete($property->image_path);
             }
@@ -97,14 +114,43 @@ class PropertyController extends Controller
 
         $property->update($validated);
 
+        // Обновляем план
+        if ($request->hasFile('plan_image')) {
+            $oldPlan = $property->images()->where('is_plan', true)->first();
+            if ($oldPlan) {
+                Storage::disk('public')->delete($oldPlan->image_path);
+                $oldPlan->delete();
+            }
+            $path = $request->file('plan_image')->store('property_images', 'public');
+            PropertyImage::create([
+                'property_id' => $property->id,
+                'image_path' => $path,
+                'is_plan' => true,
+            ]);
+        }
+
+        // Удаляем выбранные дополнительные изображения
+        if ($request->has('delete_images')) {
+            $imagesToDelete = $property->images()->where('is_plan', false)
+                ->whereIn('id', $request->input('delete_images'))
+                ->get();
+            foreach ($imagesToDelete as $image) {
+                Storage::disk('public')->delete($image->image_path);
+                $image->delete();
+            }
+        }
+
+        // Добавляем новые дополнительные изображения
         if ($request->hasFile('additional_images')) {
-            // Удаляем старые дополнительные изображения, если нужно
-            $property->images()->delete();
-            foreach ($request->file('additional_images') as $image) {
+            $currentImagesCount = $property->images()->where('is_plan', false)->count();
+            $availableSlots = 5 - $currentImagesCount; // Оставшиеся слоты для новых изображений
+            $newImages = array_slice($request->file('additional_images'), 0, $availableSlots);
+            foreach ($newImages as $image) {
                 $path = $image->store('property_images', 'public');
                 PropertyImage::create([
                     'property_id' => $property->id,
                     'image_path' => $path,
+                    'is_plan' => false,
                 ]);
             }
         }
@@ -121,7 +167,7 @@ class PropertyController extends Controller
             Storage::disk('public')->delete($property->image_path);
         }
 
-        // Удаляем дополнительные изображения
+        // Удаляем все связанные изображения (план и дополнительные)
         foreach ($property->images as $image) {
             Storage::disk('public')->delete($image->image_path);
         }

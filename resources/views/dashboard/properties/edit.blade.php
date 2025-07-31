@@ -1,11 +1,10 @@
-<!-- resources/views/dashboard/properties/edit.blade.php -->
 @extends('layouts.app')
 
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
 <div class="dashboard-container py-4 mt-6">
-    <h1 class="text-2xl font-bold mb-4 ">Редактировать объект</h1>
+    <h1 class="text-2xl font-bold mb-4">Редактировать объект</h1>
 
     @if ($errors->any())
         <div class="alert alert-danger alert-dismissible fade show mb-4 dashboard-alert-success"
@@ -50,7 +49,14 @@
 
             <div class="col-md-6">
                 <label for="rooms" class="form-label text-light">Комнаты</label>
-                <input type="number" name="rooms" id="rooms" class="form-control bg-dark text-light" value="{{ old('rooms', $property->rooms) }}">
+                <select name="rooms" id="rooms" class="form-select bg-dark text-light">
+                    <option value="">Выберите</option>
+                    <option value="0" {{ old('rooms', $property->rooms) === '0' ? 'selected' : '' }}>Студия</option>
+                    <option value="1" {{ old('rooms', $property->rooms) == '1' ? 'selected' : '' }}>1</option>
+                    <option value="2" {{ old('rooms', $property->rooms) == '2' ? 'selected' : '' }}>2</option>
+                    <option value="3" {{ old('rooms', $property->rooms) == '3' ? 'selected' : '' }}>3</option>
+                    <option value="4" {{ old('rooms', $property->rooms) == '4' ? 'selected' : '' }}>4+</option>
+                </select>
                 @error('rooms') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
             </div>
 
@@ -71,12 +77,10 @@
                 @error('description') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
             </div>
 
-            <!-- Основное фото -->
             <div class="col-md-6">
                 <label for="image_path" class="form-label text-light">Основное фото</label>
                 <input type="file" name="image_path" id="image_path" class="form-control bg-dark text-light" accept="image/*">
                 @error('image_path') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
-
                 @if ($property->image_path)
                     <div class="mt-2">
                         <img src="{{ asset('storage/' . $property->image_path) }}" alt="Текущее фото" class="img-thumbnail" style="max-width: 120px; border-radius: 6px;">
@@ -84,17 +88,30 @@
                 @endif
             </div>
 
-            <!-- Дополнительные фото -->
             <div class="col-md-6">
-                <label for="additional_images" class="form-label text-light">Дополнительные фото</label>
+                <label for="plan_image" class="form-label text-light">План дома</label>
+                <input type="file" name="plan_image" id="plan_image" class="form-control bg-dark text-light" accept="image/*">
+                @error('plan_image') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                @if ($property->images()->where('is_plan', true)->first())
+                    <div class="mt-2">
+                        <img src="{{ asset('storage/' . $property->images()->where('is_plan', true)->first()->image_path) }}" alt="Текущий план" class="img-thumbnail" style="max-width: 120px; border-radius: 6px;">
+                    </div>
+                @endif
+            </div>
+
+            <div class="col-md-6">
+                <label for="additional_images" class="form-label text-light">Дополнительные фото (до 5, текущих: {{ $property->images()->where('is_plan', false)->count() }})</label>
                 <input type="file" name="additional_images[]" id="additional_images" class="form-control bg-dark text-light" multiple accept="image/*">
                 @error('additional_images.*') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
-
-                @if ($property->images->isNotEmpty())
+                @if ($property->images()->where('is_plan', false)->count() > 0)
                     <div class="row mt-2 g-2">
-                        @foreach($property->images as $image)
+                        @foreach($property->images()->where('is_plan', false)->get() as $image)
                             <div class="col-4 col-md-3">
                                 <img src="{{ asset('storage/' . $image->image_path) }}" alt="Доп. фото" class="img-thumbnail" style="width: 80px; height: 80px; object-fit: cover; border-radius: 6px;">
+                                <div class="form-check mt-1">
+                                    <input type="checkbox" name="delete_images[]" value="{{ $image->id }}" class="form-check-input">
+                                    <label class="form-check-label text-light small">Удалить</label>
+                                </div>
                             </div>
                         @endforeach
                     </div>

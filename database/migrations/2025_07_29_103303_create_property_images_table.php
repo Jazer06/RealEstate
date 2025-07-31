@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('property_images', function (Blueprint $table) {
             $table->id();
             $table->foreignId('property_id')->constrained()->onDelete('cascade');
+            $table->boolean('is_plan')->default(false); // Добавляем поле is_plan
             $table->string('image_path');
             $table->timestamps();
         });

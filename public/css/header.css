@@ -73,6 +73,20 @@
     box-shadow: none !important;
 }
 
+/* === Стили для бренда === */
+.navbar-brand {
+
+    color: rgba(0, 0, 0, 0.7);
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 5px;
+}
+
+.navbar.scrolled .navbar-brand {
+    color: #000; /* Чёрный цвет при белом фоне */
+}
 
 
 /* === Стили для ссылок === */

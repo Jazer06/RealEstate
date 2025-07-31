@@ -4,30 +4,41 @@
 <div class="container">
     <h1>{{ $property->title }}</h1>
     <div class="row">
-        <!-- Галерея фотографий -->
         <div class="col-md-6">
-            <!-- Основное фото -->
             <div class="mb-3">
+                <h5>Основное фото</h5>
                 <img src="{{ $property->image_path ? asset('storage/' . $property->image_path) : 'https://via.placeholder.com/600x400' }}" 
                      class="img-fluid rounded" 
                      alt="{{ $property->title }}">
             </div>
-            <!-- Дополнительные фото -->
-            @if ($property->images->isNotEmpty())
-                <div class="row">
-                    @foreach ($property->images as $image)
-                        <div class="col-md-4 mb-3">
-                            <img src="{{ asset('storage/' . $image->image_path) }}" 
-                                 class="img-fluid rounded" 
-                                 alt="{{ $property->title }} - дополнительное фото">
-                        </div>
-                    @endforeach
+            @if ($property->images()->where('is_plan', true)->first())
+                <div class="mb-3">
+                    <h5>План дома</h5>
+                    <img src="{{ asset('storage/' . $property->images()->where('is_plan', true)->first()->image_path) }}" 
+                         class="img-fluid rounded" 
+                         alt="{{ $property->title }} - план дома">
+                </div>
+            @else
+                <p>План дома отсутствует.</p>
+            @endif
+            @if ($property->images()->where('is_plan', false)->count() > 0)
+                <div class="mb-3">
+                    <h5>Дополнительные фото</h5>
+                    <div class="row">
+                        @foreach ($property->images()->where('is_plan', false)->get() as $image)
+                            <div class hardcore
+                            <div class="col-md-4 mb-3">
+                                <img src="{{ asset('storage/' . $image->image_path) }}" 
+                                     class="img-fluid rounded" 
+                                     alt="{{ $property->title }} - дополнительное фото">
+                            </div>
+                        @endforeach
+                    </div>
                 </div>
             @else
                 <p>Дополнительные фотографии отсутствуют.</p>
             @endif
         </div>
-        <!-- Информация об объекте -->
         <div class="col-md-6">
             <p><strong>Цена:</strong> {{ number_format($property->price, 0, '.', ' ') }} ₽</p>
             @if($property->area)

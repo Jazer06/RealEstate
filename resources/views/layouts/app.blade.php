@@ -35,9 +35,7 @@
 <body>
     <nav class="navbar navbar-light" id="mainNavbar">
         <div class="container">
-            <a class="navbar-brand" href="{{ url('/') }}">
-                <img src="{{ asset('storage/logo/logo.svg') }}" alt="{{ config('app.name') }}" style="height: 40px; width: auto;">
-            </a>
+            <a class="navbar-brand" href="{{ url('/') }}">Sofiarealty</a>
             <div class="d-flex align-items-center gap-2">
                 <a href="tel:+1234567890" class="nav-link">
                     +7(953)-555-33-32
