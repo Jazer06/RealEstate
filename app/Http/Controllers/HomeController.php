@@ -42,7 +42,7 @@ class HomeController extends Controller
         $areaMax = $request->input('area_range_max', 200);
         $query->whereBetween('area', [$areaMin, $areaMax]);
 
-        $properties = $query->latest()->paginate(9);
+        $properties = $query->latest()->paginate(5);
         $totalProperties = $properties->total();
 
         return view('welcome', compact(

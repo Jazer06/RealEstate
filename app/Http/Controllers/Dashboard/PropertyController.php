@@ -5,18 +5,19 @@ namespace App\Http\Controllers\Dashboard;
 use App\Http\Controllers\Controller;
 use App\Models\Property;
 use App\Models\PropertyImage;
+use App\Models\Slider;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use App\Models\Slider;
 
 class PropertyController extends Controller
 {
     public function index()
     {
-        $properties = Property::where('user_id', Auth::id())->get();
+        $properties = Property::where('user_id', Auth::id())->paginate(5);
         $sliders = Slider::all();
-        return view('dashboard.index', compact('properties', 'sliders'));
+        return view('dashboard', compact('properties', 'sliders'));
     }
 
     public function create()
@@ -100,11 +101,10 @@ class PropertyController extends Controller
             'plan_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'additional_images' => 'nullable|array|max:5',
             'additional_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'delete_images' => 'nullable|array', // Для удаления выбранных изображений
+            'delete_images' => 'nullable|array',
             'delete_images.*' => 'integer|exists:property_images,id',
         ]);
 
-        // Обновляем основное фото
         if ($request->hasFile('image_path')) {
             if ($property->image_path) {
                 Storage::disk('public')->delete($property->image_path);
@@ -114,7 +114,6 @@ class PropertyController extends Controller
 
         $property->update($validated);
 
-        // Обновляем план
         if ($request->hasFile('plan_image')) {
             $oldPlan = $property->images()->where('is_plan', true)->first();
             if ($oldPlan) {
@@ -129,7 +128,6 @@ class PropertyController extends Controller
             ]);
         }
 
-        // Удаляем выбранные дополнительные изображения
         if ($request->has('delete_images')) {
             $imagesToDelete = $property->images()->where('is_plan', false)
                 ->whereIn('id', $request->input('delete_images'))
@@ -140,10 +138,9 @@ class PropertyController extends Controller
             }
         }
 
-        // Добавляем новые дополнительные изображения
         if ($request->hasFile('additional_images')) {
             $currentImagesCount = $property->images()->where('is_plan', false)->count();
-            $availableSlots = 5 - $currentImagesCount; // Оставшиеся слоты для новых изображений
+            $availableSlots = 5 - $currentImagesCount;
             $newImages = array_slice($request->file('additional_images'), 0, $availableSlots);
             foreach ($newImages as $image) {
                 $path = $image->store('property_images', 'public');
@@ -162,12 +159,10 @@ class PropertyController extends Controller
     {
         $this->authorize('delete', $property);
 
-        // Удаляем основное изображение
         if ($property->image_path) {
             Storage::disk('public')->delete($property->image_path);
         }
 
-        // Удаляем все связанные изображения (план и дополнительные)
         foreach ($property->images as $image) {
             Storage::disk('public')->delete($image->image_path);
         }
@@ -175,5 +170,11 @@ class PropertyController extends Controller
 
         $property->delete();
         return redirect()->route('dashboard.properties.index')->with('success', 'Объект удалён!');
+    }
+
+    public function contacts()
+    {
+        $contacts = Contact::all(); // Или paginate(10), если нужно пагинацию
+        return view('dashboard', compact('contacts', 'properties', 'sliders'));
     }
 }

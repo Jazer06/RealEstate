@@ -1,5 +1,4 @@
 @extends('layouts.app')
-
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
@@ -14,6 +13,9 @@
         </li>
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="properties-tab" data-bs-toggle="tab" data-bs-target="#properties" type="button" role="tab" aria-controls="properties" aria-selected="false">Объекты</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts" type="button" role="tab" aria-controls="contacts" aria-selected="false">Заявки</button>
         </li>
     </ul>
 
@@ -163,7 +165,6 @@
             @endif
         </div>
 
-
         <!-- Вкладка Объекты -->
         <div class="tab-pane fade p-4" id="properties" role="tabpanel" aria-labelledby="properties-tab">
             <h5 class="card-title text-xl font-semibold mb-3">Управление объектами недвижимости</h5>
@@ -212,6 +213,51 @@
                         @empty
                             <tr>
                                 <td colspan="5" class="text-center text-muted py-3">Объектов нет. Добавьте новый!</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Вкладка Заявки -->
+        <div class="tab-pane fade p-4" id="contacts" role="tabpanel" aria-labelledby="contacts-tab">
+            <h5 class="card-title text-xl font-semibold mb-3">Управление заявками</h5>
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show mb-4 dashboard-alert-success" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            <div class="table-responsive">
+                <table class="table table-dark table-striped table-hover dashboard-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">Имя</th>
+                            <th scope="col">Телефон</th>
+                            <th scope="col">Описание</th>
+                            <th scope="col">Дата</th>
+                            <th scope="col">Действия</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($contacts as $contact)
+                            <tr class="align-middle">
+                                <td>{{ $contact->name ?: '-' }}</td>
+                                <td>{{ $contact->phone ?: '-' }}</td>
+                                <td>{{ $contact->description ?: '-' }}</td>
+                                <td>{{ $contact->created_at->format('d.m.Y H:i') }}</td>
+                                <td>
+                                    <form action="{{ route('dashboard.contacts.destroy', $contact) }}" method="POST" style="display:inline;" onsubmit="return confirm('Удалить заявку?')">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm text-white hover:bg-red-600">Удалить</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="5" class="text-center text-muted py-3">Заявок нет.</td>
                             </tr>
                         @endforelse
                     </tbody>

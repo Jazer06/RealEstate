@@ -8,7 +8,8 @@ use App\Http\Controllers\Dashboard\SliderController;
 use App\Http\Controllers\Dashboard\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FavoriteController;
-use App\Http\Controllers\PublicPropertyController; // Новый контроллер
+use App\Http\Controllers\PublicPropertyController;
+use App\Http\Controllers\ContactController; 
 
 Auth::routes();
 
@@ -17,6 +18,10 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Публичный маршрут для просмотра объекта
 Route::get('/properties/{property}', [PublicPropertyController::class, 'show'])->name('properties.show');
+
+// Форма обратной связи (доступна всем)
+Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
+Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
 // Профиль и избранное для авторизованных пользователей
 Route::middleware(['auth'])->group(function () {
@@ -50,4 +55,8 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
         'update' => 'dashboard.sliders.update',
         'destroy' => 'dashboard.sliders.destroy',
     ]);
+
+    // Управление заявками
+    Route::get('/contacts', [PropertyController::class, 'contacts'])->name('dashboard.contacts.index');
+    Route::delete('/contacts/{contact}', [PropertyController::class, 'destroy'])->name('dashboard.contacts.destroy');
 });
