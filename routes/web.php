@@ -10,6 +10,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PublicPropertyController;
 use App\Http\Controllers\ContactController; 
+use App\Http\Controllers\PageController; // Добавь этот
 
 Auth::routes();
 
@@ -19,11 +20,16 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Публичный маршрут для просмотра объекта
 Route::get('/properties/{property}', [PublicPropertyController::class, 'show'])->name('properties.show');
 
-// Форма обратной связи (доступна всем)
+// Форма обратной связи (для заявок)
 Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 
-// Профиль и избранное для авторизованных пользователей
+// Новые страницы — Услуги и Контакты (публичные)
+Route::get('/consultation', [PageController::class, 'consultation'])->name('consultation');
+Route::get('/services/real-estate', [PageController::class, 'realEstateService'])->name('services.real_estate');
+Route::get('/contacts', [PageController::class, 'contacts'])->name('contacts'); // Обрати внимание: contacts (мн.ч.)
+
+// Профиль и избранное для авторизованных
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'index'])->name('profile');
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');

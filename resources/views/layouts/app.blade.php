@@ -85,25 +85,24 @@
             <!-- Нижнее меню внутри того же container -->
             <ul class="nav justify-content-start fs-6 mt-2 w-100 border-to fw-bold">
                 <li class="nav-item dropdown">
-                    <a class="nav-link fs-14 dropdown-toggle" href="#" role="button" id="propertiesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        Объекты
-                    </a>
-                    <ul class="dropdown-menu dropdown-menu-large" aria-labelledby="propertiesDropdown">
-                        <li><a class="dropdown-item fs-12" href="">Все объекты</a></li>
-                        <li><a class="dropdown-item fs-12" href="">Добавить объект</a></li>
-                    </ul>
-                </li>
-                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle fs-14" href="#" role="button" id="servicesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         Услуги
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="servicesDropdown">
-                        <li><a class="dropdown-item fs-12" href="#">Консультация</a></li>
-                        <li><a class="dropdown-item fs-12" href="#">Оценка</a></li>
+                        <li>
+                            <a class="dropdown-item fs-12" href="{{ route('consultation') }}">
+                                Консультация
+                            </a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item fs-12" href="{{ route('services.real_estate') }}">
+                                Покупка недвижимости
+                            </a>
+                        </li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link fs-14" href="">Контакты</a>
+                    <a class="nav-link fs-14" href="{{ route('contacts') }}">Контакты</a>
                 </li>
             </ul>
         </div>
@@ -158,7 +157,7 @@
         @yield('content')
     </div>
 
-    <footer class="text-white text-center py-3 mt-4">
+    <footer class="text-white text-center py-3 mt-9">
         <div class="container">
             <div class="row">
                 <!-- Колонка 1: Адрес -->
