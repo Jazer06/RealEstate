@@ -173,14 +173,14 @@ class PropertyController extends Controller
         return redirect()->route('dashboard.properties.index')->with('success', 'Объект удалён!');
     }
 
-public function contacts()
-{
-    $contacts = Contact::latest()->paginate(10);
-    $properties = Property::where('user_id', Auth::id())->paginate(5);
-    $sliders = Slider::all();
+    public function contacts()
+    {
+        $contacts = Contact::latest()->paginate(10);
+        $properties = Property::where('user_id', Auth::id())->paginate(5);
+        $sliders = Slider::all();
 
-    return view('dashboard.index', compact('contacts', 'properties', 'sliders'));
-}
+        return view('dashboard.index', compact('contacts', 'properties', 'sliders'));
+    }
 
 
 }

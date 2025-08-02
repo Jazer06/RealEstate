@@ -1,7 +1,7 @@
 <div class="mt-9 mb-3">
     <div class="contact-container">
         <div class="contact-form">
-            <h2 class="text-center text-2xl font-bold text-light mb-4">Свяжитесь с нами</h2>
+            <h2 class="text-center text-2xl font-bold text-black mb-4">Свяжитесь с нами</h2>
             <form method="POST" action="{{ route('contact.store') }}" enctype="multipart/form-data" id="contact-form">
                 @csrf
                 <!-- Имя -->
@@ -68,7 +68,7 @@
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
-                <button type="submit" class="btn btn-primary w-100">Отправить</button>
+                <button type="submit" class="btn btn-primary w-100 mt-5">Отправить</button>
             </form>
         </div>
     </div>

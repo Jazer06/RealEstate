@@ -8,8 +8,8 @@
 @endsection
 
 @section('content')
-<div class="container my-5 mt-6 mb-5">
-    <div class="info-card depth-card" style="background: #fff; border-radius: 12px; border: 1px solid #e9ecef; padding: 25px; margin: 20px 0; box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+<div class="container my-5 mt-6 mb-2">
+    <div class="info-card depth-card mt-9" style="background: #fff; border-radius: 12px; border: 1px solid #e9ecef; padding: 25px;box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
         <div class="card-body">
             <h3 class="card-title" style="color: #333; margin-bottom: 1.5rem; font-weight: 600;">Контактная информация</h3>
             <ul class="list-group list-group-flush" style="border: none;">
@@ -37,15 +37,6 @@
         </div>
     </div>
 </div>
-
-@if(session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
-
-<!-- Модалка extra large -->
 <div class="modal fade" id="contactModal" tabindex="-1" aria-labelledby="contactModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl modal-dialog-centered">
         <div class="modal-content" style="background: #fff; border: 2px solid; border-radius: 12px;">

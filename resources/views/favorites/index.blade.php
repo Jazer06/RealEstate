@@ -24,21 +24,28 @@
                             @if($property->type) Тип: {{ $property->type }}<br> @endif
                             <small>{{ $property->address ?? 'Не указан' }}</small>
                         </p>
+<div class="d-flex justify-content-between align-items-center mt-3">
+    <a href="{{ route('properties.show', $property->id) }}"
+       class="btn btn-sm btn-primary"
+       onclick="event.stopPropagation();">
+        Подробнее
+    </a>
 
-                        <div class="d-flex justify-content-between align-items-center mt-3">
-                            <a href="{{ route('properties.show', $property->id) }}"
-                               class="btn btn-sm btn-primary"
-                               onclick="event.stopPropagation();">
-                                Подробнее
-                            </a>
-                            <form action="{{ route('favorites.toggle', $property->id) }}" method="POST" class="d-inline">
-                                @csrf
-                                <button type="submit" class="btn btn-sm btn-outline-danger"
-                                        onclick="event.stopPropagation();">
-                                    Убрать
-                                </button>
-                            </form>
-                        </div>
+    <form action="{{ route('favorites.toggle', $property->id) }}" method="POST" class="d-inline">
+        @csrf
+        <button type="submit" class="btn btn-sm btn-outline-danger"
+                onclick="event.stopPropagation();">
+            Убрать
+        </button>
+    </form>
+</div>
+
+{{-- Форма заявки --}}
+<form action="{{ route('purchase-requests.store', $property->id) }}" method="POST" class="mt-3" onclick="event.stopPropagation();">
+    @csrf
+    <textarea name="comment" class="form-control form-control-sm mb-2" rows="2" placeholder="Комментарий к заявке (необязательно)"></textarea>
+    <button type="submit" class="btn btn-sm btn-success w-100">Отправить заявку</button>
+</form>
                     </div>
                 </div>
             </div>
@@ -49,3 +56,16 @@
         @endforelse
     </div>
 </div>
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif
+
+@if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+@endif

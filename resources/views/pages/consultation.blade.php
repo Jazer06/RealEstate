@@ -8,8 +8,7 @@
 @endsection
 
 @section('content')
-<div class="container my-5">
-    <!-- Заголовок и описание -->
+<div class="container my-5 mt-6">
     <div class="row justify-content-center text-center mb-5 mt-6">
         <div class="col-md-10 col-lg-8">
             <h1 class="display-4 font-weight-bold mb-3">Консультация по недвижимости в Дагестане</h1>

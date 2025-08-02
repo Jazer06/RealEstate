@@ -1,3 +1,4 @@
+
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 
 // Публичный просмотр объекта
 Route::get('/properties/{property}', [PublicPropertyController::class, 'show'])->name('properties.show');
+Route::get('/properties', [PublicPropertyController::class, 'index'])->name('properties.index');
 
 // Обратная связь (форма + обработка) — доступно всем
 Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
@@ -27,7 +29,7 @@ Route::post('/contact', [ContactController::class, 'store'])->name('contact.stor
 // Статические публичные страницы
 Route::get('/consultation', [PageController::class, 'consultation'])->name('consultation');
 Route::get('/services/real-estate', [PageController::class, 'realEstateService'])->name('services.real_estate');
-Route::get('/contacts', [PageController::class, 'contacts'])->name('contacts'); // Контакты (публичная страница)
+Route::get('/contacts', [PageController::class, 'contacts'])->name('contacts');
 
 // Авторизованные пользователи
 Route::middleware(['auth'])->group(function () {
@@ -37,6 +39,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
     Route::post('/favorites/{property}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
+    Route::post('/purchase-requests/{property}', [FavoriteController::class, 'createPurchaseRequest'])->name('purchase-requests.store');
 });
 
 // Панель администратора
@@ -62,9 +65,14 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
         'destroy' => 'dashboard.sliders.destroy',
     ]);
 
-    // Управление заявками (только просмотр и удаление в админке)
+    // Управление заявками (контакты)
     Route::get('/contacts', [PropertyController::class, 'contacts'])->name('dashboard.contacts.index');
     Route::delete('/contacts/{contact}', [PropertyController::class, 'destroy'])->name('dashboard.contacts.destroy');
+
+    // Управление заявками на покупку
+    Route::get('/purchase-requests', [DashboardController::class, 'purchaseRequests'])->name('dashboard.purchase-requests.index');
+    Route::delete('/dashboard/purchase-requests/{purchaseRequest}', [DashboardController::class, 'destroyPurchaseRequest'])
+        ->name('dashboard.purchase-requests.destroy');
 
     // Админ-настройки
     Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy.policy');

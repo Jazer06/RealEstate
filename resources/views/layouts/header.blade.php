@@ -2,8 +2,11 @@
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">Sofiarealty</a>
         <div class="d-flex align-items-center gap-2">
-            <a href="tel:{{ $phoneNumber ?? '+1234567890' }}" class="nav-link">
-                {{ $phoneNumber ?? '+7(953)-555-33-32' }}
+            <a href="tel:{{ $phoneNumber ?? '+1234567890' }}" class="nav-link d-flex align-items-center">
+                <i class="bi bi-telephone-fill text-dark" style="font-size: 1.1rem;"></i>
+                <span class="d-none d-md-inline ms-1" style="white-space: nowrap;">
+                    {{ $phoneNumber ?? '+7 (953) 555-33-32' }}
+                </span>
             </a>
             @auth
                 <!-- Кнопка избранного левее аватарки -->
@@ -47,8 +50,12 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
         </div>
-        <!-- Нижнее меню внутри того же container -->
         <ul class="nav justify-content-start fs-6 mt-2 w-100 border-to fw-bold">
+            <li class="nav-item">
+                <a class="nav-link fs-14" href="{{ route('properties.index') }}">
+                    Объекты недвижимости
+                </a>
+            </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle fs-14" href="#" role="button" id="servicesDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                     Услуги

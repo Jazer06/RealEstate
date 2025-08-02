@@ -301,11 +301,6 @@ body {
     border-radius: 20px 20px 0 0;
     opacity: 0.6;
 }
-
-.depth-card:hover {
-    transform: translateY(-3px);
-}
-
 .info-card {
     background: #ffffff;
     border-radius: 12px;
@@ -351,14 +346,13 @@ body {
 
 /* ==================== КНОПКИ ПРОФИЛЯ ==================== */
 .profile-btn {
-    background-color: #4b0082;
-    color: white;
+    background-color: #4b0082 !important;
+    color: white !important;
     border: none;
-    padding: 12px 25px;
+    padding: 12px 25px ;
     border-radius: 12px;
     font-weight: 500;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(75, 0, 130, 0.3);
     position: relative;
     overflow: hidden;
 }
@@ -490,7 +484,7 @@ body {
 
 .page-link {
     background-color: #2c2c2c;
-    color: #ccc;
+    color: #ccc !important;
     border: none;
     border-radius: 6px;
     padding: 6px 12px;
@@ -743,8 +737,9 @@ body {
     }
 
     .contact-form {
-        background-color: rgba(58, 58, 58, 0.9);
+        background-color: rgb(246 246 246 / 73%);
         padding: 2rem;
+        color: black;
         border-radius: 12px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         max-width: 500px;
@@ -752,18 +747,17 @@ body {
     }
 
     .contact-form .form-label {
-        color: #e0e0e0;
+        color: #black;
     }
 
     .contact-form .form-control {
-        background-color: #2a2a2a;
-        color: #e0e0e0;
+        background-color: white;
+        color: black;
         border: 1px solid #444;
     }
 
     .contact-form .form-control:focus {
-        background-color: #2a2a2a;
-        color: #e0e0e0;
+        color: black;
         border-color: #9370db;
         box-shadow: 0 0 0 3px rgba(147, 112, 219, 0.3);
     }
@@ -783,10 +777,15 @@ body {
         resize: none; /* Запрещаем растягивание */
     }
 
-
+.filter-glass{
+    background: rgb(175 148 193 / 7%);
+    backdrop-filter: blur(-28px);
+    padding: 20px;
+    border-radius: 12px;
+}
 
 .glass-effect-banner {
-       background: rgb(175 148 193 / 20%);
+    background: rgb(175 148 193 / 20%);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 15px;
@@ -926,6 +925,8 @@ body {
     opacity: 0.6;
 }
 .card-consult-body {
+    
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
     padding: 2rem;
 }
 .text-feoil {
@@ -974,4 +975,37 @@ body {
         transform: translateX(-50%);
 } 
     }
+
+    
+        input.form-control,
+    textarea.form-control,
+    select.form-control {
+        background-color: #fff !important;
+        color: #000 !important;
+        border: 1px solid #ccc;
+    }
+
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-control:focus {
+    background-color: #fff !important;
+    color: #000 !important;
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+.dashboard-img-thumbnail {
+    max-width: 200px;
+}
+
+.dashboard-btn-warning:hover {
+    background-color: #ca8a04;
+}
+
+.dashboard-btn-danger:hover {
+    background-color: #dc2626;
+}
+
+.d-inline {
+    display: inline;
+}
 }

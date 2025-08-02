@@ -7,6 +7,7 @@ use App\Models\Property;
 use App\Models\Slider;
 use App\Models\Contact;
 use App\Models\Setting;
+use App\Models\PurchaseRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,8 +18,21 @@ class DashboardController extends Controller
         $properties = Property::where('user_id', Auth::id())->paginate(5);
         $sliders = Slider::paginate(5);
         $contacts = Contact::paginate(5);
+        $purchaseRequests = PurchaseRequest::with(['user', 'property'])->paginate(5);
 
-        return view('dashboard.index', compact('properties', 'sliders', 'contacts'));
+        return view('dashboard.index', compact('properties', 'sliders', 'contacts', 'purchaseRequests'));
+    }
+
+    public function purchaseRequests()
+    {
+        $purchaseRequests = PurchaseRequest::with(['user', 'property'])->paginate(10);
+        return view('dashboard.purchase-requests.index', compact('purchaseRequests'));
+    }
+
+    public function destroyPurchaseRequest(PurchaseRequest $purchaseRequest)
+    {
+        $purchaseRequest->delete();
+        return redirect()->route('dashboard.purchase-requests.index')->with('success', 'Заявка удалена!');
     }
 
     // Обновление телефона
