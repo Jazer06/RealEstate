@@ -1,8 +1,10 @@
 @extends('layouts.app')
+
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
-<div class="dashboard-container py-4 mt-6">
+<div class="container mt-6">
+   <div class="dashboard-container py-4 mt-6">
     <h1 class="text-3xl font-bold mb-4">Админ-панель</h1>
     <p class="mb-4">Добро пожаловать, {{ Auth::user()->name }}!</p>
 
@@ -17,6 +19,17 @@
         <li class="nav-item" role="presentation">
             <button class="nav-link" id="contacts-tab" data-bs-toggle="tab" data-bs-target="#contacts" type="button" role="tab" aria-controls="contacts" aria-selected="false">Заявки</button>
         </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="telephone-tab" data-bs-toggle="tab" data-bs-target="#telephone" type="button" role="tab" aria-controls="telephone" aria-selected="false">Телефон</button>
+
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="email-tab" data-bs-toggle="tab" data-bs-target="#email" type="button" role="tab" aria-controls="email" aria-selected="false">Email</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="banner-tab" data-bs-toggle="tab" data-bs-target="#banner" type="button" role="tab" aria-controls="banner" aria-selected="false">Баннер</button>
+        </li>
+
     </ul>
 
     <!-- Контент вкладок -->
@@ -24,6 +37,7 @@
         <!-- Вкладка Главная страница -->
         <div class="tab-pane fade show active p-4" id="home" role="tabpanel" aria-labelledby="home-tab">
             <h5 class="card-title text-xl font-semibold mb-3">Управление главной страницей</h5>
+
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible fade show mb-4 dashboard-alert-success" role="alert">
                     {{ session('success') }}
@@ -31,7 +45,6 @@
                 </div>
             @endif
 
-            <!-- Форма создания слайда -->
             @if (isset($createSlider))
                 <h6 class="text-lg font-semibold mb-2">Добавить новый слайд</h6>
                 <form method="POST" action="{{ route('dashboard.sliders.store') }}" enctype="multipart/form-data">
@@ -64,7 +77,6 @@
                     <button type="submit" class="btn btn-primary dashboard-btn-primary">Создать</button>
                     <a href="{{ route('dashboard') }}" class="btn btn-secondary ms-2">Отмена</a>
                 </form>
-            <!-- Форма редактирования слайда -->
             @elseif (isset($editSlider) && isset($slider))
                 <h6 class="text-lg font-semibold mb-2">Редактировать слайд</h6>
                 <form method="POST" action="{{ route('dashboard.sliders.update', $slider) }}" enctype="multipart/form-data">
@@ -119,7 +131,7 @@
                         <tbody>
                             @forelse ($sliders as $slider)
                                 <tr class="align-middle">
-                                    <td>Sлайд {{ $loop->index + 1 }}</td>
+                                    <td>Слайд {{ $loop->index + 1 }}</td>
                                     <td>{{ $slider->title ?: '-' }}</td>
                                     <td>{{ $slider->subtitle ?: '-' }}</td>
                                     <td>{{ $slider->button_text ?: '-' }}</td>
@@ -151,18 +163,25 @@
                     </table>
                 </div>
 
-                <!-- Вложенные вкладки внутри Главная страница -->
-                <div class="tab-content mt-3">
-                    <div class="tab-pane fade show active p-3" style="background-color: #444; border-radius: 8px;" id="home-main" role="tabpanel" aria-labelledby="home-main-tab">
-                        <p>Здесь основной контент главной страницы (например, настройки баннеров или текста).</p>
-                    </div>
-                    <div class="tab-pane fade p-3" style="background-color: #444; border-radius: 8px;" id="home-test" role="tabpanel" aria-labelledby="home-test-tab">
-                        <h6 class="text-lg font-semibold mb-2">Тестовая секция</h6>
-                        <p>Это тестовый раздел для будущих функций. Пока в разработке.</p>
-                        <a href="#" class="btn btn-primary dashboard-btn-primary mt-2">Добавить что-то</a>
-                    </div>
+                <!-- Пагинация для слайдеров -->
+                <div class="pagination-container">
+                    @if ($sliders->hasPages())
+                        {{ $sliders->links('pagination::bootstrap-5') }}
+                    @else
+                    @endif
                 </div>
             @endif
+
+            <div class="tab-content mt-3">
+                <div class="tab-pane fade show active p-3" style="background-color: #444; border-radius: 8px;" id="home-main" role="tabpanel" aria-labelledby="home-main-tab">
+                    <p>Здесь основной контент главной страницы (например, настройки баннеров или текста).</p>
+                </div>
+                <div class="tab-pane fade p-3" style="background-color: #444; border-radius: 8px;" id="home-test" role="tabpanel" aria-labelledby="home-test-tab">
+                    <h6 class="text-lg font-semibold mb-2">Тестовая секция</h6>
+                    <p>Это тестовый раздел для будущих функций. Пока в разработке.</p>
+                    <a href="#" class="btn btn-primary dashboard-btn-primary mt-2">Добавить что-то</a>
+                </div>
+            </div>
         </div>
 
         <!-- Вкладка Объекты -->
@@ -174,7 +193,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             @endif
-            <a href="{{ route('dashboard.properties.create') }}" class="btn btn-primary  mb-3">Добавить объект</a>
+            <a href="{{ route('dashboard.properties.create') }}" class="btn btn-primary mb-3">Добавить объект</a>
             <div class="table-responsive">
                 <table class="table table-dark table-striped table-hover dashboard-table">
                     <thead>
@@ -217,6 +236,13 @@
                         @endforelse
                     </tbody>
                 </table>
+            </div>
+            <!-- Пагинация для объектов -->
+            <div class="pagination-container">
+                @if ($properties->hasPages())
+                    {{ $properties->links('pagination::bootstrap-5') }}
+                @else
+                @endif
             </div>
         </div>
 
@@ -262,8 +288,111 @@
                         @endforelse
                     </tbody>
                 </table>
+                <!-- Добавление пагинации -->
+                <div class="pagination-container">
+                    @if ($contacts->hasPages())
+                        {{ $contacts->links('pagination::bootstrap-5') }}
+                    @else
+                    @endif
+                </div>
             </div>
         </div>
-    </div>
+        <!-- Вкладка Телефон -->
+        <div class="tab-pane fade p-4" id="telephone" role="tabpanel" aria-labelledby="telephone-tab">
+            <h5 class="card-title text-xl font-semibold mb-3">Смена телефона на сайте</h5>
+            <p>При клике на поле показывается старый.</p>
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show mb-4 dashboard-alert-success" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            <form method="POST" action="{{ route('dashboard.phone.update') }}" class="mb-4">
+                @csrf
+                @method('PUT')
+                <div class="mb-3">
+                    <label for="phone_number" class="form-label">Номер телефона</label>
+                    <input type="text" name="phone_number" id="phone_number" class="form-control" value="{{ old('phone_number', $phoneNumber ?? '+7 (953) 555-33-32') }}" placeholder="+7(XXX)-XXX-XX-XX">
+                    @error('phone_number') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+                <button type="submit" class="btn btn-primary dashboard-btn-primary">Сохранить телефон</button>
+            </form>
+        </div>
+
+
+        <!-- Вкладка Email -->
+        <div class="tab-pane fade p-4" id="email" role="tabpanel" aria-labelledby="email-tab">
+            <h5 class="card-title text-xl font-semibold mb-3">Смена почты на сайте</h5>
+            <p>При клике на поле показывается старая почта.</p>
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show mb-4 dashboard-alert-success" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            <form method="POST" action="{{ route('dashboard.email.update') }}">
+                @csrf
+                @method('PUT')
+                <div class="mb-3">
+                    <label for="email" class="form-label">Электронная почта</label>
+                    <input type="text" name="email" id="email" class="form-control" value="{{ old('email', $email ?? 'group.ru') }}" placeholder="example@email.com">
+                    @error('email') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+                <button type="submit" class="btn btn-primary dashboard-btn-primary">Сохранить почту</button>
+            </form>
+        </div>
+
+        <div class="tab-pane fade p-4" id="banner" role="tabpanel" aria-labelledby="banner-tab">
+            <h5 class="card-title text-xl font-semibold mb-3">Текст баннера на главной</h5>
+
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            <form method="POST" action="{{ route('dashboard.banner.update') }}">
+                @csrf
+                @method('PUT')
+
+                <div class="mb-3">
+                    <label for="banner_title" class="form-label">Заголовок</label>
+                    <input type="text" name="banner_title" id="banner_title" class="form-control" 
+                           value="{{ old('banner_title', \App\Models\Setting::where('key', 'banner_title')->value('value')) }}">
+                    @error('banner_title') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+
+                <div class="mb-3">
+                    <label for="banner_description" class="form-label">Описание</label>
+                    <textarea name="banner_description" id="banner_description" rows="4" class="form-control">{{ old('banner_description', \App\Models\Setting::where('key', 'banner_description')->value('value')) }}</textarea>
+                    @error('banner_description') <span class="text-danger">{{ $message }}</span> @enderror
+                </div>
+
+                <button type="submit" class="btn btn-primary">Сохранить</button>
+            </form>
+        </div>
+
+
+    </div> <!-- Закрытие tab-content -->
+</div> <!-- Закрытие dashboard-container -->
 </div>
-@endsection
+<style>
+    input.form-control,
+textarea.form-control,
+select.form-control {
+    background-color: #fff !important;
+    color: #000 !important;
+    border: 1px solid #ccc;
+}
+
+input.form-control:focus,
+textarea.form-control:focus,
+select.form-control:focus {
+    background-color: #fff !important;
+    color: #000 !important;
+    border-color: #86b7fe;
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+</style>

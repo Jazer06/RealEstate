@@ -1,15 +1,16 @@
+
 <div class="mt-9 mb-3">
     <div class="mt-6 glass-effect-banner">
-        <div class="row "> <!-- Добавлен класс glass-effect -->
+        <div class="row ">
             <div class="col-sm-6">
-                <p class="text-highlight">
-                    <strong>Sofiarealty</strong> — ваш надежный партнер в мире недвижимости
-                </p>
+            <p class="text-highlight">
+                <strong>{{ $bannerTitle }}</strong>
+            </p>
+
             </div>
             <div class="col-sm-6">
                 <p class="text-description">
-                    Мы работаем в Москве и Московской области — на хорошо известных нам территориях, в экономически, социально и экологически благополучных местах. Уважение к людям лежит в основе всех решений команды MR Group.
-                    Прежде чем приступить к разработке проекта, наши специалисты детально анализируют потребности клиента. Поэтому, создавая каждый объект, мы выходим далеко за рамки формального подхода к стройке.
+                    {{ $bannerDescription }}
                 </p>
             </div>
         </div>

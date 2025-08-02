@@ -17,7 +17,8 @@ class PropertyController extends Controller
     {
         $properties = Property::where('user_id', Auth::id())->paginate(5);
         $sliders = Slider::all();
-        return view('dashboard', compact('properties', 'sliders'));
+         $contacts = Contact::paginate(5);
+        return view('dashboard.index', compact('properties', 'sliders','contacts'));
     }
 
     public function create()
@@ -172,9 +173,14 @@ class PropertyController extends Controller
         return redirect()->route('dashboard.properties.index')->with('success', 'Объект удалён!');
     }
 
-    public function contacts()
-    {
-        $contacts = Contact::all(); // Или paginate(10), если нужно пагинацию
-        return view('dashboard', compact('contacts', 'properties', 'sliders'));
-    }
+public function contacts()
+{
+    $contacts = Contact::latest()->paginate(10);
+    $properties = Property::where('user_id', Auth::id())->paginate(5);
+    $sliders = Slider::all();
+
+    return view('dashboard.index', compact('contacts', 'properties', 'sliders'));
+}
+
+
 }

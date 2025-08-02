@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Slider;
 use App\Models\Property;
 use Illuminate\Http\Request;
+use App\Models\Setting;
+
 
 class HomeController extends Controller
 {
@@ -45,6 +47,9 @@ class HomeController extends Controller
         $properties = $query->latest()->paginate(5);
         $totalProperties = $properties->total();
 
+        $bannerTitle = Setting::where('key', 'banner_title')->value('value') ?? '';
+        $bannerDescription = Setting::where('key', 'banner_description')->value('value') ?? '';
+        
         return view('welcome', compact(
             'sliders',
             'properties',
@@ -54,7 +59,10 @@ class HomeController extends Controller
             'priceMin',
             'priceMax',
             'areaMin',
-            'areaMax'
+            'areaMax',
+            'bannerTitle',
+            'bannerDescription'
         ));
+
     }
 }

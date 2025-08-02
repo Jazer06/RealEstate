@@ -857,6 +857,88 @@ body {
     z-index: 10;
 }
 
+.card-consult {
+    position: relative;
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-consult::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #d8bfd8, #9370db, #d8bfd8);
+    border-radius: 0 0 20px 20px;
+    opacity: 0.6;
+}
+
+
+    /* Градиентный заголовок — но уже в сине-серой гамме */
+.text-primary-gradient {
+    background: linear-gradient(90deg, #4a5568, #2d3748, #4a5568);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+
+/* Ссылки — тёплый серо-синий, с плавным ховером */
+.text-link {
+    color: #3a5a78;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.text-link:hover {
+    color: #1a76d2;
+    text-decoration: underline;
+}
+
+/* Иконки — серые, при наведении — акцентный синий */
+.icon-link {
+    color: #6c757d;
+    font-size: 1.3rem;
+    transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.icon-link:hover {
+    color: #1a76d2;
+    transform: scale(1.1);
+}
+.card-consult {
+    position: relative;
+    border: none;
+    border-radius: 10px;
+}
+.card-consult::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #d8bfd8, #9370db, #d8bfd8);
+    border-radius: 0 0 20px 20px;
+    opacity: 0.6;
+}
+.card-consult-body {
+    padding: 2rem;
+}
+.text-feoil {
+    background: linear-gradient(90deg, #b19cd9, #8a2be2, #b19cd9);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+}
+.text-dark-feol{
+    color: rgb(151 90 181);
+}
+
 
 
 @media (max-width: 576px) {

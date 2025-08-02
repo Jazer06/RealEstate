@@ -64,6 +64,7 @@ class ContactController extends Controller
         $contact->description = $request->description;
         $contact->save();
 
-        return redirect()->route('home')->with('success', 'Заявка успешно отправлена!');
+        return back()->with('success', 'Заявка успешно отправлена!');
+
     }
 }
