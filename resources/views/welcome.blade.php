@@ -18,7 +18,7 @@
     </div>
 </div>
 <div class="container">
-        <div class="carousel-nav-buttons d-sm-block d-none">
+        <div class="carousel-nav-buttons">
             <button class="carousel-nav-btn down">←</button>
             <button class="carousel-nav-btn up">→</button>
         </div>
@@ -57,6 +57,3 @@
     @include('components.contacts-form')
 
 @endsection
-<style>
-    
-</style>

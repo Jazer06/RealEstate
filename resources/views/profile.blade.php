@@ -62,12 +62,6 @@
                         <button class="iphone-button-black" id="favorites-tab" data-bs-toggle="tab" data-bs-target="#favorites" type="button" role="tab">
                             Избранное
                         </button>
-                    </li>
-<!--                     <li class="nav-item" role="presentation">
-                        <button class="iphone-button-black" id="purchase-steps-tab" data-bs-toggle="tab" data-bs-target="#purchase-steps" type="button" role="tab">
-                            Этапы покупки
-                        </button>
-                    </li> -->
                 </ul>
                 
                 <div class="tab-content mt-5" id="profileTabsContent">
@@ -76,14 +70,6 @@
                         @include('favorites.index')
                     </div>
                     
-                    <!-- Содержимое вкладки Этапы покупки -->
-                    <div class="tab-pane fade" id="purchase-steps" role="tabpanel">
-                        <div class="depth-card" style="background: #ffffff; border-radius: 12px; border: 1px solid #e9ecef; padding: 25px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);">
-                            <h4>Этапы покупки недвижимости</h4>
-                            <p>Здесь будет отображаться информация об этапах покупки недвижимости.</p>
-                            <!-- Добавь сюда нужный контент для этапов покупки -->
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>

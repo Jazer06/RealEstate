@@ -32,26 +32,50 @@ $(document).ready(function() {
         asNavFor: '.custom-thumbs-container'
     });
 
+    $mainCarousel.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
+        $('.carousel-slide').removeAttr('tabindex');
+        $('.carousel-slide').each(function(index) {
+            if (index === nextSlide) {
+                $(this).attr('tabindex', '0');
+            } else {
+                $(this).attr('tabindex', '-1');
+            }
+        });
+    });
+
+
     const $thumbCarousel = $('.custom-thumbs-container').slick({
         slidesToShow: 3,
         slidesToScroll: 1,
         asNavFor: '.carousel-inner',
         focusOnSelect: true,
         arrows: false,
+        infinite: true, // лучше true, чтобы цикл был
+        centerMode: true, // 🔥 ВАЖНО: активный слайд по центру
+
         infinite: false,
         centerMode: false,
         variableWidth: false,
-        responsive: [
+       responsive: [
             {
                 breakpoint: 1200,
                 settings: {
-                    slidesToShow: 2
+                    slidesToShow: 3,
+                    centerMode: true
+                }
+            },
+            {
+                breakpoint: 992,
+                settings: {
+                    slidesToShow: 2,
+                    centerMode: true
                 }
             },
             {
                 breakpoint: 768,
                 settings: {
-                    slidesToShow: 1
+                    slidesToShow: 1,
+                    centerMode: true
                 }
             }
         ]

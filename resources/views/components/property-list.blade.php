@@ -1,7 +1,7 @@
 <div class="mt-6">
     <div class="row">
         @forelse ($properties as $property)
-            <div class="{{ $loop->first ? 'col-12' : 'col-6' }} mb-4">
+            <div class="{{ $loop->first ? 'col-xl-12' : 'col-sm-6' }} mb-4">
         <div class="card property-card h-100" onclick="window.location='{{ route('properties.show', $property->id) }}'">
                     <div class="card-img-container">
                         <img class="primary-img"

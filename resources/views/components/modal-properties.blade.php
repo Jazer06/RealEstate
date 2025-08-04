@@ -1,5 +1,5 @@
 <div class="modal-properties mt-4">
-    <h5 class="modal-properties-title">Последние объекты</h5>
+    <h5 class="modal-properties-title">Новые объекты</h5>
     @if ($properties->isEmpty())
         <p class="text-muted">Объекты пока не добавлены.</p>
     @else

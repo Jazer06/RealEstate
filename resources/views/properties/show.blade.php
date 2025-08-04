@@ -1,73 +1,207 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container mt-6">
-    <h1>{{ $property->title }}</h1>
+<div class="container custom-property-container mt-6">
+    <h1 class="custom-title">{{ $property->title }}</h1>
+
     <div class="row">
-        <div class="col-md-6">
-            <div class="mb-3">
-                <h5>Основное фото</h5>
-                <img src="{{ $property->image_path ? asset('storage/' . $property->image_path) : 'https://via.placeholder.com/600x400' }}" 
-                     class="img-fluid rounded" 
-                     alt="{{ $property->title }}">
-            </div>
-            @if ($property->images()->where('is_plan', true)->first())
-                <div class="mb-3">
-                    <h5>План дома</h5>
-                    <img src="{{ asset('storage/' . $property->images()->where('is_plan', true)->first()->image_path) }}" 
-                         class="img-fluid rounded" 
-                         alt="{{ $property->title }} - план дома">
-                </div>
-            @else
-                <p>План дома отсутствует.</p>
-            @endif
-            @if ($property->images()->where('is_plan', false)->count() > 0)
-                <div class="mb-3">
-                    <h5>Дополнительные фото</h5>
-                    <div class="row">
-                        @foreach ($property->images()->where('is_plan', false)->get() as $image)
-                            <div class hardcore
-                            <div class="col-md-4 mb-3">
-                                <img src="{{ asset('storage/' . $image->image_path) }}" 
-                                     class="img-fluid rounded" 
-                                     alt="{{ $property->title }} - дополнительное фото">
+        <!-- Слайдер с фото -->
+        <div class="col-md-12">
+            <div class="custom-slider-wrapper shadow-sm">
+                <!-- Большое изображение (слайдер) -->
+                <div class="custom-slider">
+                    @php
+                        $allImages = [];
+                        // Основное фото
+                        if ($property->image_path) {
+                            $allImages[] = [
+                                'url' => asset('storage/' . $property->image_path),
+                                'alt' => $property->title,
+                                'type' => 'main'
+                            ];
+                        }
+                        // План дома
+                        $planImage = $property->images()->where('is_plan', true)->first();
+                        if ($planImage) {
+                            $allImages[] = [
+                                'url' => asset('storage/' . $planImage->image_path),
+                                'alt' => $property->title . ' - план дома',
+                                'type' => 'plan'
+                            ];
+                        }
+                        // Доп. фото
+                        foreach ($property->images()->where('is_plan', false)->get() as $img) {
+                            $allImages[] = [
+                                'url' => asset('storage/' . $img->image_path),
+                                'alt' => $property->title . ' - фото',
+                                'type' => 'gallery'
+                            ];
+                        }
+                    @endphp
+
+                    @if(count($allImages) > 0)
+                        @foreach($allImages as $index => $image)
+                            <div class="custom-slide {{ $index === 0 ? 'active' : '' }}" data-index="{{ $index }}" data-type="{{ $image['type'] }}">
+                                <img src="{{ $image['url'] }}" 
+                                     alt="{{ $image['alt'] }}" 
+                                     class="img-fluid custom-slide-image">
+                                <!-- Бирка "План дома" -->
+                                @if($image['type'] === 'plan')
+                                    <div class="slide-badge">
+                                        📐 План дома
+                                    </div>
+                                @endif
                             </div>
                         @endforeach
-                    </div>
+                    @else
+                        <div class="custom-slide active">
+                            <img src="https://via.placeholder.com/600x400?text=Нет+фото" 
+                                 alt="Нет фото" 
+                                 class="img-fluid custom-slide-image">
+                        </div>
+                    @endif
                 </div>
-            @else
-                <p>Дополнительные фотографии отсутствуют.</p>
-            @endif
+
+                <!-- Миниатюры -->
+                <div class="custom-thumbnails">
+                    @foreach($allImages as $index => $image)
+                        <div class="thumb-container" data-index="{{ $index }}">
+                            @if($image['type'] === 'plan')
+                                <!-- Только для плана — рамка и бейдж -->
+                                <div class="thumb-wrapper border border-primary rounded">
+                                    <div class="thumb-badge-label bg-primary text-white">
+                                        📐 План
+                                    </div>
+                                    <div class="custom-thumb"
+                                         style="background-image: url('{{ $image['url'] }}');"
+                                         title="План дома">
+                                    </div>
+                                </div>
+                            @else
+                                <!-- Обычные фото — без рамки -->
+                                <div class="thumb-wrapper">
+                                    <div class="custom-thumb"
+                                         style="background-image: url('{{ $image['url'] }}');"
+                                         title="Фото">
+                                    </div>
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+                </div>
+            </div>
         </div>
-        <div class="col-md-6">
-            <p><strong>Цена:</strong> {{ number_format($property->price, 0, '.', ' ') }} ₽</p>
-            @if($property->area)
-                <p><strong>Площадь:</strong> {{ $property->area }} м²</p>
-            @endif
-            @if($property->rooms)
-                <p><strong>Комнаты:</strong> {{ $property->rooms }}</p>
-            @endif
-            @if($property->type)
-                <p><strong>Тип:</strong> {{ $property->type }}</p>
-            @endif
-            <p><strong>Адрес:</strong> {{ $property->address ?? 'Не указан' }}</p>
-            <p><strong>Описание:</strong> {{ $property->description ?? 'Нет описания' }}</p>
-            @auth
-                <form action="{{ route('favorites.toggle', $property->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" class="btn btn-outline-danger">
-                        @if (auth()->user()->favorites->contains($property->id))
-                            Убрать из избранного
-                        @else
-                            Добавить в избранное
-                        @endif
-                    </button>
-                </form>
-            @endauth
-            @guest
-                <p><a href="{{ route('login') }}">Войдите</a>, чтобы добавить в избранное.</p>
-            @endguest
+    </div>
+    <div class="row mt-5">
+        <div class="col-md-12">
+            <div class="custom-property-info info-card depth-card position-relative">
+
+                <!-- Кнопка "в избранное" в углу -->
+                <div class="card-footer-button"
+                     style="position: absolute; top: 0px; right: 0px; padding: 10px; z-index: 10;"
+                     onclick="event.stopPropagation();">
+                    @auth
+                        <form action="{{ route('favorites.toggle', $property->id) }}" method="POST">
+                            @csrf
+                            <button type="submit"
+                                    class="favorite-icons {{ auth()->user()->favorites->contains($property->id) ? 'favorite-added' : '' }}"
+                                    title="{{ auth()->user()->favorites->contains($property->id) ? 'Убрать из избранного' : 'Добавить в избранное' }}"
+                                    style="border: none; background: none; cursor: pointer;">
+                                <i class="bi bi-heart"></i>
+                                @if (auth()->user()->favorites->contains($property->id))
+                                    <i class="bi bi-x-lg"></i>
+                                @endif
+                            </button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}"
+                           class="favorite-icon text-muted"
+                           title="Войдите, чтобы добавить в избранное"
+                           style="display: inline-block;">
+                            <i class="bi bi-heart"></i>
+                        </a>
+                    @endauth
+                </div>
+
+                <!-- Параметры (в одну или две строки) -->
+                <div class="d-flex flex-wrap gap-3 mb-2">
+                    <!-- Цена -->
+                    <div class="d-flex align-items-center">
+                        <svg class="me-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #e74c3c;">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <path d="M16 8h-6a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h6"></path>
+                            <path d="M16 10v4"></path>
+                        </svg>
+                        <strong>Цена:</strong>
+                        <span class="price-highlight ms-1">{{ number_format($property->price, 0, '.', ' ') }} ₽</span>
+                    </div>
+
+                    <!-- Площадь -->
+                    @if($property->area)
+                        <div class="d-flex align-items-center">
+                            <svg class="me-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #3498db;">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                                <line x1="3" y1="9" x2="21" y2="9"></line>
+                                <line x1="9" y1="3" x2="9" y2="21"></line>
+                            </svg>
+                            <strong>Площадь:</strong>
+                            <span class="ms-1">{{ $property->area }} м²</span>
+                        </div>
+                    @endif
+
+                    <!-- Комнаты -->
+                    @if($property->rooms)
+                        <div class="d-flex align-items-center">
+                            <svg class="me-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #2ecc71;">
+                                <path d="M2 12h20"></path>
+                                <path d="M2 18h20"></path>
+                                <path d="M2 6h20"></path>
+                                <path d="M6 6v12"></path>
+                                <path d="M18 6v12"></path>
+                            </svg>
+                            <strong>Комнаты:</strong>
+                            <span class="ms-1">{{ $property->rooms }}</span>
+                        </div>
+                    @endif
+
+                    <!-- Тип -->
+                    @if($property->type)
+                        <div class="d-flex align-items-center">
+                            <svg class="me-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #9b59b6;">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                                <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                            </svg>
+                            <strong>Тип:</strong>
+                            <span class="ms-1">{{ $property->type }}</span>
+                        </div>
+                    @endif
+                </div>
+
+                <!-- Адрес — отдельная строка -->
+                <div class="d-flex align-items-center mb-2">
+                    <svg class="me-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #f39c12;">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <strong>Адрес:</strong>
+                    <span class="ms-1 text-truncate" style="max-width: 100%; word-break: break-word;">
+                        {{ $property->address ?? 'Не указан' }}
+                    </span>
+                </div>
+
+                <!-- Описание -->
+                <div class="d-flex align-items-start">
+                    <svg class="me-2 mt-1" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #7f8c8d;">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                        <polyline points="14 2 14 8 20 8"></polyline>
+                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                        <polyline points="10 9 9 9 8 9"></polyline>
+                    </svg>
+                    <strong>Описание:</strong>
+                    <span class="ms-1" style="white-space: pre-line;">{{ $property->description ?? 'Нет описания' }}</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-@endsection

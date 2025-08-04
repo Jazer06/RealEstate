@@ -8,39 +8,38 @@
     <meta name="author" content="Sofiarealty">
     <title>{{ config('app.name', 'Sofiarealty') }} | Купить квартиру в Дагестане</title>
 
-    <!-- Подключение CSS -->
+    <!-- Slick CSS -->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
+
+    <!-- Твой остальной CSS -->
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/body.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
     <link rel="stylesheet" href="{{ asset('css/nouislider.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/slick.min.css') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css">
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/show-card.css') }}">
 
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
-
-    <!-- Модальное окно настроек профиля -->
-    @include('profile.settings-modal', ['user' => auth()->user()])
-
 </head>
 <body>
     @include('layouts.header')
     @yield('carousel')
-        <div class="container mt-6">
-            @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
-            @endif
-            @yield('content')
-        </div>
-
+    <div class="container mt-6">
+        @if (session('success'))
+            <div class="alert alert-success">{{ session('success') }}</div>
+        @endif
+        @yield('content')
+    </div>
     @include('layouts.footer')
-    <a href="tel:{{ $phoneNumber ?? '+79535553332' }}"
-       class="btn-float-phone phone-bounce"
-       aria-label="Позвонить">
+    @auth
+        @include('profile.settings-modal', ['user' => auth()->user()])
+    @endauth
+
+    <a href="tel:{{ config('app.phone_number', '+79535553332') }}" class="btn-float-phone phone-bounce" aria-label="Позвонить">
         <i class="bi bi-telephone-fill"></i>
     </a>
     <button id="backToTop" class="btn-float-up" aria-label="Наверх">
@@ -53,14 +52,12 @@
             maxPrice: {{ isset($maxPrice) ? $maxPrice : 100000000 }}
         };
     </script>
-
-    <!-- Подключение скриптов -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
-    <script src="{{ asset('js/slick.min.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.min.js"></script>
     <script src="{{ asset('js/nouislider.min.js') }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
-
+    <script src="{{ asset('js/show-card.js') }}"></script>
     @yield('scripts')
 </body>
 </html>

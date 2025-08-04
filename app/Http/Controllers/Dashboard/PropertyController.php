@@ -16,7 +16,7 @@ use App\Models\PurchaseRequest;
 class PropertyController extends Controller
 {
     public function index()
-    {   var_dump('123');die;
+    {  
         $properties = Property::where('user_id', Auth::id())->paginate(5);
         $sliders = Slider::all();
         $contacts = Contact::paginate(5);
