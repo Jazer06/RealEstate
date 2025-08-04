@@ -3,15 +3,30 @@
 namespace App\Http\Controllers;
 
 use App\Models\Contact;
+use App\Models\WhatsAppSender;
 use Illuminate\Http\Request;
 
+/**
+ * Контроллер для обработки заявок и отправки уведомлений в WhatsApp.
+ */
 class ContactController extends Controller
 {
+    /**
+     * Отображает форму для создания новой заявки.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
-        return view('welcome'); // Только форма обратной связи
+        return view('welcome');
     }
 
+    /**
+     * Обрабатывает и сохраняет данные формы, отправляет уведомление в WhatsApp.
+     *
+     * @param \Illuminate\Http\Request $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $request->validate([
@@ -26,7 +41,7 @@ class ContactController extends Controller
                 'required',
                 'string',
                 'max:20',
-                'regex:/^[\d\+\-\s\(\)]{6,20}$/', // разрешаем формат, но не требуем жёстко
+                'regex:/^[\d\+\-\s\(\)]{6,20}$/',
             ],
             'description' => 'required|string|max:100',
         ], [
@@ -35,36 +50,54 @@ class ContactController extends Controller
             'phone.regex' => 'Введите корректный номер телефона.',
         ]);
 
-        // Нормализуем телефон
+        // Нормализация телефона
         $rawPhone = $request->input('phone');
-        $digits = preg_replace('/\D/', '', $rawPhone); // убираем всё, кроме цифр
+        $digits = preg_replace('/\D/', '', $rawPhone);
 
-        // Если начинается с 8 → заменяем на 7
         if (strlen($digits) === 11 && $digits[0] === '8') {
             $digits = '7' . substr($digits, 1);
-        }
-
-        // Если 10 цифр и начинается с 967 → значит, +7 пропущен
-        if (strlen($digits) === 10) {
+        } elseif (strlen($digits) === 10) {
             $digits = '7' . $digits;
         }
 
-        // Проверим, что теперь 11 цифр и начинается с 7
         if (strlen($digits) !== 11 || $digits[0] !== '7') {
             return back()->withErrors(['phone' => 'Некорректный номер телефона.'])->withInput();
         }
 
-        // Форматируем для хранения: +7 (967) 004-86-98
         $formattedPhone = "+7 ({$digits[1]}{$digits[2]}{$digits[3]}) {$digits[4]}{$digits[5]}{$digits[6]}-{$digits[7]}{$digits[8]}-{$digits[9]}{$digits[10]}";
 
-        // Сохраняем
-        $contact = new Contact();
-        $contact->name = $request->name;
-        $contact->phone = $formattedPhone; // или храни $digits, если хочешь чистые цифры
-        $contact->description = $request->description;
-        $contact->save();
+        // Сохраняем заявку
+        $contact = Contact::create([
+            'name' => $request->name,
+            'phone' => $formattedPhone,
+            'description' => $request->description
+        ]);
+
+        // Отправляем в WhatsApp
+        $this->sendToWhatsAppGroup($contact);
 
         return back()->with('success', 'Заявка успешно отправлена!');
+    }
 
+    /**
+     * Отправляет уведомление о новой заявке в WhatsApp-группу.
+     *
+     * @param \App\Models\Contact $contact
+     * @return void
+     */
+    private function sendToWhatsAppGroup(Contact $contact)
+    {
+        $message = "📢 *Новая заявка-Свяжитесь с нами!*\n"
+                 . "👤 *Имя:* {$contact->name}\n"
+                 . "📞 *Телефон:* {$contact->phone}\n"
+                 . "✉️ *Описание:* {$contact->description}\n\n"
+                 . "🕒 " . now()->format('d.m.Y H:i');
+
+        $whatsAppSender = new WhatsAppSender();
+        $success = $whatsAppSender->send($message);
+
+        if (!$success) {
+            return back()->withErrors(['whatsapp' => 'Не удалось отправить сообщение в WhatsApp.'])->withInput();
+        }
     }
 }

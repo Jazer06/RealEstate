@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public function index()
-    {
+    {  
         $properties = Property::where('user_id', Auth::id())->paginate(5);
         $sliders = Slider::paginate(5);
         $contacts = Contact::paginate(5);
