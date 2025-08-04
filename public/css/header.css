@@ -1,3 +1,7 @@
+html {
+    scroll-behavior: smooth;
+}
+
 /* === Основные стили навбара === */
 .navbar {
     background: rgba(255, 255, 255, 0.1); /* Прозрачный белый */
@@ -44,7 +48,6 @@
 .navbar:hover .phone-icon {
     color: #000 !important;
 }
-
 
 
 .navbar:hover .navbar-toggler-icon {
@@ -232,7 +235,7 @@
 
 .iphone-button-black {
     display: inline-block;
-    padding: 10px 20px;
+    padding: 8px 15px;
     background-color: transparent;
     color: black;
     text-decoration: none;
@@ -241,13 +244,11 @@
     font-family: 'Roboto', sans-serif;
     font-size: 16px;
     font-weight: 500;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     transition: transform 0.2s, box-shadow 0.2s;
 }
 
 .iphone-button-black:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    transform: translateY(-1px);
 }
 
 /* === Стеклянный бордер (без изменений) === */
@@ -296,6 +297,86 @@
         inset 0 1px 0 rgba(255, 255, 255, 0.15);
 }
 
+
+    /* === КНОПКА ТЕЛЕФОНА (справа) === */
+    .btn-float-phone {
+        position: fixed;
+        width: 50px;
+        height: 50px;
+        left: auto;
+        right: 20px;
+        bottom: 60px;
+        z-index: 1000;
+        background-color: red;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s ease;
+    }
+
+    .btn-float-phone i {
+        font-size: 1.5rem;
+    }
+
+    /* Анимация прыжка */
+    .btn-float-phone.phone-bounce {
+        animation: bounce 3s ease-in-out infinite;
+    }
+
+    @keyframes bounce {
+        0%, 100% {
+            transform: translateY(0);
+        }
+        50% {
+            transform: translateY(-8px);
+        }
+    }
+
+
+    /* === КНОПКА "НАВЕРХ" (слева) === */
+    .btn-float-up {
+        position: fixed;
+        width: 50px;
+        height: 50px;
+        left: 20px;
+        right: auto;
+        bottom: 200px;
+        z-index: 1000;
+        background: rgb(255 255 255 / 43%);
+        backdrop-filter: blur(12px);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        color: black;
+        pointer-events: auto;
+        transition: opacity 0.3s ease;
+    }
+
+    .btn-float-up.show {
+        opacity: 1;
+    }
+
+    .btn-float-up i {
+        font-size: 1.5rem;
+    }
+
+    /* Скрытие через JS: display управляется классом */
+    .btn-float-up:not(.show) {
+        display: none;
+    }
+
+    .btn-float-up.show {
+        display: flex;
+    }
+
 /* === Отключение адаптивного сворачивания (без изменений) === */
 @media (max-width: 991px) {
     .navbar-collapse {
@@ -305,8 +386,323 @@
         flex-direction: row;
         margin-left: auto;
     }
+    .navbar-brand {
+
+    color: rgba(0, 0, 0, 0.7);
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
 }
 
 .border-to{
     border-top: 1px solid rgb(132 126 126 / 60%);
 }
+
+/* === Скрытие пунктов навигации в навбаре при md и ниже === */
+@media (max-width: 768px) {
+    .navbar .main-nav-links {
+        display: none; /* Скрываем "Объекты недвижимости", "Услуги", "Контакты" */
+    }
+}
+
+/* === Стили для модального окна === */
+#menuModal .modal-content {
+    background: rgb(0 0 0 / 55%);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+}
+
+#menuModal .modal-header {
+    background: rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+#menuModal .modal-title {
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+}
+
+#menuModal .btn-close svg {
+    fill: #dc3545; /* Красный крестик */
+}
+
+#menuModal .list-group-item {
+    background: transparent;
+    border: none;
+    padding: 10px 15px;
+}
+
+#menuModal .text-decoration-none {
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    transition: color 0.3s ease;
+}
+
+#menuModal .text-decoration-none:hover {
+    color: #4b0082;
+}
+
+#menuModal .btn-link {
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    padding: 0;
+}
+
+#menuModal .btn-link:hover {
+    color: #4b0082;
+}
+
+/* === Dropdown в модалке === */
+#menuModal .dropdown-toggle::after {
+    display: none !important;
+}
+
+#menuModal .dropdown-menu {
+    background: white;
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    min-width: 200px;
+    margin-top: 10px;
+}
+
+#menuModal .dropdown-item {
+    background: transparent;
+    color: #333;
+    font-family: 'Roboto', sans-serif;
+    font-size: 12px;
+    padding: 10px 15px;
+}
+
+#menuModal .dropdown-item:hover {
+    background: rgba(255, 255, 255, 0.2);
+    color: #4b0082;
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 2px 8px rgba(0, 0, 0, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+#menuModal .dropdown-item:hover::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 3px;
+    background: linear-gradient(to bottom, #4b0082, #8a6cff);
+    border-radius: 0 3px 3px 0;
+    box-shadow: 0 0 10px rgba(75, 0, 130, 0.3);
+}
+
+/* === Стили для мини-футера в модалке === */
+#menuModal .modal-footer {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding: 1.5rem 1rem;
+}
+
+#menuModal .footer-logo {
+    max-width: 120px;
+    transition: transform 0.3s ease;
+}
+
+#menuModal .footer-logo:hover {
+    transform: scale(1.05);
+}
+
+#menuModal .footer-mission {
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    margin-bottom: 0;
+}
+
+#menuModal .footer-title {
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-bottom: 0.75rem;
+}
+
+#menuModal .modal-footer p {
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+}
+
+#menuModal .modal-footer a {
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.85rem;
+    transition: color 0.3s ease;
+}
+
+#menuModal .modal-footer a:hover {
+    color: #4b0082;
+}
+
+#menuModal .list-unstyled {
+    padding: 0;
+    margin: 0;
+}
+
+#menuModal .list-unstyled li {
+    margin-bottom: 0.5rem;
+}
+
+/* === Стили для объектов в модалке === */
+#menuModal .modal-properties {
+    margin-top: 1.5rem;
+}
+
+#menuModal .modal-properties-title {
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+#menuModal .modal-properties-grid {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+}
+
+#menuModal .modal-properties-grid::-webkit-scrollbar {
+    height: 6px;
+}
+
+#menuModal .modal-properties-grid::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+#menuModal .modal-property-card {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    width: 180px;
+    flex: 0 0 auto;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#menuModal .modal-property-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+#menuModal .modal-property-img-container {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    overflow: hidden;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+#menuModal .modal-property-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#menuModal .modal-property-favorite {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    padding: 5px;
+}
+
+#menuModal .favorite-icons {
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+#menuModal .favorite-icons.favorite-added {
+    color: #e74c3c;
+}
+
+#menuModal .favorite-icons .bi-x-lg {
+    display: none;
+}
+
+#menuModal .favorite-icons.favorite-added .bi-heart {
+    display: none;
+}
+
+#menuModal .favorite-icons.favorite-added .bi-x-lg {
+    display: inline;
+}
+
+#menuModal .favorite-icon {
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+#menuModal .modal-property-body {
+    padding: 0.75rem;
+}
+
+#menuModal .modal-property-title {
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin: 0;
+    line-height: 1.2;
+}
+
+#menuModal .modal-property-price {
+    color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.85rem;
+    margin: 0.25rem 0 0;
+}
+
+#menuModal .text-muted {
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.85rem;
+}
+
+@media (max-width: 576px) {
+    #menuModal .modal-footer .row {
+        text-align: center;
+    }
+    #menuModal .modal-footer .col-md-6 {
+        margin-bottom: 1rem;
+    }
+    #menuModal .modal-property-card {
+        width: 150px;
+    }
+    #menuModal .modal-property-img-container {
+        height: 80px;
+    }
+}
+
+/* === Анимация для dropdown === */
+@keyframes slideIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+

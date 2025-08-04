@@ -14,7 +14,8 @@
                 @include('dashboard.partials.home-tab')
                 @include('dashboard.partials.properties-tab')
                 @include('dashboard.partials.contacts-tab')
-                @include('dashboard.partials.purchase-requests-tab')
+                @include('dashboard.partials.purchase-requests-tab', ['purchaseRequests' => $purchaseRequests])
+
                 @include('dashboard.partials.telephone-tab')
                 @include('dashboard.partials.email-tab')
                 @include('dashboard.partials.banner-tab')

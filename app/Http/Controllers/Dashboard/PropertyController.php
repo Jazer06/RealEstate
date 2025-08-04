@@ -10,15 +10,19 @@ use App\Models\Contact;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\PurchaseRequest;
+
 
 class PropertyController extends Controller
 {
     public function index()
-    {
+    {   var_dump('123');die;
         $properties = Property::where('user_id', Auth::id())->paginate(5);
         $sliders = Slider::all();
-         $contacts = Contact::paginate(5);
-        return view('dashboard.index', compact('properties', 'sliders','contacts'));
+        $contacts = Contact::paginate(5);
+        $purchaseRequests = PurchaseRequest::with(['user', 'property'])->paginate(5);
+
+        return view('dashboard.index', compact('properties', 'sliders', 'contacts', 'purchaseRequests'));
     }
 
     public function create()
