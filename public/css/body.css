@@ -783,7 +783,7 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
 }
 
 .text-feoil {
-    background: linear-gradient(90deg, #b19cd9, #8a2be2, #b19cd9);
+    background-color: #7d53c5;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
