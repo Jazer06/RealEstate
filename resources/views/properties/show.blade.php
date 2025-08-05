@@ -1,14 +1,12 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container custom-property-container mt-6">
-    <h1 class="custom-title">{{ $property->title }}</h1>
-
+<div class="container custom-property-container mt-9">
+    <h1 class="custom-title mt-5">{{ $property->title }}</h1>
     <div class="row">
         <!-- Слайдер с фото -->
         <div class="col-md-12">
             <div class="custom-slider-wrapper shadow-sm">
-                <!-- Большое изображение (слайдер) -->
                 <div class="custom-slider">
                     @php
                         $allImages = [];
