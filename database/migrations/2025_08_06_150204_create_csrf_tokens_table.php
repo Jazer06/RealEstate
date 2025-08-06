@@ -8,17 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('contacts', function (Blueprint $table) {
+        Schema::create('csrf_tokens', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('phone');
-            $table->text('description');
-            $table->timestamps();
+            $table->string('token', 100)->unique();
+            $table->timestamp('expires_at');
+            $table->timestamps(); // created_at и updated_at
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('contacts');
+        Schema::dropIfExists('csrf_tokens');
     }
 };

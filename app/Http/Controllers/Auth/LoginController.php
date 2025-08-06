@@ -1,9 +1,9 @@
 <?php
-// app/Http/Controllers/Auth/LoginController.php
 
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Services\CsrfService;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 
@@ -11,23 +11,21 @@ class LoginController extends Controller
 {
     use AuthenticatesUsers;
 
-    // Не указываем redirectTo напрямую
-    // protected $redirectTo = '/dashboard'; — закомментируй или удали
+    protected $csrfService;
 
-    public function __construct()
+    public function __construct(CsrfService $csrfService)
     {
         $this->middleware('guest')->except('logout');
+        $this->csrfService = $csrfService;
     }
 
-    /**
-     * Переопределяем метод authenticated(), чтобы сделать редирект на основе роли
-     */
+    public function showLoginForm()
+    {
+        $token = $this->csrfService->generateToken();
+        return view('auth.login', ['custom_csrf_token' => $token]);
+    }
     protected function authenticated(Request $request, $user)
     {
-        if ($user->isAdmin()) {
-            return redirect()->route('dashboard');
-        }
-
-    return redirect()->route('home');
+        return $user->isAdmin() ? redirect()->route('dashboard') : redirect()->route('home');
     }
 }

@@ -1,19 +1,20 @@
 @extends('layouts.auth')
+
 @section('content')
 <div class="container mt-4">
     <div class="row">
-        <div class="col-sm-7 col-md-5 ">
+        <div class="col-sm-7 col-md-5">
             <div class="login-form">
                 <h1 class="login-title">Войти в личный <br> кабинет</h1>
                 <p class="login-subtitle">Пожалуйста, заполните поля ниже для входа в систему</p>
 
                 <form method="POST" action="{{ route('login') }}" class="form">
-                    @csrf
+                    <input type="hidden" name="custom_csrf_token" value="{{ $custom_csrf_token }}">
 
                     <div class="mb-3">
                         <label for="email" class="form-label text-left text-dark">Адрес электронной почты</label>
                         <input id="email" type="email" class="form-control custom-input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
-                        @error('email')
+ @error('email')
                             <span class="invalid-feedback">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -49,7 +50,7 @@
                 </form>
             </div>
         </div>
-        <div class=" col-sm-5 col-md-7 gradient-bg d-flex justify-content-center align-items-center">
+        <div class="col-sm-5 col-md-7 gradient-bg d-flex justify-content-center align-items-center">
             <img src="{{ asset('storage/images/home_login.webp') }}" 
                  alt="Home Login Image" 
                  class="img-fluid d-none d-sm-block" 

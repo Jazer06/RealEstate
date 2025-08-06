@@ -1,4 +1,3 @@
-
 <?php
 
 use Illuminate\Support\Facades\Route;
@@ -12,9 +11,20 @@ use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\PublicPropertyController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\ForgotPasswordController;
 
-Auth::routes();
+// Переопределяем маршруты
 
+Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
+Route::post('/register', [RegisterController::class, 'register'])->middleware('custom.csrf');
+Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [LoginController::class, 'login'])->middleware('custom.csrf');
+Route::get('/password/reset', [ForgotPasswordController::class, 'showLinkRequestForm'])->name('password.request');
+Route::post('/password/email', [ForgotPasswordController::class, 'sendResetLinkEmail'])->middleware('custom.csrf');
+
+Auth::routes(['register' => false, 'login' => false,'reset'=> true, ] ); 
 // Главная страница для всех
 Route::get('/', [HomeController::class, 'index'])->name('home');
 

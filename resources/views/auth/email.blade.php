@@ -4,7 +4,6 @@
 <div class="container mt-5">
     <div class="row justify-content-center">
         <div class="col-md-4">
-            <!-- Ваша форма восстановления пароля -->
             <div class="auth-form">
                 <h2 class="login-title mb-4">Восстановить пароль</h2>
                 <p class="login-subtitle mb-4">Введите email, чтобы сбросить пароль</p>
@@ -16,7 +15,7 @@
                 @endif
 
                 <form method="POST" action="{{ route('password.email') }}">
-                    @csrf
+                    <input type="hidden" name="custom_csrf_token" value="{{ $custom_csrf_token }}">
 
                     <div class="mb-3">
                         <label for="email" class="form-label text-left text-dark">Email</label>
@@ -36,7 +35,7 @@
                 </form>
             </div>
         </div>
-        <div class=" col-sm-5 col-md-7 gradient-bg d-flex justify-content-center align-items-center">
+        <div class="col-sm-5 col-md-7 gradient-bg d-flex justify-content-center align-items-center">
             <img src="{{ asset('storage/images/home_reset.webp') }}" 
                  alt="Home Login Image" 
                  class="img-fluid d-none d-sm-block" 

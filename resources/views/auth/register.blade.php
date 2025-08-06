@@ -3,13 +3,13 @@
 @section('content')
 <div class="container mt-4">
     <div class="row justify-content-center">
-        <div class="col-sm-7 col-md-5 ">
+        <div class="col-sm-7 col-md-5">
             <div class="auth-form">
                 <h2 class="login-title mb-4">Создать аккаунт</h2>
                 <p class="login-subtitle mb-4">Заполните поля ниже, чтобы зарегистрироваться</p>
 
                 <form method="POST" action="{{ route('register') }}">
-                    @csrf
+                    <input type="hidden" name="custom_csrf_token" value="{{ $custom_csrf_token }}">
 
                     <div class="mb-3">
                         <label for="name" class="form-label text-left text-dark">Имя</label>
@@ -60,7 +60,7 @@
                 </form>
             </div>
         </div>
-        <div class=" col-sm-5 col-md-7 gradient-bg d-flex justify-content-center align-items-center">
+        <div class="col-sm-5 col-md-7 gradient-bg d-flex justify-content-center align-items-center">
             <img src="{{ asset('storage/images/home_registration.webp') }}" 
                  alt="Home Login Image" 
                  class="img-fluid d-none d-sm-block" 
