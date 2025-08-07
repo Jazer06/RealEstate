@@ -12,11 +12,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\PurchaseRequest;
 
-
 class PropertyController extends Controller
 {
     public function index()
-    {  
+    {
         $properties = Property::where('user_id', Auth::id())->paginate(5);
         $sliders = Slider::all();
         $contacts = Contact::paginate(5);
@@ -35,26 +34,28 @@ class PropertyController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|numeric|max:30000000', 
             'address' => 'nullable|string|max:255',
             'area' => 'nullable|numeric|min:0',
             'rooms' => 'nullable|integer|min:0',
             'type' => 'nullable|string|in:квартира,дом,коммерческая',
-            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'plan_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120', 
+            'plan_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'additional_images' => 'nullable|array|max:5',
-            'additional_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'additional_images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
 
         $property = new Property($validated);
         $property->user_id = Auth::id();
 
+        // Главное фото
         if ($request->hasFile('image_path')) {
             $property->image_path = $request->file('image_path')->store('properties', 'public');
         }
 
         $property->save();
 
+        // План дома
         if ($request->hasFile('plan_image')) {
             $path = $request->file('plan_image')->store('property_images', 'public');
             PropertyImage::create([
@@ -64,9 +65,9 @@ class PropertyController extends Controller
             ]);
         }
 
+        // Доп. изображения
         if ($request->hasFile('additional_images')) {
-            $additionalImages = array_slice($request->file('additional_images'), 0, 5);
-            foreach ($additionalImages as $image) {
+            foreach (array_slice($request->file('additional_images'), 0, 5) as $image) {
                 $path = $image->store('property_images', 'public');
                 PropertyImage::create([
                     'property_id' => $property->id,
@@ -76,7 +77,7 @@ class PropertyController extends Controller
             }
         }
 
-        return redirect()->route('dashboard.properties.index')->with('success', 'Объект добавлен!');
+        return redirect()->route('dashboard.properties.index')->with('success', 'Объект успешно добавлен!');
     }
 
     public function show(Property $property)
@@ -97,19 +98,20 @@ class PropertyController extends Controller
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'price' => 'required|numeric|min:0',
+            'price' => 'required|numeric|max:30000000', 
             'address' => 'nullable|string|max:255',
             'area' => 'nullable|numeric|min:0',
             'rooms' => 'nullable|integer|min:0',
             'type' => 'nullable|string|in:квартира,дом,коммерческая',
-            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'plan_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'plan_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'additional_images' => 'nullable|array|max:5',
-            'additional_images.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'additional_images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'delete_images' => 'nullable|array',
             'delete_images.*' => 'integer|exists:property_images,id',
         ]);
 
+        // Обновление главного фото
         if ($request->hasFile('image_path')) {
             if ($property->image_path) {
                 Storage::disk('public')->delete($property->image_path);
@@ -119,12 +121,14 @@ class PropertyController extends Controller
 
         $property->update($validated);
 
+        // Обновление плана дома
         if ($request->hasFile('plan_image')) {
             $oldPlan = $property->images()->where('is_plan', true)->first();
             if ($oldPlan) {
                 Storage::disk('public')->delete($oldPlan->image_path);
                 $oldPlan->delete();
             }
+
             $path = $request->file('plan_image')->store('property_images', 'public');
             PropertyImage::create([
                 'property_id' => $property->id,
@@ -133,20 +137,26 @@ class PropertyController extends Controller
             ]);
         }
 
+        // Удаление выбранных изображений
         if ($request->has('delete_images')) {
-            $imagesToDelete = $property->images()->where('is_plan', false)
+            $imagesToDelete = $property->images()
+                ->where('is_plan', false)
                 ->whereIn('id', $request->input('delete_images'))
                 ->get();
+
             foreach ($imagesToDelete as $image) {
                 Storage::disk('public')->delete($image->image_path);
                 $image->delete();
             }
         }
 
+        // Добавление новых изображений (лимит 5)
         if ($request->hasFile('additional_images')) {
-            $currentImagesCount = $property->images()->where('is_plan', false)->count();
-            $availableSlots = 5 - $currentImagesCount;
+            $currentCount = $property->images()->where('is_plan', false)->count();
+            $availableSlots = 5 - $currentCount;
+
             $newImages = array_slice($request->file('additional_images'), 0, $availableSlots);
+
             foreach ($newImages as $image) {
                 $path = $image->store('property_images', 'public');
                 PropertyImage::create([
@@ -157,7 +167,7 @@ class PropertyController extends Controller
             }
         }
 
-        return redirect()->route('dashboard.properties.index')->with('success', 'Объект обновлён!');
+        return redirect()->route('dashboard.properties.index')->with('success', 'Объект успешно обновлён!');
     }
 
     public function destroy(Property $property)
@@ -171,10 +181,11 @@ class PropertyController extends Controller
         foreach ($property->images as $image) {
             Storage::disk('public')->delete($image->image_path);
         }
-        $property->images()->delete();
 
+        $property->images()->delete();
         $property->delete();
-        return redirect()->route('dashboard.properties.index')->with('success', 'Объект удалён!');
+
+        return redirect()->route('dashboard.properties.index')->with('success', 'Объект успешно удалён!');
     }
 
     public function contacts()
@@ -185,6 +196,4 @@ class PropertyController extends Controller
 
         return view('dashboard.index', compact('contacts', 'properties', 'sliders'));
     }
-
-
 }

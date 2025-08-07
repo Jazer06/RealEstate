@@ -126,8 +126,9 @@ body {
 
 .custom-thumbs-container .slick-track {
     display: flex !important;
-    gap: 20px;
+    gap: 15px;
     align-items: center;
+    left: -35px;
 
 }
 
@@ -703,12 +704,11 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     border-radius: 12px;
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
     position: relative;
-    top: -3vw;
 }
 
 .gallery-image-1 { clip-path: polygon(100% 15%, 0 0, 0 85%, 100% 100%); }
-.gallery-image-2 { clip-path: polygon(50% 100%, 0% 100%, 0% 0%, 100% 0%, 100% 62%); }
-.gallery-image-3 { clip-path: polygon(50% 0%, 100% 0, 100% 100%, 0 100%, 0% 38%); }
+.gallery-image-2 { clip-path: polygon(0 0, 100% 0, 100% 60%, 50% 100%, 0 100%); }
+.gallery-image-3 { clip-path: polygon(50% 0, 100% 0, 100% 100%, 0 100%, 0 50%); }
 .gallery-image-4 { clip-path: polygon(0 15%, 100% 0, 100% 85%, 0 100%); }
 
 .gallery-offset-banner img {

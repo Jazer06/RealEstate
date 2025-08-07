@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Storage;
 
 class ProfileController extends Controller
 {
@@ -22,11 +23,11 @@ class ProfileController extends Controller
         return view('profile', compact('user', 'favorites'));
     }
 
-    public function update(Request $request)
+  public function update(Request $request)
     {
         $user = Auth::user();
-
-        // Валидация и обновление
+    
+        // Валидация
         $validated = $request->validate([
             'name' => 'sometimes|required|string|max:255',
             'email' => [
@@ -55,12 +56,12 @@ class ProfileController extends Controller
             'new_password.confirmed' => 'Пароли не совпадают.',
             'new_password_confirmation.required' => 'Подтверждение пароля обязательно.',
         ]);
-
-        // Проверка, что новый пароль отличается от текущего
+    
+        // Проверка нового пароля
         if ($request->filled('new_password') && Hash::check($request->new_password, $user->password)) {
             return back()->withErrors(['new_password' => 'Новый пароль должен отличаться от текущего.'])->withInput($request->except(['new_password', 'new_password_confirmation']));
         }
-
+    
         // Обработка телефона
         if ($request->filled('phone')) {
             $cleanPhone = preg_replace('/[^\d]/', '', $request->phone);
@@ -70,25 +71,29 @@ class ProfileController extends Controller
                 $validated['phone'] = null;
             }
         }
-
+    
         // Обработка аватара
         if ($request->hasFile('avatar')) {
-            if ($user->avatar && file_exists(storage_path('app/public/' . $user->avatar))) {
-                unlink(storage_path('app/public/' . $user->avatar));
+            // Удаление старого файла, если есть
+            if ($user->avatar && Storage::disk('public')->exists($user->avatar)) {
+                Storage::disk('public')->delete($user->avatar);
             }
+    
             $image = $request->file('avatar');
             $imageName = time() . '_' . $image->getClientOriginalName();
-            $validated['avatar'] = $image->storeAs('avatars', $imageName, 'public');
+            $imagePath = $image->storeAs('avatars', $imageName, 'public');
+    
+            $validated['avatar'] = $imagePath; // Сохраняем относительный путь
         }
-
-        // Обновление пароля, если передан
+    
+        // Обработка нового пароля
         if ($request->filled('new_password')) {
             $validated['password'] = Hash::make($request->new_password);
         }
-
-        // Обновляем только заполненные поля
+    
+        // Обновляем данные пользователя
         $user->update(array_filter($validated));
-
+    
         return back()->with('success', 'Профиль обновлён!');
     }
 }

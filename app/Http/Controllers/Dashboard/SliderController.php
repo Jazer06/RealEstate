@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Slider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class SliderController extends Controller
 {
@@ -27,32 +28,25 @@ class SliderController extends Controller
             'subtitle' => 'nullable|string|max:255',
             'button_text' => 'nullable|string|max:255',
             'button_link' => 'nullable|url|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         $imagePath = null;
+
         if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $imagePath = $image->storeAs('images/sliders', $imageName, 'public');
+            $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
+            $imagePath = $request->file('image')->storeAs('images/sliders', $imageName, 'public');
         }
 
         Slider::create([
-            'title' => $validated['title'],
-            'subtitle' => $validated['subtitle'],
-            'button_text' => $validated['button_text'],
-            'button_link' => $validated['button_link'],
+            'title' => $validated['title'] ?? null,
+            'subtitle' => $validated['subtitle'] ?? null,
+            'button_text' => $validated['button_text'] ?? null,
+            'button_link' => $validated['button_link'] ?? null,
             'image_path' => $imagePath,
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Слайд добавлен!');
-    }
-
-    public function edit(Slider $slider)
-    {
-        $this->authorize('update', $slider);
-
-        return view('dashboard.sliders.edit', compact('slider'));
     }
 
     public function update(Request $request, Slider $slider)
@@ -64,38 +58,42 @@ class SliderController extends Controller
             'subtitle' => 'nullable|string|max:255',
             'button_text' => 'nullable|string|max:255',
             'button_link' => 'nullable|url|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
         $imagePath = $slider->image_path;
+
         if ($request->hasFile('image')) {
-            // Удаляем старую картинку, если она есть
-            if ($slider->image_path && file_exists(storage_path('app/public/' . $slider->image_path))) {
-                unlink(storage_path('app/public/' . $slider->image_path));
+            // Удаление старого файла, если есть
+            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
             }
-            $image = $request->file('image');
-            $imageName = time() . '_' . $image->getClientOriginalName();
-            $imagePath = $image->storeAs('images/sliders', $imageName, 'public');
+
+            $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
+            $imagePath = $request->file('image')->storeAs('images/sliders', $imageName, 'public');
         }
 
         $slider->update([
-            'title' => $validated['title'],
-            'subtitle' => $validated['subtitle'],
-            'button_text' => $validated['button_text'],
-            'button_link' => $validated['button_link'],
+            'title' => $validated['title'] ?? null,
+            'subtitle' => $validated['subtitle'] ?? null,
+            'button_text' => $validated['button_text'] ?? null,
+            'button_link' => $validated['button_link'] ?? null,
             'image_path' => $imagePath,
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Слайд обновлен!');
+        return redirect()->route('dashboard')->with('success', 'Слайд обновлён!');
     }
 
     public function destroy(Slider $slider)
     {
         $this->authorize('delete', $slider);
-        if ($slider->image_path && file_exists(storage_path('app/public/' . $slider->image_path))) {
-            unlink(storage_path('app/public/' . $slider->image_path));
+
+        if ($slider->image_path && Storage::disk('public')->exists($slider->image_path)) {
+            Storage::disk('public')->delete($slider->image_path);
         }
+
         $slider->delete();
-        return redirect()->route('dashboard')->with('success', 'Слайд удален!');
+
+        return redirect()->route('dashboard')->with('success', 'Слайд удалён!');
     }
 }

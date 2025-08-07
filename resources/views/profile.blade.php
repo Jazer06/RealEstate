@@ -12,7 +12,7 @@
                         <div class="avatar-container" style="position: relative; display: inline-block;">
                             @if (auth()->user()->avatar)
                               <div class="avatar-wrapper">
-                                <img src="{{ asset('storage/' . auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}" class="rounded-circle avatar-img" style="width: 150px; height: 150px; object-fit: cover; cursor: pointer;" onclick="document.getElementById('avatarInput').click();">
+                                <img src="{{ Storage::url(auth()->user()->avatar) }}" alt="{{ auth()->user()->name }}" class="rounded-circle avatar-img" style="width: 150px; height: 150px; object-fit: cover; cursor: pointer;" onclick="document.getElementById('avatarInput').click();">
                               </div>
                             @else
                                 <div class="avatar-wrapper" style="cursor: pointer;" onclick="document.getElementById('avatarInput').click();">

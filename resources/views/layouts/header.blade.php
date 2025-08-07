@@ -14,10 +14,17 @@
                 </a>
                 <div class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                        @if (Auth::user()->avatar)
-                            <img src="{{ asset('storage/' . Auth::user()->avatar) }}" alt="{{ Auth::user()->name }}" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;">
+                        @if (Auth::check() && Auth::user()->avatar)
+                            <img 
+                                src="{{ Storage::url(Auth::user()->avatar) }}" 
+                                alt="{{ Auth::user()->name }}" 
+                                class="rounded-circle" 
+                                style="width: 40px; height: 40px; object-fit: cover;">
                         @else
-                            <span class="rounded-circle" style="width: 40px; height: 40px; background: #ccc; display: inline-flex; align-items: center; justify-content: center; color: white;">{{ substr(Auth::user()->name, 0, 1) }}</span>
+                            <span class="rounded-circle" 
+                                  style="width: 40px; height: 40px; background: #ccc; display: inline-flex; align-items: center; justify-content: center; color: white;">
+                                {{ Auth::check() ? substr(Auth::user()->name, 0, 1) : 'Г' }}
+                            </span>
                         @endif
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="userDropdown">
@@ -70,7 +77,7 @@
     </div>
 </nav>
 @php
-    $properties = App\Models\Property::latest()->take(5)->get();
+    $latestProperties = App\Models\Property::latest()->take(5)->get();
 @endphp
 <div class="modal fade" id="menuModal" tabindex="-1" aria-labelledby="menuModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
@@ -134,7 +141,7 @@
                         <a href="{{ route('contacts') }}" class="text-decoration-none text-light">Контакты</a>
                     </li>
                 </ul>
-                @include('components.modal-properties', ['properties' => $properties])
+                 @include('components.modal-properties', ['properties' => $latestProperties])
             </div>
             <div class="modal-footer text-center">
                 <div class="container">
