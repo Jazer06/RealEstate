@@ -14,7 +14,7 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\ForgotPasswordController;
-
+use App\Http\Controllers\Auth\ResetPasswordController;
 // Переопределяем маршруты
 
 Route::get('/register', [RegisterController::class, 'showRegistrationForm'])->name('register');
@@ -28,6 +28,9 @@ Auth::routes(['register' => false, 'login' => false,'reset'=> true, ] );
 // Главная страница для всех
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
+Route::get('/password/reset/{token}', [ResetPasswordController::class, 'showResetForm'])->name('password.reset');
+Route::post('/password/reset', [ResetPasswordController::class, 'reset'])->name('password.update')->middleware('web');
+
 // Публичный просмотр объекта
 Route::get('/properties/{property}', [PublicPropertyController::class, 'show'])->name('properties.show');
 Route::get('/properties', [PublicPropertyController::class, 'index'])->name('properties.index');
@@ -36,6 +39,7 @@ Route::get('/properties', [PublicPropertyController::class, 'index'])->name('pro
 Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
 Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy.policy');
+
 // Статические публичные страницы
 Route::get('/consultation', [PageController::class, 'consultation'])->name('consultation');
 Route::get('/services/real-estate', [PageController::class, 'realEstateService'])->name('services.real_estate');

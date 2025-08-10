@@ -2,6 +2,11 @@
 
 @section('content')
 <div class="container mt-4">
+    @if (session('status'))
+        <div class="alert alert-success">
+            {{ session('status') }}
+        </div>
+    @endif
     <div class="row">
         <div class="col-sm-7 col-md-5">
             <div class="login-form">
