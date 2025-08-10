@@ -35,7 +35,7 @@ Route::get('/properties', [PublicPropertyController::class, 'index'])->name('pro
 // Обратная связь (форма + обработка) — доступно всем
 Route::get('/contact', [ContactController::class, 'create'])->name('contact.create');
 Route::post('/contact', [ContactController::class, 'store'])->name('contact.store');
-
+Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy.policy');
 // Статические публичные страницы
 Route::get('/consultation', [PageController::class, 'consultation'])->name('consultation');
 Route::get('/services/real-estate', [PageController::class, 'realEstateService'])->name('services.real_estate');
@@ -85,7 +85,6 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
         ->name('dashboard.purchase-requests.destroy');
 
     // Админ-настройки
-    Route::get('/privacy-policy', [PageController::class, 'privacyPolicy'])->name('privacy.policy');
     Route::put('/phone/update', [DashboardController::class, 'updatePhone'])->name('dashboard.phone.update');
     Route::put('/email/update', [DashboardController::class, 'updateEmail'])->name('dashboard.email.update');
     Route::put('/dashboard/banner/update', [DashboardController::class, 'updateBannerText'])->name('dashboard.banner.update');
