@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use App\Notifications\ResetPasswordNotification; // Подключаем твою нотификацию
 
 class User extends Authenticatable
 {
@@ -16,7 +17,14 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = ['name', 'phone', 'email', 'password', 'role', 'avatar'];
+    protected $fillable = [
+        'name',
+        'phone',
+        'email',
+        'password',
+        'role',
+        'avatar',
+    ];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -50,9 +58,22 @@ class User extends Authenticatable
 
     /**
      * Get the properties favorited by the user.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function favorites()
     {
         return $this->belongsToMany(Property::class, 'favorites', 'user_id', 'property_id')->withTimestamps();
+    }
+
+    /**
+     * Отправить уведомление о сбросе пароля (использует кастомную нотификацию на русском).
+     *
+     * @param string $token
+     * @return void
+     */
+    public function sendPasswordResetNotification($token)
+    {
+        $this->notify(new ResetPasswordNotification($token));
     }
 }
