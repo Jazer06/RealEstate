@@ -54,7 +54,12 @@
                     </ul>
                 </div>
             </div>
-            
+            @if (session('success'))
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                </div>
+            @endif
             <!-- Вкладки -->
             <div class="mt-5">
                 <ul class="nav gap-4" id="profileTabs" role="tablist">

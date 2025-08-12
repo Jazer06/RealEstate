@@ -1,7 +1,7 @@
 <nav class="navbar navbar-light" id="mainNavbar">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">Sofiarealty</a>
-            <div class="d-flex align-items-center gap-2">
+            <div class="d-flex align-items-center gap-3">
                 <a href="tel:{{ $phoneNumber ?? '+1234567890' }}" class="nav-link d-flex align-items-center phone-icon">
                     <i class="bi bi-telephone-fill text-dark"></i>
                     <span class="d-none d-md-inline fs-6 text-dark">
@@ -9,7 +9,7 @@
                     </span>
                 </a>
                 @auth
-                    <a class="nav-link me-3 favorite-icon" href="{{ route('profile') }}" title="Избранное">
+                    <a class="nav-link  favorite-icon" href="{{ route('profile') }}" title="Избранное">
                         <i class="bi bi-heart"></i>
                     </a>
                     <div class="nav-item dropdown">

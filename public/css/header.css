@@ -59,9 +59,11 @@ html {
 }
 
 .navbar:hover .rounded-circle {
-    border: 2px solid rgba(0, 0, 0, 0.3); /* Полупрозрачная черная граница */
-    backdrop-filter: blur(8px); /* Эффект стекла */
-    background: rgba(0, 0, 0, 0.05); /* Легкий черный фон */
+    border: 2px solid rgba(0, 0, 0, 0.3); 
+    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.05); 
+
+
 }
 
 /* === Цвет ссылок при наведении и фокусе === */
@@ -78,7 +80,7 @@ html {
 
 /* === Стили для бренда === */
 .navbar-brand {
-
+    margin: 0;
     color: rgba(0, 0, 0, 0.7);
     font-family: 'Roboto', sans-serif;
     font-size: 1.8rem;
@@ -154,7 +156,7 @@ html {
 /* === Стили для бургер-меню === */
 .navbar-toggler {
     border: none;
-    padding: 0.25rem 0.75rem;
+    padding: 0.25rem 0.35rem;
     display: block !important;
 }
 

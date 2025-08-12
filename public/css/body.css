@@ -891,6 +891,20 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     font-size: 0.85rem;
 }
 
+.sub-btn{
+    background: linear-gradient(90deg, #d8bfd8, #9370db);
+    border: none !important;
+    position: relative;
+    color: white !important;
+}
+.sub-btn:hover{
+    background: -webkit-gradient(linear, 0 100%, 0 0, from(#c39bcd), to(#7b5ab4));
+    background: -webkit-linear-gradient(90deg, #c39bcd, #7b5ab4);
+    background: -moz-linear-gradient(90deg, #c39bcd, #7b5ab4);
+    background: -o-linear-gradient(90deg, #c39bcd, #7b5ab4);
+    background: linear-gradient(90deg, #c39bcd, #7b5ab4);
+}
+
 .favorite-icon {
     position: relative;
     border: none;
