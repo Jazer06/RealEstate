@@ -21,8 +21,6 @@
     <link rel="stylesheet" href="{{ asset('css/footer.css') }}">
     <link rel="stylesheet" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" href="{{ asset('css/show-card.css') }}">
-
-    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
 </head>
 <body>
@@ -36,7 +34,7 @@
         @include('profile.settings-modal', ['user' => auth()->user()])
     @endauth
 
-    <a href="tel:{{ config('app.phone_number', '+79535553332') }}" class="btn-float-phone phone-bounce" aria-label="Позвонить">
+    <a href="tel:{{ config('header_phone_number', '+7(989)657-02-71') }}" class="btn-float-phone phone-bounce" aria-label="Позвонить">
         <i class="bi bi-telephone-fill"></i>
     </a>
     <button id="backToTop" class="btn-float-up" aria-label="Наверх">
