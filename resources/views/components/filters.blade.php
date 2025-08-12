@@ -1,4 +1,4 @@
-<div class="filter-glass">
+<div class="filter-glass" id="filters">
     <div class="row">
         <form method="GET"
               action="{{ Route::currentRouteName() == 'home' ? route('home') . '#filters' : route('properties.index') . '#filters' }}"
@@ -9,6 +9,8 @@
                     <label class="filter-label d-block mb-1">
                         <b class="fs-2rem fst-italic text-black">Выбрать</b>
                     </label>
+
+                    {{-- Тип недвижимости --}}
                     <select name="type"
                             id="type"
                             class="navbar-select"
@@ -17,6 +19,19 @@
                         <option value="квартира" {{ request('type') == 'квартира' ? 'selected' : '' }}>Квартиру</option>
                         <option value="дом" {{ request('type') == 'дом' ? 'selected' : '' }}>Дом</option>
                         <option value="коммерческая" {{ request('type') == 'коммерческая' ? 'selected' : '' }}>Коммерческую</option>
+                    </select>
+
+                    {{-- Жилой комплекс (справа от типа) --}}
+                    <select name="slider_id"
+                            id="slider_id"
+                            class="navbar-select"
+                            style="max-width: 280px;">
+                        <option value="">Любой ЖК</option>
+                        @foreach($sliders as $s)
+                            <option value="{{ $s->id }}" {{ (string)request('slider_id') === (string)$s->id ? 'selected' : '' }}>
+                                {{ $s->title }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
             </div>
@@ -27,7 +42,6 @@
                 <div class="col-md-3">
                     <label class="filter-label d-block mb-1 text-center"><b>Стоимость ₽</b></label>
 
-                    <!-- Инпуты "От" и "До" — СВЕРХУ -->
                     <div class="d-flex justify-content-between mb-2 gap-3">
                         <input type="number"
                                id="price-min-input"
@@ -47,18 +61,10 @@
                                style="background: transparent; border: none;">
                     </div>
 
-                    <!-- Слайдер — СНИЗУ -->
                     <div id="price-range-slider"></div>
 
-                    <!-- Скрытые поля для отправки формы -->
-                    <input type="hidden"
-                           name="price_range_min"
-                           id="price-range-min"
-                           value="{{ request('price_range_min', $minPrice) }}">
-                    <input type="hidden"
-                           name="price_range_max"
-                           id="price-range-max"
-                           value="{{ request('price_range_max', $maxPrice) }}">
+                    <input type="hidden" name="price_range_min" id="price-range-min" value="{{ request('price_range_min', $minPrice) }}">
+                    <input type="hidden" name="price_range_max" id="price-range-max" value="{{ request('price_range_max', $maxPrice) }}">
                 </div>
 
                 {{-- Количество комнат --}}
@@ -66,26 +72,17 @@
                     <label class="filter-label d-block mb-1 text-center"><b>Количество комнат</b></label>
                     <div class="room-buttons pt-3 ps-3 pe-3">
                         <label class="room-button-text">
-                            <input type="radio"
-                                   name="rooms"
-                                   value="0"
-                                {{ request('rooms') === '0' ? 'checked' : '' }}>
+                            <input type="radio" name="rooms" value="0" {{ request('rooms') === '0' ? 'checked' : '' }}>
                             <span>Студия</span>
                         </label>
                         @foreach([1, 2, 3] as $room)
                             <label class="room-button">
-                                <input type="radio"
-                                       name="rooms"
-                                       value="{{ $room }}"
-                                    {{ request('rooms') == $room ? 'checked' : '' }}>
+                                <input type="radio" name="rooms" value="{{ $room }}" {{ request('rooms') == $room ? 'checked' : '' }}>
                                 <span>{{ $room }}</span>
                             </label>
                         @endforeach
                         <label class="room-button">
-                            <input type="radio"
-                                   name="rooms"
-                                   value="4"
-                                {{ request('rooms') == '4' ? 'checked' : '' }}>
+                            <input type="radio" name="rooms" value="4" {{ request('rooms') == '4' ? 'checked' : '' }}>
                             <span>4+</span>
                         </label>
                     </div>
@@ -113,18 +110,10 @@
                                style="background: transparent; border: none;">
                     </div>
 
-                    <!-- Слайдер — СНИЗУ -->
                     <div id="area-range-slider"></div>
 
-                    <!-- Скрытые поля для отправки формы -->
-                    <input type="hidden"
-                           name="area_range_min"
-                           id="area-range-min"
-                           value="{{ request('area_range_min', $areaMin) }}">
-                    <input type="hidden"
-                           name="area_range_max"
-                           id="area-range-max"
-                           value="{{ request('area_range_max', $areaMax) }}">
+                    <input type="hidden" name="area_range_min" id="area-range-min" value="{{ request('area_range_min', $areaMin) }}">
+                    <input type="hidden" name="area_range_max" id="area-range-max" value="{{ request('area_range_max', $areaMax) }}">
                 </div>
 
                 {{-- Кнопки --}}
@@ -132,12 +121,10 @@
                     <button type="submit" class="iphone-button-black">Показать</button>
                     <a href="{{ Route::currentRouteName() == 'home' ? route('home') . '#filters' : route('properties.index') . '#filters' }}"
                        class="btn-reset"
-                       id="resetFilters">
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             width="16"
-                             height="16"
-                             fill="currentColor"
-                             viewBox="0 0 24 24">
+                       id="resetFilters"
+                       title="Сбросить фильтры">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                             fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
                             <path d="M17.65 6.35A7.958 7.958 0 0 0 12 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0 1 12 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
                         </svg>
                     </a>

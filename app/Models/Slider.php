@@ -13,4 +13,10 @@ class Slider extends Model
         'button_link',
         'image_path',
     ];
+    
+    public function properties()
+    {
+        return $this->hasMany(Property::class);
+    }
+
 }

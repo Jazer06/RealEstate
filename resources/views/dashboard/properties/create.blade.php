@@ -70,6 +70,19 @@
                 @error('type') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
             </div>
 
+            <div class="col-md-6">
+                <label for="slider_id" class="form-label text-light">Жилой комплекс</label>
+                <select name="slider_id" id="slider_id" class="form-select bg-dark text-light">
+                    <option value="">Без привязки</option>
+                    @foreach ($sliders as $slider)
+                        <option value="{{ $slider->id }}" {{ old('slider_id') == $slider->id ? 'selected' : '' }}>
+                            {{ $slider->title }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('slider_id') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+            </div>
+
             <div class="col-12">
                 <label for="description" class="form-label text-light">Описание</label>
                 <textarea name="description" id="description" class="form-control bg-dark text-light" rows="3">{{ old('description') }}</textarea>

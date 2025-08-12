@@ -30,7 +30,12 @@ class Property extends Model
     {
         return $this->belongsToMany(User::class, 'favorites', 'property_id', 'user_id')->withTimestamps();
     }
-
+    
+    public function slider()
+    {
+        return $this->belongsTo(Slider::class);
+    }
+    
     public function images()
     {
         return $this->hasMany(PropertyImage::class);

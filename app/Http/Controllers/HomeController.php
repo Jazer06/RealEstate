@@ -7,22 +7,28 @@ use App\Models\Property;
 use Illuminate\Http\Request;
 use App\Models\Setting;
 
-
 class HomeController extends Controller
 {
     public function index(Request $request)
     {
         $sliders = Slider::all();
-        
+
         // Диапазоны по умолчанию
         $minPrice = 0;
         $maxPrice = 30000000;
+        $areaMinDefault = 20;
+        $areaMaxDefault = 200;
 
         $query = Property::query();
 
-        // Фильтр по типу: apartment, house, commercial
+        // Тип недвижимости
         if ($request->filled('type')) {
             $query->where('type', $request->input('type'));
+        }
+
+        // ЖК (slider_id)
+        if ($request->filled('slider_id')) {
+            $query->where('slider_id', $request->input('slider_id'));
         }
 
         // Цена
@@ -40,16 +46,16 @@ class HomeController extends Controller
         }
 
         // Площадь
-        $areaMin = $request->input('area_range_min', 20);
-        $areaMax = $request->input('area_range_max', 200);
+        $areaMin = $request->input('area_range_min', $areaMinDefault);
+        $areaMax = $request->input('area_range_max', $areaMaxDefault);
         $query->whereBetween('area', [$areaMin, $areaMax]);
 
-        $properties = $query->latest()->paginate(5);
+        $properties = $query->latest()->paginate(5)->withQueryString();
         $totalProperties = $properties->total();
 
         $bannerTitle = Setting::where('key', 'banner_title')->value('value') ?? '';
         $bannerDescription = Setting::where('key', 'banner_description')->value('value') ?? '';
-        
+
         return view('welcome', compact(
             'sliders',
             'properties',
@@ -63,6 +69,5 @@ class HomeController extends Controller
             'bannerTitle',
             'bannerDescription'
         ));
-
     }
 }

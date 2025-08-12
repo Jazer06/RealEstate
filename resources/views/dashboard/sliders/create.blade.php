@@ -19,26 +19,43 @@
 
     <form action="{{ route('dashboard.sliders.store') }}" method="POST" enctype="multipart/form-data" class="p-4" style="background-color: #3a3a3a; border-radius: 8px;">
         @csrf
+
         <div class="mb-3">
             <label for="title" class="form-label text-light">Заголовок</label>
             <input type="text" name="title" class="form-control bg-dark text-light" value="{{ old('title') }}">
         </div>
+
         <div class="mb-3">
             <label for="subtitle" class="form-label text-light">Подпись</label>
             <input type="text" name="subtitle" class="form-control bg-dark text-light" value="{{ old('subtitle') }}">
         </div>
+
         <div class="mb-3">
             <label for="button_text" class="form-label text-light">Текст кнопки</label>
             <input type="text" name="button_text" class="form-control bg-dark text-light" value="{{ old('button_text') }}">
         </div>
+
         <div class="mb-3">
             <label for="button_link" class="form-label text-light">Ссылка кнопки</label>
             <input type="url" name="button_link" class="form-control bg-dark text-light" value="{{ old('button_link') }}">
         </div>
+
         <div class="mb-3">
             <label for="image" class="form-label text-light">Изображение</label>
             <input type="file" name="image" class="form-control bg-dark text-light">
         </div>
+        <div class="mb-3">
+            <label for="properties" class="form-label text-light">Привязка квартиры к опеределенному ЖК</label>
+            <select name="properties[]" id="properties" class="form-control bg-dark text-light" multiple>
+                @foreach ($allProperties as $property)
+                    <option value="{{ $property->id }}">
+                        {{ $property->title }} — {{ number_format($property->price, 0, ',', ' ') }} ₽
+                    </option>
+                @endforeach
+            </select>
+            <small class="text-muted">Удерживайте Ctrl (или Cmd на Mac), чтобы выбрать несколько</small>
+        </div>
+
         <div class="mt-4">
             <button type="submit" class="btn btn-primary dashboard-btn-primary">Сохранить</button>
             <a href="{{ route('dashboard.sliders.index') }}" class="btn btn-secondary bg-secondary text-white hover:bg-gray-600">Отмена</a>

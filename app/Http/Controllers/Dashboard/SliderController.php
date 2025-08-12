@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Slider;
+use App\Models\Property;
 use App\Rules\FlexibleUrl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,8 @@ class SliderController extends Controller
 
     public function create()
     {
-        return view('dashboard.sliders.create');
+        $allProperties = Property::all();
+        return view('dashboard.sliders.create', compact('allProperties'));
     }
 
     public function store(Request $request)
@@ -30,6 +32,8 @@ class SliderController extends Controller
             'button_text' => 'nullable|string|max:255',
             'button_link' => ['nullable', new FlexibleUrl, 'max:255'],
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'properties' => 'nullable|array',
+            'properties.*' => 'exists:properties,id',
         ]);
 
         $imagePath = null;
@@ -39,7 +43,7 @@ class SliderController extends Controller
             $imagePath = $request->file('image')->storeAs('images/sliders', $imageName, 'public');
         }
 
-        Slider::create([
+        $slider = Slider::create([
             'title' => $validated['title'] ?? null,
             'subtitle' => $validated['subtitle'] ?? null,
             'button_text' => $validated['button_text'] ?? null,
@@ -47,7 +51,19 @@ class SliderController extends Controller
             'image_path' => $imagePath,
         ]);
 
+        // Привязываем выбранные квартиры к слайдеру
+        Property::whereIn('id', $request->properties ?? [])
+            ->update(['slider_id' => $slider->id]);
+
         return redirect()->route('dashboard')->with('success', 'Слайд добавлен!');
+    }
+
+    public function edit(Slider $slider)
+    {
+        $this->authorize('update', $slider);
+
+        $allProperties = Property::all();
+        return view('dashboard.sliders.edit', compact('slider', 'allProperties'));
     }
 
     public function update(Request $request, Slider $slider)
@@ -60,12 +76,13 @@ class SliderController extends Controller
             'button_text' => 'nullable|string|max:255',
             'button_link' => ['nullable', new FlexibleUrl, 'max:255'],
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'properties' => 'nullable|array',
+            'properties.*' => 'exists:properties,id',
         ]);
 
         $imagePath = $slider->image_path;
 
         if ($request->hasFile('image')) {
-            // Удаление старого файла, если есть
             if ($imagePath && Storage::disk('public')->exists($imagePath)) {
                 Storage::disk('public')->delete($imagePath);
             }
@@ -82,15 +99,14 @@ class SliderController extends Controller
             'image_path' => $imagePath,
         ]);
 
-        return redirect()->route('dashboard')->with('success', 'Слайд обновлён!');
-    }
-    
-    
-    public function edit(Slider $slider)
-    {
-        $this->authorize('update', $slider);
+        // Отвязываем все квартиры от текущего слайдера
+        Property::where('slider_id', $slider->id)->update(['slider_id' => null]);
 
-        return view('dashboard.sliders.edit', compact('slider'));
+        // Привязываем выбранные квартиры
+        Property::whereIn('id', $request->properties ?? [])
+            ->update(['slider_id' => $slider->id]);
+
+        return redirect()->route('dashboard')->with('success', 'Слайд обновлён!');
     }
 
     public function destroy(Slider $slider)
@@ -100,6 +116,9 @@ class SliderController extends Controller
         if ($slider->image_path && Storage::disk('public')->exists($slider->image_path)) {
             Storage::disk('public')->delete($slider->image_path);
         }
+
+        // Отвязываем квартиры перед удалением слайдера
+        Property::where('slider_id', $slider->id)->update(['slider_id' => null]);
 
         $slider->delete();
 
