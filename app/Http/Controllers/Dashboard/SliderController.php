@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Dashboard;
 
 use App\Http\Controllers\Controller;
 use App\Models\Slider;
+use App\Rules\FlexibleUrl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -27,7 +28,7 @@ class SliderController extends Controller
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:255',
             'button_text' => 'nullable|string|max:255',
-            'button_link' => 'nullable|url|max:255',
+            'button_link' => ['nullable', new FlexibleUrl, 'max:255'],
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
@@ -57,7 +58,7 @@ class SliderController extends Controller
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:255',
             'button_text' => 'nullable|string|max:255',
-            'button_link' => 'nullable|url|max:255',
+            'button_link' => ['nullable', new FlexibleUrl, 'max:255'],
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
         ]);
 
@@ -82,6 +83,14 @@ class SliderController extends Controller
         ]);
 
         return redirect()->route('dashboard')->with('success', 'Слайд обновлён!');
+    }
+    
+    
+    public function edit(Slider $slider)
+    {
+        $this->authorize('update', $slider);
+
+        return view('dashboard.sliders.edit', compact('slider'));
     }
 
     public function destroy(Slider $slider)
