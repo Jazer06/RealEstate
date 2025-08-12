@@ -1,5 +1,3 @@
-
-
 <!-- Modal -->
 <div class="modal fade" id="profileSettingsModal" tabindex="-1" aria-labelledby="profileSettingsModalLabel" aria-hidden="true" style="display: none;">
     <div class="modal-dialog modal-dialog-right modal-dialog-scrollable black-glass-border-left">
@@ -10,6 +8,31 @@
             </div>
             <div class="modal-body">
                 @if (auth()->check())
+                    <?php
+                    // Анонимная функция для форматирования номера телефона
+                    $formatPhone = function($phone) {
+                        if (empty($phone)) {
+                            return '+7 (xxx) xxx-xx-xx';
+                        }
+                        // Очищаем от нецифровых символов
+                        $cleaned = preg_replace('/\D/', '', $phone);
+                        // Если номер не начинается с 7, добавляем 7
+                        if (strlen($cleaned) > 0 && $cleaned[0] !== '7') {
+                            $cleaned = '7' . $cleaned;
+                        }
+                        // Форматируем: +7 (XXX) XXX-XX-XX
+                        if (strlen($cleaned) >= 11) {
+                            return sprintf(
+                                '+7 (%s) %s-%s-%s',
+                                substr($cleaned, 1, 3),
+                                substr($cleaned, 4, 3),
+                                substr($cleaned, 7, 2),
+                                substr($cleaned, 9, 2)
+                            );
+                        }
+                        return '+7 (xxx) xxx-xx-xx'; // Если номер некорректный, возвращаем стандартный placeholder
+                    };
+                    ?>
                     <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data" id="profileForm">
                         @csrf
                         @method('PUT')
@@ -26,10 +49,11 @@
                             <label for="phone" class="form-label text-left text-dark">Телефон</label>
                             <input id="phone" type="tel" class="form-control custom-input @error('phone') is-invalid @enderror" 
                                    name="phone" 
-                                   placeholder="+7 (xxx) xxx-xx-xx" 
+                                   placeholder="{{ $formatPhone(auth()->user()->phone ?? '') }}" 
                                    maxlength="18"
                                    autocomplete="off"
-                                   inputmode="numeric">
+                                   inputmode="numeric"
+                                   value="{{ old('phone', '') }}">
                             @error('phone')
                                 <span class="invalid-feedback">
                                     <strong>{{ $message }}</strong>
@@ -80,27 +104,21 @@ document.addEventListener('DOMContentLoaded', function() {
     const phoneInput = document.getElementById('phone');
     
     if (phoneInput) {
-        // Инициализация - очищаем поле
-        phoneInput.value = '';
-        
+        // Обработка ввода
         phoneInput.addEventListener('input', function(e) {
             let value = e.target.value.replace(/\D/g, '');
-            let formattedValue = '';
             
-            // Если пользователь начал ввод с цифры (не с +7)
             if (value.length > 0 && !e.target.value.startsWith('+7')) {
-                value = '7' + value; // Добавляем 7 в начало
+                value = '7' + value;
             }
             
-            // Ограничиваем длину (11 цифр, включая 7)
             if (value.length > 11) {
                 value = value.substring(0, 11);
             }
             
-            // Форматируем: +7 (XXX) XXX-XX-XX
+            let formattedValue = '';
             if (value.length > 0) {
                 formattedValue = '+7';
-                
                 if (value.length > 1) {
                     formattedValue += ' (' + value.substring(1, 4);
                 }
@@ -118,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
             e.target.value = formattedValue;
         });
         
-        // Обработка фокуса - добавляем +7 если поле пустое
+        // Обработка фокуса
         phoneInput.addEventListener('focus', function(e) {
             if (e.target.value === '') {
                 e.target.value = '+7';
@@ -127,7 +145,6 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Обработка удаления
         phoneInput.addEventListener('keydown', function(e) {
-            // Если пытаемся удалить +7
             if (e.key === 'Backspace' && e.target.selectionStart <= 3) {
                 e.preventDefault();
                 return false;
