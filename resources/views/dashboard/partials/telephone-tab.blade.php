@@ -1,7 +1,13 @@
-
 <div class="tab-pane fade p-4" id="telephone" role="tabpanel" aria-labelledby="telephone-tab">
     <h5 class="card-title text-xl font-semibold mb-3">Смена телефона на сайте</h5>
     <p>При клике на поле показывается старый.</p>
+
+    @if(session('success_phone'))
+        <div class="dashboard-alert-success mb-3">
+            {{ session('success_phone') }}
+        </div>
+    @endif
+
     <form method="POST" action="{{ route('dashboard.phone.update') }}" class="mb-4">
         @csrf
         @method('PUT')

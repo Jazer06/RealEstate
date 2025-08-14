@@ -1,6 +1,13 @@
 <div class="tab-pane fade p-4" id="email" role="tabpanel" aria-labelledby="email-tab">
     <h5 class="card-title text-xl font-semibold mb-3">Смена почты на сайте</h5>
     <p>При клике на поле показывается старая почта.</p>
+
+    @if(session('success_email'))
+        <div class="dashboard-alert-success mb-3">
+            {{ session('success_email') }}
+        </div>
+    @endif
+
     <form method="POST" action="{{ route('dashboard.email.update') }}">
         @csrf
         @method('PUT')

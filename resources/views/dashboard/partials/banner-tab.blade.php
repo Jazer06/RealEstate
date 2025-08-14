@@ -1,5 +1,12 @@
 <div class="tab-pane fade p-4" id="banner" role="tabpanel" aria-labelledby="banner-tab">
     <h5 class="card-title text-xl font-semibold mb-3">Текст баннера на главной</h5>
+
+    @if(session('success'))
+        <div class="dashboard-alert-success mb-3">
+            {{ session('success') }}
+        </div>
+    @endif
+
     <form method="POST" action="{{ route('dashboard.banner.update') }}">
         @csrf
         @method('PUT')
