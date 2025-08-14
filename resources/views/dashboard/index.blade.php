@@ -2,7 +2,7 @@
 
 @section('content')
     <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
-
+<body class="dashboard-page">
     <div class="container mt-6">
         <div class="dashboard-container py-4 mt-6">
             <h1 class="text-3xl font-bold mb-4">Админ-панель</h1>
@@ -42,7 +42,7 @@
             </div>
         </div>
     </div>
-
+</body>
 @endsection
 
 @section('scripts')
