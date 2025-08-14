@@ -1,4 +1,4 @@
-<div class="tab-pane fade show active p-4" id="home" role="tabpanel" aria-labelledby="home-tab">
+<div class="tab-pane fade show  p-4" id="home" role="tabpanel" aria-labelledby="home-tab">
     <h5 class="card-title text-xl font-semibold mb-3">Управление главной страницей</h5>
 
     @if (session('success'))

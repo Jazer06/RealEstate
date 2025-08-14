@@ -46,7 +46,7 @@
     </div>
     <div class="pagination-container">
         @if ($properties->hasPages())
-            {{ $properties->links('pagination::bootstrap-5') }}
+            {{ $properties->appends(['tab' => 'properties'])->links('pagination::bootstrap-5') }}
         @endif
     </div>
 </div>

@@ -35,7 +35,7 @@
         </table>
         <div class="pagination-container">
             @if ($contacts->hasPages())
-                {{ $contacts->links('pagination::bootstrap-5') }}
+                {{ $contacts->appends(['tab' => 'contacts'])->links('pagination::bootstrap-5') }}
             @endif
         </div>
     </div>

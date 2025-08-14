@@ -1,4 +1,3 @@
-
 <div class="tab-pane fade p-4" id="purchase-requests" role="tabpanel" aria-labelledby="purchase-requests-tab">
     <h5 class="card-title text-xl font-semibold mb-3">Заявки на покупку</h5>
     
@@ -39,14 +38,14 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center text-muted py-3">Заявок на покупку нет.</td>
+                        <td colspan="6" class="text-center py-3 text-white">Заявок на покупку нет.</td>
                     </tr>
                 @endforelse
             </tbody>
         </table>
         <div class="pagination-container">
             @if ($purchaseRequests->hasPages())
-                {{ $purchaseRequests->links('pagination::bootstrap-5') }}
+                {{ $purchaseRequests->appends(['tab' => 'purchase-requests'])->links('pagination::bootstrap-5') }}
             @endif
         </div>
     </div>
