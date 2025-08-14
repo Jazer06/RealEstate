@@ -23,7 +23,7 @@
                         @if ($slider->image_path)
                             <img src="{{ asset('storage/' . $slider->image_path) }}" alt="{{ $slider->title }}" class="img-thumbnail dashboard-img-thumbnail">
                         @else
-                            <span class="text-muted">Нет изображения</span>
+                            <span class="text-white">Нет изображения</span>
                         @endif
                     </td>
                     <td>
