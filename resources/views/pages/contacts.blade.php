@@ -9,7 +9,14 @@
 
 @section('content')
 <div class="container my-5 mt-6 mb-2">
+
     <div class="info-card depth-card mt-9" style="background: #fff; border-radius: 12px; border: 1px solid #e9ecef; padding: 25px;box-shadow: 0 1px 3px rgba(0,0,0,0.05);">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
         <div class="card-body">
             <h3 class="card-title" style="color: #333; margin-bottom: 1.5rem; font-weight: 600;">Контактная информация</h3>
             <ul class="list-group list-group-flush" style="border: none;">
@@ -108,6 +115,24 @@
                         @error('description')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
+                    </div>
+                    <!-- Чекбокс политики конфиденциальности -->
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input
+                                type="checkbox"
+                                name="privacy_policy"
+                                id="privacy-policy"
+                                class="form-check-input @error('privacy_policy') is-invalid @enderror"
+                                required
+                            >
+                            <label for="privacy-policy" class="form-check-label">
+                                Нажимая на кнопку вы даете согласие на обработку персональных данных и соглашаетесь с <a href="/privacy-policy" target="_blank" class="text-blue-600 hover:underline">политикой конфиденциальности</a>
+                            </label>
+                            @error('privacy_policy')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
                     </div>
                     <button type="submit" class="iphone-button-black">Отправить</button>
                 </form>

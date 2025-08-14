@@ -44,6 +44,10 @@ class RegisterController extends Controller
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'custom_csrf_token' => ['required'],
+            'privacy_policy' => ['required', 'accepted'],
+        ], [
+            'privacy_policy.required' => 'Вы должны согласиться с политикой конфиденциальности.',
+            'privacy_policy.accepted' => 'Вы должны согласиться с политикой конфиденциальности.',
         ]);
     }
 

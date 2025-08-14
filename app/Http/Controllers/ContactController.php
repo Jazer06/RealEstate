@@ -44,13 +44,15 @@ class ContactController extends Controller
                 'regex:/^[\d\+\-\s\(\)]{6,20}$/',
             ],
             'description' => 'required|string|max:100',
+            'privacy_policy' => 'required|accepted',
         ], [
             'name.regex' => 'Имя может содержать только буквы, пробелы и дефисы.',
             'name.not_regex' => 'Имя не может состоять только из цифр.',
             'phone.regex' => 'Введите корректный номер телефона.',
+            'privacy_policy.required' => 'Вы должны согласиться с политикой конфиденциальности.',
+            'privacy_policy.accepted' => 'Вы должны согласиться с политикой конфиденциальности.',
         ]);
 
-        // Нормализация телефона
         $rawPhone = $request->input('phone');
         $digits = preg_replace('/\D/', '', $rawPhone);
 

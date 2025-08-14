@@ -91,13 +91,30 @@
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
+                        <!-- Чекбокс политики конфиденциальности -->
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input
+                                    type="checkbox"
+                                    name="privacy_policy"
+                                    id="privacy-policy"
+                                    class="form-check-input @error('privacy_policy') is-invalid @enderror"
+                                    required
+                                >
+                                <label for="privacy-policy" class="form-check-label">
+                                   Нажимая на кнопку вы даете согласие на обработку персональных данных и соглашаетесь с <a href="/privacy-policy" target="_blank" class="text-blue-600 hover:underline">политикой конфиденциальности</a>
+                                </label>
+                                @error('privacy_policy')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
                         <button type="submit" class="iphone-button-black">Отправить</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-
     <!-- Контактная информация -->
     <div class="row justify-content-center text-center mt-5">
         <div class="col-lg-8 col-md-10">

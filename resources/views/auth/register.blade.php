@@ -54,6 +54,27 @@
                                name="password_confirmation" required autocomplete="new-password">
                     </div>
 
+                    <!-- Чекбокс политики конфиденциальности -->
+                    <div class="mb-3">
+                        <div class="form-check">
+                            <input
+                                type="checkbox"
+                                name="privacy_policy"
+                                id="privacy-policy"
+                                class="form-check-input @error('privacy_policy') is-invalid @enderror"
+                                required
+                            >
+                            <label for="privacy-policy" class="form-check-label">
+                            <a href="/privacy-policy" target="_blank" class="text-blue-600 hover:underline">Принимаю условия регистрации и соглашаюсь на обработку персональных данных</a>
+                            </label>
+                            @error('privacy_policy')
+                                <span class="invalid-feedback">
+                                    <strong>{{ $message }}</strong>
+                                </span>
+                            @enderror
+                        </div>
+                    </div>
+
                     <div class="d-grid mt-5">
                         <button type="submit" class="btn iphone-button btn-login">Зарегистрироваться</button>
                     </div>
