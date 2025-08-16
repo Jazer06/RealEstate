@@ -19,7 +19,7 @@
                     <div class="mb-3">
                         <label for="email" class="form-label text-left text-dark">Адрес электронной почты</label>
                         <input id="email" type="email" class="form-control custom-input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
- @error('email')
+                        @error('email')
                             <span class="invalid-feedback">
                                 <strong>{{ $message }}</strong>
                             </span>
@@ -53,6 +53,12 @@
                         <a href="{{ route('register') }}" class="btn iphone-button btn-register">Регистрация</a>
                     </div>
                 </form>
+
+                <div class="mt-3 text-center">
+                    <a href="{{ route('home') }}" class="text-decoration-none">
+                        ← Вернуться на главную
+                    </a>
+                </div>
             </div>
         </div>
         <div class="col-sm-5 col-md-7 gradient-bg d-flex justify-content-center align-items-center">

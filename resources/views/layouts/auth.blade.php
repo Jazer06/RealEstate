@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="{{ asset('css/body.css') }}">
 </head>
 <body>
-    <div class="container mt-6">
+    <div class="container mt-70">
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif

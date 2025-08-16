@@ -3,7 +3,7 @@
 @section('title', 'Объекты недвижимости')
 
 @section('content')
-    <h2 class="mb-4 mt-6">Наши объекты недвижимости</h2>
+    <h2 class="mb-4 mt-54">Наши объекты недвижимости</h2>
     @if (session('success'))
         <div class="alert alert-success mb-4 text-center floating-alert">
             <i class="fas fa-check-circle mr-2"></i>

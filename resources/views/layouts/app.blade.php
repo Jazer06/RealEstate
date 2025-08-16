@@ -26,7 +26,7 @@
 <body>
     @include('layouts.header')
     @yield('carousel')
-    <div class="container mt-6">
+    <div class="container mt-115">
         @yield('content')
     </div>
     @include('layouts.footer')

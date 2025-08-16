@@ -43,6 +43,11 @@
                         <button type="submit" class="btn iphone-button btn-login">Сменить пароль</button>
                     </div>
                 </form>
+                <div class="mt-3 text-center">
+                    <a href="{{ route('login') }}" class="text-decoration-none">
+                        ← Вернуться к входу
+                    </a>
+                </div>
             </div>
         </div>
 
