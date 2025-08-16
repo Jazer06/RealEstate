@@ -12,8 +12,8 @@
                             <h1 class="slide-title">{{ $slider->title }}</h1>
                             <p class="slide-subtitle">{{ $slider->subtitle }}</p>
                             
-                        <a href="{{ $slider->button_link }}" class="iphone-button">{{ $slider->button_text }}</a>
                         </div>
+                        <a href="{{ $slider->button_link }}" class="iphone-button">{{ $slider->button_text }}</a>
                     </div>
                 </div>
             </div>
