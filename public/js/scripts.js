@@ -3,14 +3,18 @@ $(document).ready(function() {
     // =============== КНОПКА "НАВЕРХ" ===============
     const $backToTop = $('#backToTop');
 
-    $(window).on('scroll', function () {
-        const scrollTop = $(window).scrollTop();
-        if (scrollTop > 100) {
-            $backToTop.addClass('show');
-        } else {
-            $backToTop.removeClass('show');
-        }
-    });
+$(window).on('scroll', function () {
+    const scrollTop = $(window).scrollTop();
+    const docHeight = $(document).height();
+    const winHeight = $(window).height();
+    const scrollPercent = scrollTop / (docHeight - winHeight);
+
+    if (scrollPercent > 0.25) {
+        $backToTop.addClass('show');
+    } else {
+        $backToTop.removeClass('show');
+    }
+});
 
     // Плавная прокрутка наверх
     $backToTop.on('click', function (e) {
@@ -30,17 +34,6 @@ $(document).ready(function() {
         slidesToShow: 1,
         slidesToScroll: 1,
         asNavFor: '.custom-thumbs-container'
-    });
-
-    $mainCarousel.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
-        $('.carousel-slide').removeAttr('tabindex');
-        $('.carousel-slide').each(function(index) {
-            if (index === nextSlide) {
-                $(this).attr('tabindex', '0');
-            } else {
-                $(this).attr('tabindex', '-1');
-            }
-        });
     });
 
 
@@ -67,14 +60,17 @@ $(document).ready(function() {
             {
                 breakpoint: 992,
                 settings: {
-                    slidesToShow: 2,
+                    slidesToShow: 5,
                     centerMode: true
+
                 }
             },
             {
                 breakpoint: 768,
                 settings: {
-                    slidesToShow: 1,
+                     centerPadding: '15px',
+                    slidesToShow: 1.8,
+                    infinite: false,
                     centerMode: true
                 }
             }
@@ -217,7 +213,7 @@ $(document).ready(function() {
                 $('html, body').animate({
                     scrollTop: $filterSection.offset().top - 20
                 }, 800);
-            }, 500);
+            }, 50);
         }
     }
 

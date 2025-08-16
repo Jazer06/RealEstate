@@ -5,6 +5,24 @@
 @section('content')
     <h2 class="mb-4 mt-6">Наши объекты недвижимости</h2>
 
+    <!-- Карточка с изображением слайдера под заголовком -->
+    @if (request('slider_id'))
+        @php
+            $selectedSlider = $sliders->firstWhere('id', request('slider_id'));
+        @endphp
+        @if ($selectedSlider && $selectedSlider->image_path)
+            <div class="property-slider-wrapper mb-4">
+                <div class="property-slider-card">
+                    <img src="{{ asset('storage/' . $selectedSlider->image_path) }}"
+                         alt="{{ $selectedSlider->title }}"
+                         class="property-slider-image">
+                    <div class="property-slider-caption">{{ $selectedSlider->title }}</div>
+                </div>
+            </div>
+        @endif
+    @endif
+
+
     @include('components.filters', [
         'minPrice' => $minPrice,
         'maxPrice' => $maxPrice,
@@ -22,7 +40,7 @@
         <div class="row mt-6">
             @forelse ($properties as $property)
                 <div class="col-xl-4 col-sm-12 mb-4">
-                <div class="card property-card h-100" onclick="window.location='{{ route('properties.show', $property->id) }}'">
+                    <div class="card property-card h-100" onclick="window.location='{{ route('properties.show', $property->id) }}'">
                         <div class="card-img-container">
                             <img class="primary-img"
                                  src="{{ $property->image_path ? asset('storage/' . $property->image_path) : 'https://via.placeholder.com/300x200' }}"
@@ -61,8 +79,8 @@
                             </div>
                         </div>
 
-                    <div class="card-body d-flex flex-column">
-                        <div class="card-body-content flex-grow-1">
+                        <div class="card-body d-flex flex-column">
+                            <div class="card-body-content flex-grow-1">
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <h5 class="card-title fst-italic pt-2">{{ $property->title }}</h5>

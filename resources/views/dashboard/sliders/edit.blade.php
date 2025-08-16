@@ -3,7 +3,7 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
-<div class="dashboard-container py-4 mt-6">
+<div class="dashboard-container py-4 mt-5">
     <h1 class="text-3xl font-bold mb-4">Редактировать слайд</h1>
 
     @if ($errors->any())
@@ -32,13 +32,12 @@
         </div>
 
         <div class="mb-3">
-            <label for="button_text" class="form-label text-light">Текст кнопки</label>
+            <label for="button_text" class="form-label text-light">(Текст кнопки) ведет на страницу со всеми объектами с этим ЖК</label>           
             <input type="text" name="button_text" class="form-control bg-dark text-light" value="{{ old('button_text', $slider->button_text) }}">
         </div>
 
         <div class="mb-3">
-            <label for="button_link" class="form-label text-light">Ссылка кнопки</label>
-            <input type="url" name="button_link" class="form-control bg-dark text-light" value="{{ old('button_link', $slider->button_link) }}">
+            <input type="hidden" name="button_link" class="form-control bg-dark text-light" value="{{ old('button_link', $slider->button_link) }}">
         </div>
 
         <div class="mb-3">
@@ -58,9 +57,7 @@
                     </option>
                 @endforeach
             </select>
-            <small class="text-muted">Удерживайте Ctrl (или Cmd на Mac), чтобы выбрать несколько</small>
         </div>
-
         <div class="mt-4">
             <button type="submit" class="btn btn-primary dashboard-btn-primary">Обновить</button>
             <a href="{{ route('dashboard.sliders.index') }}" class="btn btn-secondary bg-secondary text-white hover:bg-gray-600">Отмена</a>

@@ -19,6 +19,7 @@ class Property extends Model
         'area',
         'rooms',
         'type',
+         'slider_id',
     ];
 
     public function user()

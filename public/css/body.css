@@ -70,84 +70,51 @@ body {
 }
 
 /* ==================== CAROUSEL NAVIGATION ==================== */
-.carousel-nav-buttons {
-    margin: 1rem 0;
-    background-color: #ffffff99;
-    backdrop-filter: blur(2px);
-    position: relative;
-    left: -5vw;
-    width: 5rem;
-    max-width: 80px;
-    height: 30vh;
-    max-height: 150px;
-    border-radius: 2.5rem;
-    transform: translateY(-86%);
-    display: flex;
-    flex-direction: column;
-    gap: 0.875rem;
-    z-index: 20;
-}
-
-.carousel-nav-buttons .row { padding: 0; }
-
-.carousel-nav-btn {
-    width: 3rem;
-    height: 3rem;
-    right: 0.9375rem;
-    position: absolute;
-    border-radius: 50%;
-    background-color: #ffffffcc;
-    border: none;
-    font-size: 1.375rem;
-    color: #333;
-    box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.2);
-    cursor: pointer;
-    transition: background 0.2s ease;
-}
-
-.carousel-nav-btn:hover { background-color: #eee; }
-.up { top: 0.875rem; }
-.down { bottom: 0.875rem; }
-
-/* ==================== THUMBNAILS ==================== */
 .custom-thumbs-container {
-    position: absolute !important;
+    position: absolute;
     top: -130px;
-
-
+    left: 50%;
+    transform: translateX(-50%); /* Центрируем */
+    width: 100%;
+    z-index: 100; /* Поверх всего */
+    display: flex; /* Fallback, если Slick не загрузится */
 }
 
 .custom-thumbs-container .slick-slide {
     display: flex !important;
     justify-content: center;
     width: auto !important;
-    float: none !important;
+    margin-right: 15px; /* Заменяем gap */
 }
 
 .custom-thumbs-container .slick-track {
     display: flex !important;
-    gap: 15px;
     align-items: center;
-    left: -35px;
-
 }
 
 .thumb-item {
     max-width: 300px;
     min-width: 280px;
-    min-height: 120px;
     height: 170px;
     flex-shrink: 0;
     overflow: hidden;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.2s ease;
-    border: 2px solid rgba(0, 0, 0, 0.7);
-    background: #fff;
+    background: rgb(151 151 151 / 40%);
+    border: 3px solid rgba(255, 255, 255, 0.15); /* стеклянный белый бордер */
     border-radius: 12px;
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
 }
 
-.thumb-item:hover { transform: translateY(-2px); }
-.thumb-item.active { border: 2px solid #4b0082; }
+.thumb-item:hover {
+    transform: translateY(-1px);
+}
+
+.thumb-item.active {
+    border: 3px solid #4b0082;
+
+}
 
 .thumb-content {
     display: flex;
@@ -173,8 +140,16 @@ body {
     font-size: 14px;
     margin-bottom: 5px;
     text-align: center;
-    color: #333;
+
+    /* ✨ Светлый текст для тёмного фона */
+    color: rgba(255, 255, 255, 0.85);
+
+    /* 💡 Лёгкое свечение */
+    text-shadow: 0 0 4px rgba(255, 255, 255, 0.3);
+
+
 }
+
 
 .thumb-image {
     width: 100%;
@@ -182,6 +157,47 @@ body {
     object-fit: cover;
     clip-path: polygon(0 0, 100% 0%, 100% 100%, 37% 100%);
 }
+
+/* ==================== THUMBNAILS ==================== */
+.carousel-nav-buttons {
+    margin: -3rem -1rem;
+    background-color: #ffffff99;
+    backdrop-filter: blur(2px);
+    position: absolute;        /* Относительно .container */
+    left: 0;                   /* Прижали к левому краю контейнера */
+    top: 50%;                  /* По центру по вертикали */
+    transform: translateY(-50%); /* Точное центрирование */
+    width: 5rem;
+    max-width: 75px;
+    height: 30vh;
+    max-height: 145px;
+    border-radius: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    z-index: 20;
+}
+
+.carousel-nav-buttons .row { padding: 0; }
+
+.carousel-nav-btn {
+    width: 3rem;
+    height: 3rem;
+    position: absolute;
+    left: 0.9375rem;           /* Отступ от левого края блока */
+    border-radius: 50%;
+    background-color: #ffffffcc;
+    border: none;
+    font-size: 1.375rem;
+    color: #333;
+    box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.carousel-nav-btn:hover { background-color: #eee; }
+.up { top: 0.875rem; }
+.down { bottom: 0.875rem; }
 
 /* ==================== PROFILE PAGE ==================== */
 .profile-page {
@@ -241,7 +257,7 @@ body {
     top: 0;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 5px;
     background: linear-gradient(90deg, #d8bfd8, #9370db, #d8bfd8);
     border-radius: 20px 20px 0 0;
     opacity: 0.6;
@@ -354,12 +370,26 @@ body {
     border: 2px solid #2c3e50;
     margin-right: 5px;
 }
-
+.title-glass{
+  background: rgba(255, 255, 255, 0.1); /* Прозрачный фон */
+  color: #fff;
+  padding: 20px 25px;
+  border-radius: 20px;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  font-family: 'Segoe UI', sans-serif;
+  font-size: 18px;
+  text-align: center;
+  max-width: 250px;
+  margin: 20px auto;
+}
 .iphone-button {
     display: inline-block;
     width: 100%;
     padding: 10px 20px;
-    background-color: transparent;
+    background-color: #ffffff99;
+    backdrop-filter: blur(5px);
     color: white;
     text-decoration: none;
     border: 2px solid white;
@@ -813,7 +843,7 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     bottom: 0;
     left: 0;
     right: 0;
-    height: 3px;
+    height: 5px;
     background: linear-gradient(90deg, #d8bfd8, #9370db, #d8bfd8);
     border-radius: 0 0 20px 20px;
     opacity: 0.6;
@@ -891,6 +921,46 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     font-size: 0.85rem;
 }
 
+/*slider-card*/
+.property-slider-wrapper {
+    display: flex;
+    justify-content: center; /* Центрируем карточку */
+    max-width: 100%;
+}
+
+.property-slider-card {
+    position: relative;
+    width: 100%;
+    max-width: 400px; /* Компактная ширина */
+    background: linear-gradient(145deg, #f8f9fa, #dee2e6); /* Лёгкий градиент */
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15); /* Более выраженная тень */
+    overflow: hidden;
+    clip-path: polygon(5% 0, 100% 0, 95% 100%, 0 100%); /* Скошенные углы для кастомного вида */
+    transition: transform 0.3s ease; /* Плавный ховер-эффект */
+}
+.property-slider-image {
+    width: 100%;
+    height: 180px; /* Компактная высота */
+    object-fit: cover;
+    display: block;
+}
+
+.property-slider-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.65); /* Полупрозрачный фон для заголовка */
+    color: white;
+    padding: 6px;
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+
 .sub-btn{
     background: linear-gradient(90deg, #d8bfd8, #9370db);
     border: none !important;
@@ -936,28 +1006,37 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
 }
 
 /* ==================== MEDIA QUERIES ==================== */
+@media (min-width: 1200px) {
+  .custom-thumbs-container {
+    transform: translateX(-45%) !important;
+  }
+}
+
 @media (max-width: 768px) {
-    .carousel-nav-buttons { 
-        display: none;
-    }
-    .slick-track {
-      display: flex; /* Используйте Flexbox для правильного позиционирования */
-      transform: translate3d(0, 0, 0); /* Обновите трансформацию */
-    }
-    .slick-slide {
-      float: none; /* Отменяем float, чтобы использовать Flexbox */
-      margin-right: 0; /* Убираем лишние отступы */
+        .property-slider-card {
+        max-width: 280px; 
+        clip-path: polygon(3% 0, 100% 0, 97% 100%, 0 100%); 
     }
 
+    .property-slider-image {
+        height: 140px; 
+    }
 
-    .glass-effect-banner { padding: 1rem; }
-    .text-highlight { font-size: clamp(1rem, 3.5vw, 1.2rem); }
-    .text-description { font-size: clamp(0.8rem, 3vw, 0.9rem); }
-    .gallery-grid { margin-bottom: -5vw; }
-    .gallery-image-banner { max-height: 40vh; top: 5vw; }
-    .gallery-offset-banner img { left: clamp(-5vw, -10%, -100px); top: clamp(-5vw, -10%, -100px); }
-    .gallery-grid .col-sm-3 { width: 100%; margin-bottom: 1rem; }
-    .gallery-image-4 { clip-path: polygon(100% 15%, 0 0, 0 85%, 100% 100%); left: 0px !important; }
+    .property-slider-caption {
+        font-size: 0.85rem;
+        padding: 4px;
+    }
+  .carousel-nav-buttons { display: none !important; }
+  .thumb-item { min-width: 200px; max-width: 220px; height: 140px; }
+  .custom-thumbs-container { top: -100px; }
+  .glass-effect-banner { padding: 1rem; }
+  .text-highlight { font-size: clamp(1rem, 3.5vw, 1.2rem); }
+  .text-description { font-size: clamp(0.8rem, 3vw, 0.9rem); }
+  .gallery-grid { margin-bottom: -5vw; }
+  .gallery-image-banner { max-height: 40vh; top: 5vw; }
+  .gallery-offset-banner img { left: clamp(-5vw, -10%, -100px); top: clamp(-5vw, -10%, -100px); }
+  .gallery-grid .col-sm-3 { width: 100%; margin-bottom: 1rem; }
+  .gallery-image-4 { clip-path: polygon(100% 15%, 0 0, 0 85%, 100% 100%); left: 0px !important; }
 }
 
 @media (max-width: 576px) {
@@ -970,10 +1049,6 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     .carousel-nav-btn { width: 2rem; height: 2rem; right: 0.625rem; font-size: 1.125rem; }
     .down { bottom: 0.5rem; }
     .up { top: 0.5rem; }
-    .custom-thumbs-container { 
-        top: -130px;  
-
-    }
     input.form-control, textarea.form-control, select.form-control {
         background-color: #fff !important;
         color: #000 !important;
