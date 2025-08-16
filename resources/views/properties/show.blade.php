@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container custom-property-container mt-9">
-    <h1 class="custom-title mt-5">{{ $property->title }}</h1>
+    <h1 class="custom-title mt-3">{{ $property->title }}</h1>
     <div class="row">
         <!-- Слайдер с фото -->
         <div class="col-md-12">
