@@ -1029,7 +1029,7 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     }
   .carousel-nav-buttons { display: none !important; }
   .thumb-item { min-width: 200px; max-width: 220px; height: 140px; }
-  .custom-thumbs-container { top: -100px; }
+  .custom-thumbs-container { top: -180px; }
   .glass-effect-banner { padding: 1rem; }
   .text-highlight { font-size: clamp(1rem, 3.5vw, 1.2rem); }
   .text-description { font-size: clamp(0.8rem, 3vw, 0.9rem); }
