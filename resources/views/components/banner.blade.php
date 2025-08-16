@@ -1,4 +1,4 @@
-<div class="mt-9 mb-3">
+<div class="mt-6 mb-3">
     <div class="mt-6 glass-effect-banner">
         <div class="row">
             <div class="col-12 col-md-6">

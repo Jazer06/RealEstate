@@ -1,4 +1,4 @@
-<div class="mt-9 mb-3">
+<div class="mt-12 mb-3">
     <div class="contact-container">
         <div class="contact-form">
             <h2 class="text-center text-2xl font-bold text-black mb-4">Свяжитесь с нами</h2>
