@@ -42,16 +42,12 @@
             <input type="file" name="image" class="form-control bg-dark text-light">
         </div>
         <div class="mb-3">
-            <label for="properties" class="form-label text-light">Привязка квартиры к опеределенному ЖК</label>
+            <label for="properties" class="form-label text-light">Кнопка ведет на ЖК. </label>
             <select name="properties[]" id="properties" class="form-control bg-dark text-light" multiple>
-                @foreach ($allProperties as $property)
-                    <option value="{{ $property->id }}">
-                        {{ $property->title }} — {{ number_format($property->price, 0, ',', ' ') }} ₽
-                    </option>
-                @endforeach
+                {{-- Пункт "Все ЖК" --}}
+                <option value="" selected>Ведем на все ЖК.Если Нажмем</option>
             </select>
         </div>
-
         <div class="mt-4">
             <button type="submit" class="btn btn-primary dashboard-btn-primary">Сохранить</button>
             <a href="{{ route('dashboard.sliders.index') }}" class="btn btn-secondary bg-secondary text-white hover:bg-gray-600">Отмена</a>

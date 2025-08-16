@@ -47,9 +47,11 @@
         </div>
     </div>
 </div>
-<style>
-    
-</style>
+@if (session('success'))
+    <div class="alert alert-success mb-4 text-center mt-5">
+        {{ session('success') }}
+    </div>
+@endif
 @endsection
 @section('content')
     @include('components.filters')

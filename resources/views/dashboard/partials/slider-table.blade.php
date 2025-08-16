@@ -28,7 +28,6 @@
                     </td>
                     <td>
                         <div class="btn-group" role="group">
-                            <a href="{{ route('dashboard.sliders.edit', $slider) }}" class="btn btn-warning btn-sm text-white dashboard-btn-warning">Редактировать</a>
                             <form action="{{ route('dashboard.sliders.destroy', $slider) }}" method="POST" class="d-inline" onsubmit="return confirm('Вы уверены?')">
                                 @csrf
                                 @method('DELETE')

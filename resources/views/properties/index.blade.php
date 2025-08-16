@@ -4,8 +4,12 @@
 
 @section('content')
     <h2 class="mb-4 mt-6">Наши объекты недвижимости</h2>
-
-    <!-- Карточка с изображением слайдера под заголовком -->
+    @if (session('success'))
+        <div class="alert alert-success mb-4 text-center floating-alert">
+            <i class="fas fa-check-circle mr-2"></i>
+            {{ session('success') }}
+        </div>
+    @endif
     @if (request('slider_id'))
         @php
             $selectedSlider = $sliders->firstWhere('id', request('slider_id'));
