@@ -7,7 +7,7 @@
             <div class="carousel-slide">
                 <img src="{{ $slider->image_path ? asset('storage/' . $slider->image_path) : 'https://via.placeholder.com/1200x800' }}" alt="{{ $slider->title }}">
                 <div class="container">
-                    <div class="slide-content mt-12">
+                    <div class="slide-content mt-15">
                         <div class="title-glass">
                             <h1 class="slide-title">{{ $slider->title }}</h1>
                             <p class="slide-subtitle">{{ $slider->subtitle }}</p>
