@@ -6,6 +6,18 @@
     @section('carousel')
         <div class="castom full-screen-carousel">
             <div class="carousel-inner">
+                {{-- Основное изображение --}}
+                @if ($selectedSlider->image_path)
+                    <div class="carousel-slide">
+                        <img src="{{ asset('storage/' . $selectedSlider->image_path) }}"
+                             alt="{{ $selectedSlider->title }}">
+                        <div class="container">
+                            <div class="slide-content mt-200">
+                                <h1 class="slide-title text-white shadow-[0_4px_4px_rgba(0,0,0,0.25)]">{{ $selectedSlider->title }}</h1>
+                            </div>
+                        </div>
+                    </div>
+                @endif
 
                 {{-- Дополнительные изображения --}}
                 @foreach ($selectedSlider->images as $image)
@@ -14,7 +26,7 @@
                              alt="{{ $selectedSlider->title }} - Additional">
                         <div class="container">
                             <div class="slide-content mt-200">
-                              <h1 class="slide-title text-white shadow-[0_4px_4px_rgba(0,0,0,0.25)]">{{ $selectedSlider->title }}</h1>
+                                <h1 class="slide-title text-white shadow-[0_4px_4px_rgba(0,0,0,0.25)]">{{ $selectedSlider->title }}</h1>
                             </div>
                         </div>
                     </div>
@@ -26,13 +38,15 @@
                 @endif
             </div>
         </div>
+
         <div class="container">
-            <div class="carousel-nav-buttons" style="background-color: #413f3f99; backdrop-filter: blur(2px);margin: -6rem -1rem;">
+            <div class="carousel-nav-buttons" style="background-color: #413f3f99; backdrop-filter: blur(2px); margin: -6rem -1rem;">
                 <button class="carousel-nav-btn up">←</button>
                 <button class="carousel-nav-btn down">→</button>
             </div>
+
             <div class="row">
-                <div class="custom-thumbs-container" style="top: -180px;">
+                <div class="custom-thumbs-container" style="top: -185px;">
                     @if ($selectedSlider->image_path)
                         <div class="thumb-item active" data-slide-index="0">
                             <div class="thumb-content">
@@ -45,6 +59,7 @@
                             </div>
                         </div>
                     @endif
+
                     @foreach ($selectedSlider->images as $index => $image)
                         <div class="thumb-item" data-slide-index="{{ $index + 1 }}">
                             <div class="thumb-content">
@@ -60,19 +75,27 @@
                 </div>
             </div>
         </div>
+
+        <style>
+            .castom-thumb-image {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        </style>
     @endsection
 @endif
 
 @section('content')
-<h2 class="mb-4 {{ !$selectedSlider ? 'mt-54' : '' }}">Наши объекты недвижимости</h2>
-    
+    <h2 class="mb-4 {{ !$selectedSlider ? 'mt-54' : '' }}">Наши объекты недвижимости</h2>
+
     @if (session('success'))
         <div class="alert alert-success mb-4 text-center floating-alert">
             <i class="fas fa-check-circle mr-2"></i>
             {{ session('success') }}
         </div>
     @endif
-    
+
     {{-- ФИЛЬТРЫ --}}
     @include('components.filters', [
         'minPrice' => $minPrice,
