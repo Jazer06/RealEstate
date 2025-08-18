@@ -9,7 +9,7 @@
                 <div class="container">
                     <div class="slide-content mt-200">
                         <div class="title-glass">
-                            <h1 class="slide-title">{{ $slider->title }}</h1>
+                            <h1 class="slide-title" style="font-size: 2rem;">{{ $slider->title }}</h1>
                             <p class="slide-subtitle">{{ $slider->subtitle }}</p>
                             
                         </div>
