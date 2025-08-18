@@ -53,7 +53,7 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <img src="{{ asset('storage/' . $selectedSlider->image_path) }}"
-                                             alt="{{ $selectedSlider->title }}" class="castom thumb-image">
+                                             alt="{{ $selectedSlider->title }}" class="castom-thumb-image">
                                     </div>
                                 </div>
                             </div>
