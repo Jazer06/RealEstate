@@ -28,10 +28,11 @@
                     </td>
                     <td>
                         <div class="btn-group" role="group">
-                            <form action="{{ route('dashboard.sliders.destroy', $slider) }}" method="POST" class="d-inline" onsubmit="return confirm('Вы уверены?')">
+                            <a href="{{ route('dashboard.sliders.edit', $slider->id) }}" class="btn btn-sm btn-warning">Редактировать</a>
+                            <form action="{{ route('dashboard.sliders.destroy', $slider->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Вы уверены?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm text-white dashboard-btn-danger">Удалить</button>
+                                <button type="submit" class="btn btn-sm btn-danger">Удалить</button>
                             </form>
                         </div>
                     </td>

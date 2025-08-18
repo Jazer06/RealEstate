@@ -79,6 +79,8 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
         'destroy' => 'dashboard.sliders.destroy',
     ]);
 
+    Route::delete('/sliders/{sliderImage}/image-destroy', [SliderController::class, 'destroyImage'])->name('dashboard.sliders.image.destroy');
+
     // Управление заявками (контакты)
     Route::get('/contacts', [PropertyController::class, 'contacts'])->name('dashboard.contacts.index');
     Route::delete('/contacts/{contact}', [PropertyController::class, 'destroy'])->name('dashboard.contacts.destroy');

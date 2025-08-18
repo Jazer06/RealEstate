@@ -2,31 +2,78 @@
 
 @section('title', 'Объекты недвижимости')
 
+@if ($selectedSlider = $sliders->firstWhere('id', request('slider_id')))
+    @section('carousel')
+        <div class="castom full-screen-carousel">
+            <div class="carousel-inner">
+
+                {{-- Дополнительные изображения --}}
+                @foreach ($selectedSlider->images as $image)
+                    <div class="carousel-slide">
+                        <img src="{{ asset('storage/' . $image->image_path) }}"
+                             alt="{{ $selectedSlider->title }} - Additional">
+                        <div class="container">
+                            <div class="slide-content mt-200">
+                              <h1 class="slide-title text-white shadow-[0_4px_4px_rgba(0,0,0,0.25)]">{{ $selectedSlider->title }}</h1>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+
+                {{-- Если нет изображений --}}
+                @if (!$selectedSlider->image_path && $selectedSlider->images->isEmpty())
+                    <div class="alert alert-warning">Нет изображений для этого ЖК</div>
+                @endif
+            </div>
+        </div>
+        <div class="container">
+            <div class="carousel-nav-buttons" style="background-color: #413f3f99; backdrop-filter: blur(2px);margin: -6rem -1rem;">
+                <button class="carousel-nav-btn up">←</button>
+                <button class="carousel-nav-btn down">→</button>
+            </div>
+            <div class="row">
+                <div class="custom-thumbs-container" style="top: -180px;">
+                    @if ($selectedSlider->image_path)
+                        <div class="thumb-item active" data-slide-index="0">
+                            <div class="thumb-content">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img src="{{ asset('storage/' . $selectedSlider->image_path) }}"
+                                             alt="{{ $selectedSlider->title }}" class="castom thumb-image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endif
+                    @foreach ($selectedSlider->images as $index => $image)
+                        <div class="thumb-item" data-slide-index="{{ $index + 1 }}">
+                            <div class="thumb-content">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <img src="{{ asset('storage/' . $image->image_path) }}"
+                                             alt="{{ $selectedSlider->title }}" class="castom-thumb-image">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    @endsection
+@endif
+
 @section('content')
-    <h2 class="mb-4 mt-54">Наши объекты недвижимости</h2>
+<h2 class="mb-4 {{ !$selectedSlider ? 'mt-54' : '' }}">Наши объекты недвижимости</h2>
+    
     @if (session('success'))
         <div class="alert alert-success mb-4 text-center floating-alert">
             <i class="fas fa-check-circle mr-2"></i>
             {{ session('success') }}
         </div>
     @endif
-    @if (request('slider_id'))
-        @php
-            $selectedSlider = $sliders->firstWhere('id', request('slider_id'));
-        @endphp
-        @if ($selectedSlider && $selectedSlider->image_path)
-            <div class="property-slider-wrapper mb-4">
-                <div class="property-slider-card">
-                    <img src="{{ asset('storage/' . $selectedSlider->image_path) }}"
-                         alt="{{ $selectedSlider->title }}"
-                         class="property-slider-image">
-                    <div class="property-slider-caption">{{ $selectedSlider->title }}</div>
-                </div>
-            </div>
-        @endif
-    @endif
-
-
+    
+    {{-- ФИЛЬТРЫ --}}
     @include('components.filters', [
         'minPrice' => $minPrice,
         'maxPrice' => $maxPrice,
@@ -36,6 +83,7 @@
         'areaMax' => $areaMax,
     ])
 
+    {{-- СПИСОК ОБЪЕКТОВ --}}
     @if($totalProperties === 0)
         <div class="alert alert-warning mt-4 glass-effect-banner">
             По вашему запросу ничего не найдено.
@@ -47,7 +95,7 @@
                     <div class="card property-card h-100" onclick="window.location='{{ route('properties.show', $property->id) }}'">
                         <div class="card-img-container">
                             <img class="primary-img"
-                                 src="{{ $property->image_path ? asset('storage/' . $property->image_path) : 'https://via.placeholder.com/300x200' }}"
+                                 src="{{ $property->image_path ? asset('storage/' . $property->image_path) : 'https://via.placeholder.com/300x200  ' }}"
                                  alt="{{ $property->title }}">
 
                             @if ($property->images()->where('is_plan', true)->first())
@@ -118,6 +166,7 @@
         </div>
     @endif
 
+    {{-- ПАГИНАЦИЯ --}}
     <div class="pagination-container mt-4">
         @if ($properties->hasPages())
             {{ $properties->appends(request()->query())->links('pagination::bootstrap-5') }}

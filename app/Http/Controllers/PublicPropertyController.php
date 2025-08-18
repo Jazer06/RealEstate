@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Property;
@@ -68,6 +67,7 @@ class PublicPropertyController extends Controller
 
     public function show(Property $property)
     {
-        return view('properties.show', compact('property'));
+        $slider = $property->slider;
+        return view('properties.show', compact('property', 'slider'));
     }
 }

@@ -31,23 +31,34 @@
         </div>
 
         <div class="mb-3">
-            <label for="button_text" class="form-label text-light">(Текст кнопки) ведет на страницу со всеми объектами с этим ЖК</label>
+            <label for="button_text" class="form-label text-light">Текст кнопки</label>
             <input type="text" name="button_text" class="form-control bg-dark text-light" value="{{ old('button_text') }}">
         </div>
+
         <div class="mb-3">
             <input type="hidden" name="button_link" class="form-control bg-dark text-light" value="{{ old('button_link') }}">
         </div>
+
         <div class="mb-3">
-            <label for="image" class="form-label text-light">Изображение</label>
+            <label for="image" class="form-label text-light">Основное изображение</label>
             <input type="file" name="image" class="form-control bg-dark text-light">
         </div>
+
         <div class="mb-3">
-            <label for="properties" class="form-label text-light">Кнопка ведет на ЖК. </label>
+            <label for="additional_images" class="form-label text-light">Дополнительные изображения</label>
+            <input type="file" name="additional_images[]" class="form-control bg-dark text-light" multiple>
+        </div>
+
+        <div class="mb-3">
+            <label for="properties" class="form-label text-light">Кнопка ведёт на ЖК</label>
             <select name="properties[]" id="properties" class="form-control bg-dark text-light" multiple>
-                {{-- Пункт "Все ЖК" --}}
-                <option value="" selected>Ведем на все ЖК.Если Нажмем</option>
+                <option value="" selected>Ведём на все ЖК</option>
+                @foreach ($allProperties as $property)
+                    <option value="{{ $property->id }}">{{ $property->name }}</option>
+                @endforeach
             </select>
         </div>
+
         <div class="mt-4">
             <button type="submit" class="btn btn-primary dashboard-btn-primary">Сохранить</button>
             <a href="{{ route('dashboard.sliders.index') }}" class="btn btn-secondary bg-secondary text-white hover:bg-gray-600">Отмена</a>
