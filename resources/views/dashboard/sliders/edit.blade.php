@@ -47,12 +47,13 @@
                 </div>
             @endif
             <input type="file" name="image" class="form-control bg-dark text-light">
-            <small class="text-muted">Оставьте пустым, если не хотите менять изображение.</small>
+            <small class="text-muted">Максимальный размер: 15 МБ. Оставьте пустым, если не хотите менять изображение.</small>
         </div>
 
         <div class="mb-3">
             <label for="additional_images" class="form-label text-light">Дополнительные изображения</label>
             <input type="file" name="additional_images[]" class="form-control bg-dark text-light" multiple>
+            <small class="text-muted">Максимальный размер каждого файла: 15 МБ.</small>
             @if ($slider->images->count() > 0)
                 <div class="mt-2">
                     <h6 class="text-light mb-2">Текущие дополнительные изображения:</h6>

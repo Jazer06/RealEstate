@@ -28,8 +28,8 @@ class SliderController extends Controller
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:255',
             'button_text' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360', // 15 МБ
+            'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360', // 15 МБ
             'properties' => 'nullable|array',
             'properties.*' => 'nullable|exists:properties,id',
         ]);
@@ -92,8 +92,8 @@ class SliderController extends Controller
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:255',
             'button_text' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
-            'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360', // 15 МБ
+            'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360', // 15 МБ
             'properties' => 'nullable|array',
             'properties.*' => 'nullable|exists:properties,id',
         ]);
