@@ -39,7 +39,6 @@
         <div class="mb-3">
             <input type="hidden" name="button_link" class="form-control bg-dark text-light" value="{{ old('button_link', $slider->button_link ?? '') }}">
         </div>
-
         <div class="mb-3">
             <label for="image" class="form-label text-light">Основное изображение</label>
             @if ($slider->image_path)
