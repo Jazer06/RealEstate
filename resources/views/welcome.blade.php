@@ -7,9 +7,9 @@
             <div class="carousel-slide">
                 <img src="{{ $slider->image_path ? asset('storage/' . $slider->image_path) : 'https://via.placeholder.com/1200x800' }}" alt="{{ $slider->title }}">
                 <div class="container">
-                    <div class="slide-content mt-200">
-                        <div class="title-glass">
-                            <h1 class="slide-title" style="font-size: 2rem;">{{ $slider->title }}</h1>
+                    <div class="slide-content mt-40">
+                        <div>
+                            <h1 class="slide-title">{{ $slider->title }}</h1>
                             <p class="slide-subtitle">{{ $slider->subtitle }}</p>
                             
                         </div>
@@ -22,7 +22,7 @@
 </div>
 <div class="container">
         <div class="carousel-nav-buttons">
-            <button class="carousel-nav-btn up ">←</button>
+            <button class="carousel-nav-btn up">←</button>
             <button class="carousel-nav-btn down">→</button>
         </div>
     <div class="row">

@@ -1,13 +1,12 @@
-/* ==================== BASE STYLES ==================== */
+
 body {
-    font-family: 'Roboto', sans-serif;
+    font-style: normal;
     background-size: cover;
     color: #2c3e50;
     min-height: 70vh;
     display: flex;
     flex-direction: column;
 }
-
 .container {
     flex: 1 0 auto;
     position: relative;
@@ -26,6 +25,8 @@ body {
 .mt-70 { margin-top: 70px; }
 .mt-115 { margin-top: 115px; }
 .mt-200 { margin-top: 200px; }
+.mt-40{margin-top: 40%};
+.mt-60{margin-top: 60%};
 .text-left { text-align: left !important; }
 .text-dark { color: #2c3e50 !important; }
 .pr-30 { padding-right: 30px; }
@@ -70,15 +71,38 @@ body {
 .slide-content {
     color: white;
     text-align: left;
-    max-width: 300px;
     padding-left: 50px;
 }
+.slide-subtitle{
+    display: inline-block;
+    padding: 11px 20px;
+    background-color: #000000ab;
+    text-decoration: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 300;
+    transition: transform 0.2s, box-shadow 0.2s;
+    width: 200px;
+}
+
+.slide-title {
+    font-size: 80px;
+    line-height: normal;
+    font-weight: 500;
+    text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
 
 .slide-description {
     margin-top: 10px;
     font-size: 18px;
     font-weight: 400;
     max-width: 300px;
+}
+.slider-description {
+    padding: 10px;
+    font-size: 18px;
+    font-weight: 400;
 }
 
 /* ==================== CAROUSEL NAVIGATION ==================== */
@@ -189,6 +213,24 @@ body {
     gap: 0.875rem;
     z-index: 20;
 }
+.carousel-nav-buttons-slide {
+    margin: -8rem -1rem;
+    background-color: #ffffff99;
+    backdrop-filter: blur(2px);
+    position: absolute;        /* Относительно .container */
+    left: 0;                   /* Прижали к левому краю контейнера */
+    top: 50%;                  /* По центру по вертикали */
+    transform: translateY(-50%); /* Точное центрирование */
+    width: 5rem;
+    max-width: 75px;
+    height: 30vh;
+    max-height: 145px;
+    border-radius: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+    z-index: 20;
+}
 
 .carousel-nav-buttons .row { padding: 0; }
 
@@ -207,9 +249,27 @@ body {
     transition: background 0.2s ease;
 }
 
+.carousel-nav-btn-slide {
+    width: 3rem;
+    height: 3rem;
+    position: absolute;
+    left: 0.9375rem;           /* Отступ от левого края блока */
+    border-radius: 50%;
+    background-color: #ffffffcc;
+    border: none;
+    font-size: 1.375rem;
+    color: #333;
+    box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+
 .carousel-nav-btn:hover { background-color: #eee; }
 .up { top: 0.875rem; }
 .down { bottom: 0.875rem; }
+.up-slide { top: 0.875rem; }
+.down-slide { bottom: 0.875rem; }
 
 /* ==================== PROFILE PAGE ==================== */
 .profile-page {
@@ -347,13 +407,11 @@ body {
 }
 
 .login-subtitle {
-    font-family: 'Roboto', sans-serif;
     color: #2c3e50;
     margin-bottom: 1.5rem;
 }
 
 .form-control, .custom-input {
-    font-family: 'Roboto', sans-serif;
     border-radius: 12px;
     background-color: transparent;
     color: #2c3e50;
@@ -375,7 +433,6 @@ body {
 .form-control::placeholder, .custom-input::placeholder {
     color: #95a5a6;
     opacity: 1;
-    font-family: 'Roboto', sans-serif;
 }
 
 .custom-checkbox {
@@ -390,32 +447,12 @@ body {
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(10px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
-  font-family: 'Segoe UI', sans-serif;
   font-size: 18px;
   text-align: center;
   max-width: 250px;
   margin: 20px auto;
 }
-.iphone-button {
-    display: inline-block;
-    width: 100%;
-    padding: 10px 20px;
-    background-color: #ffffff99;
-    backdrop-filter: blur(5px);
-    color: white;
-    text-decoration: none;
-    border: 2px solid white;
-    border-radius: 25px;
-    font-family: 'Roboto', sans-serif;
-    font-size: 16px;
-    font-weight: 500;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    transition: transform 0.2s, box-shadow 0.2s;
-    text-align: center;
-    cursor: pointer;
-    user-select: none;
-    margin-bottom: 10px;
-}
+
 
 .btn-login { background-color: #4b0082; color: white; }
 .btn-forgot, .btn-register { background-color: transparent; color: #2c3e50; }
@@ -1023,8 +1060,23 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     transform: translateX(-45%) !important;
   }
 }
+@media (max-width: 828px) {
+    .slide-title {
+        font-size: 60px;
+        line-height: normal;
+        font-weight: 600;
+    }
+}
+
 
 @media (max-width: 768px) {
+    .slide-title {
+        margin-top: 350px;
+        font-size: 50px;
+        line-height: normal;
+        font-weight: 600;
+    }
+
         .property-slider-card {
         max-width: 280px; 
         clip-path: polygon(3% 0, 100% 0, 97% 100%, 0 100%); 
@@ -1033,7 +1085,6 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     .property-slider-image {
         height: 140px; 
     }
-
     .property-slider-caption {
         font-size: 0.85rem;
         padding: 4px;
@@ -1052,6 +1103,12 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
 }
 
 @media (max-width: 576px) {
+        .slide-title {
+        margin-top: 350px;
+        font-size: 45px;
+        line-height: normal;
+        font-weight: 500;
+    }
     .glass-effect-banner { padding: 0.8rem; }
     .text-highlight { font-size: clamp(0.9rem, 3vw, 1rem); }
     .text-description { font-size: clamp(0.7rem, 2.5vw, 0.8rem); }

@@ -27,6 +27,7 @@ class SliderController extends Controller
         $validated = $request->validate([
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:255',
+            'description' => 'nullable|string', // Добавляем валидацию для description
             'button_text' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360', // 15 МБ
             'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360', // 15 МБ
@@ -44,6 +45,7 @@ class SliderController extends Controller
         $slider = Slider::create([
             'title' => $validated['title'] ?? null,
             'subtitle' => $validated['subtitle'] ?? null,
+            'description' => $validated['description'] ?? null, // Добавляем description
             'button_text' => $validated['button_text'] ?? 'Смотреть все ЖК',
             'button_link' => null, // временно
             'image_path' => $imagePath,
@@ -91,6 +93,7 @@ class SliderController extends Controller
         $validated = $request->validate([
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:255',
+            'description' => 'nullable|string', // Добавляем валидацию для description
             'button_text' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360', // 15 МБ
             'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360', // 15 МБ
@@ -111,6 +114,7 @@ class SliderController extends Controller
         $slider->update([
             'title' => $validated['title'] ?? null,
             'subtitle' => $validated['subtitle'] ?? null,
+            'description' => $validated['description'] ?? null, // Добавляем description
             'button_text' => $validated['button_text'] ?? 'Смотреть все ЖК',
             'image_path' => $imagePath,
         ]);
@@ -167,7 +171,7 @@ class SliderController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Слайд удалён!');
     }
-    
+
     public function destroyImage(Request $request, SliderImage $sliderImage)
     {
         $sliderImage->delete();

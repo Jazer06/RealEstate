@@ -32,6 +32,11 @@
         </div>
 
         <div class="mb-3">
+            <label for="description" class="form-label text-light">Описание</label>
+            <textarea name="description" class="form-control bg-dark text-light" rows="5">{{ old('description', $slider->description) }}</textarea>
+        </div>
+
+        <div class="mb-3">
             <label for="button_text" class="form-label text-light">Текст кнопки</label>
             <input type="text" name="button_text" class="form-control bg-dark text-light" value="{{ old('button_text', $slider->button_text) }}" required>
         </div>
@@ -39,6 +44,7 @@
         <div class="mb-3">
             <input type="hidden" name="button_link" class="form-control bg-dark text-light" value="{{ old('button_link', $slider->button_link ?? '') }}">
         </div>
+
         <div class="mb-3">
             <label for="image" class="form-label text-light">Основное изображение</label>
             @if ($slider->image_path)
@@ -91,3 +97,4 @@
     </form>
 </div>
 @endsection
+

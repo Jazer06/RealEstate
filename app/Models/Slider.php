@@ -11,6 +11,7 @@ class Slider extends Model
         'button_text',
         'button_link',
         'image_path',
+        'description',
     ];
 
     public function properties()

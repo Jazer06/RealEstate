@@ -12,7 +12,7 @@
                         <img src="{{ asset('storage/' . $selectedSlider->image_path) }}"
                              alt="{{ $selectedSlider->title }}">
                         <div class="container">
-                            <div class="slide-content mt-200">
+                            <div class="slide-content mt-40">
                                 <h1 class="slide-title text-white shadow-[0_4px_4px_rgba(0,0,0,0.25)]">{{ $selectedSlider->title }}</h1>
                             </div>
                         </div>
@@ -25,7 +25,7 @@
                         <img src="{{ asset('storage/' . $image->image_path) }}"
                              alt="{{ $selectedSlider->title }} - Additional">
                         <div class="container">
-                            <div class="slide-content mt-200">
+                            <div class="slide-content mt-40">
                                 <h1 class="slide-title text-white shadow-[0_4px_4px_rgba(0,0,0,0.25)]">{{ $selectedSlider->title }}</h1>
                             </div>
                         </div>
@@ -39,13 +39,13 @@
             </div>
         </div>
 
-        <div class="container">
-            <div class="carousel-nav-buttons" style="background-color: #413f3f99; backdrop-filter: blur(2px); margin: -6rem -1rem;">
+        <div class="container" >
+            <div class="" style="background-color: #413f3f99; backdrop-filter: blur(2px); margin: -6rem 1rem;">
                 <button class="carousel-nav-btn up">←</button>
                 <button class="carousel-nav-btn down">→</button>
             </div>
 
-            <div class="row">
+            <div class="row" style="display: none;">
                 <div class="custom-thumbs-container" style="top: -185px;">
                     @if ($selectedSlider->image_path)
                         <div class="thumb-item active" data-slide-index="0">
@@ -74,6 +74,23 @@
                     @endforeach
                 </div>
             </div>
+            @if ($selectedSlider)
+            <div class="row mt-6">
+                    <div class="col-md-6 mb-4">
+                        <h3>{{ $selectedSlider->title }}</h2>
+                    </div>
+                <div class="col-md-6">
+                    <div class="slider-description">
+                    @if ($selectedSlider->description)
+                        <p>{{ $selectedSlider->description }}</p>
+                    @else
+                        <p>Описание отсутствует</p>
+                        
+                    </div>
+                    @endif
+                </div>
+            </div>
+            @endif
         </div>
 
         <style>
@@ -87,7 +104,10 @@
 @endif
 
 @section('content')
-    <h2 class="mb-4 {{ !$selectedSlider ? 'mt-54' : '' }}">Наши объекты недвижимости</h2>
+
+    @if (!$selectedSlider)
+        <h2 class="mb-4 mt-54">Наши объекты недвижимости</h2>
+    @endif
 
     @if (session('success'))
         <div class="alert alert-success mb-4 text-center floating-alert">

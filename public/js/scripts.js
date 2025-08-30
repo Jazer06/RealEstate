@@ -22,34 +22,66 @@ $(window).on('scroll', function () {
         $('html, body').animate({ scrollTop: 0 }, 'smooth');
     });
 
-    // =============== КАРУСЕЛЬ ===============
+// ====== Основной слайдер ======
     const $mainCarousel = $('.carousel-inner').slick({
         autoplay: true,
         autoplaySpeed: 3000,
         arrows: false,
         dots: false,
-        fade: true,
+        fade: false,          // отключаем fade, чтобы работал свайп
         speed: 800,
         infinite: true,
         slidesToShow: 1,
         slidesToScroll: 1,
+        swipe: true,          // свайп на тач-устройствах
+        draggable: true,      // перетаскивание мышью
         asNavFor: '.custom-thumbs-container'
     });
 
+    // ====== Логика тапа ======
+    let touchMoved = false;
+    let touchStartX = 0;
 
+    $('.carousel-inner')
+        .on('touchstart', function(e) {
+            touchMoved = false;
+            touchStartX = e.originalEvent.touches[0].clientX;
+        })
+        .on('touchmove', function() {
+            touchMoved = true; // палец двигался — значит свайп
+        })
+        .on('touchend', function(e) {
+            if (!touchMoved) {
+                const touchEndX = e.originalEvent.changedTouches[0].clientX;
+                const width = $(this).width();
+                if (touchEndX < width / 2) {
+                    $mainCarousel.slick('slickPrev');
+                } else {
+                    $mainCarousel.slick('slickNext');
+                }
+            }
+        })
+        .on('click', function(e) {
+            const clickX = e.clientX;
+            const width = $(this).width();
+            if (clickX < width / 2) {
+                $mainCarousel.slick('slickPrev');
+            } else {
+                $mainCarousel.slick('slickNext');
+            }
+        });
+
+    // ====== Слайдер превью ======
     const $thumbCarousel = $('.custom-thumbs-container').slick({
         slidesToShow: 3,
         slidesToScroll: 1,
         asNavFor: '.carousel-inner',
         focusOnSelect: true,
         arrows: false,
-        infinite: true, // лучше true, чтобы цикл был
-        centerMode: true, // 🔥 ВАЖНО: активный слайд по центру
-
-        infinite: false,
-        centerMode: false,
+        infinite: true,
+        centerMode: true,
         variableWidth: false,
-       responsive: [
+        responsive: [
             {
                 breakpoint: 1200,
                 settings: {
@@ -62,13 +94,12 @@ $(window).on('scroll', function () {
                 settings: {
                     slidesToShow: 5,
                     centerMode: true
-
                 }
             },
             {
                 breakpoint: 768,
                 settings: {
-                     centerPadding: '15px',
+                    centerPadding: '15px',
                     slidesToShow: 1.8,
                     infinite: false,
                     centerMode: true
@@ -77,18 +108,21 @@ $(window).on('scroll', function () {
         ]
     });
 
+    // ====== Клик по миниатюре ======
     $('.thumb-item').on('click', function(e) {
         e.preventDefault();
         const index = $(this).data('slide-index');
         $mainCarousel.slick('slickGoTo', index);
     });
 
+    // ====== Синхронизация активного превью ======
     $mainCarousel.on('beforeChange', function(event, slick, currentSlide, nextSlide) {
         $('.thumb-item').removeClass('active');
         $('.thumb-item').eq(nextSlide).addClass('active');
         $thumbCarousel.slick('slickGoTo', nextSlide);
     });
 
+    // ====== Кнопки навигации ======
     $('.carousel-nav-btn.up').on('click', function() {
         $mainCarousel.slick('slickPrev');
     });
@@ -97,11 +131,6 @@ $(window).on('scroll', function () {
         $mainCarousel.slick('slickNext');
     });
 
-    $('.carousel-inner .carousel-slide').on('click', function(e) {
-        if (!$(e.target).closest('.custom-thumbs-container').length) {
-            $mainCarousel.slick('slickNext');
-        }
-    });
 
     // =============== СЛАЙДЕР ЦЕН ===============
 
