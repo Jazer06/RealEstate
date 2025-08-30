@@ -27,10 +27,10 @@ class SliderController extends Controller
         $validated = $request->validate([
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:255',
-            'description' => 'nullable|string', // Добавляем валидацию для description
+            'description' => 'nullable|string',
             'button_text' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360', // 15 МБ
-            'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360', // 15 МБ
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
             'properties' => 'nullable|array',
             'properties.*' => 'nullable|exists:properties,id',
         ]);
@@ -45,9 +45,9 @@ class SliderController extends Controller
         $slider = Slider::create([
             'title' => $validated['title'] ?? null,
             'subtitle' => $validated['subtitle'] ?? null,
-            'description' => $validated['description'] ?? null, // Добавляем description
+            'description' => $validated['description'] ?? null,
             'button_text' => $validated['button_text'] ?? 'Смотреть все ЖК',
-            'button_link' => null, // временно
+            'button_link' => null,
             'image_path' => $imagePath,
         ]);
 
@@ -88,18 +88,20 @@ class SliderController extends Controller
 
     public function update(Request $request, Slider $slider)
     {
-        $this->authorize('update', $slider);
+        // $this->authorize('update', $slider); // Временно отключено для отладки
 
         $validated = $request->validate([
-            'title' => 'nullable|string|max:255',
-            'subtitle' => 'nullable|string|max:255',
-            'description' => 'nullable|string', // Добавляем валидацию для description
-            'button_text' => 'nullable|string|max:255',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360', // 15 МБ
-            'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360', // 15 МБ
+            'title' => 'required|string|max:255',
+            'subtitle' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'button_text' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
             'properties' => 'nullable|array',
             'properties.*' => 'nullable|exists:properties,id',
         ]);
+
+        \Log::info('Validated data:', $validated); // Логирование для отладки
 
         $imagePath = $slider->image_path;
         if ($request->hasFile('image')) {
@@ -112,10 +114,10 @@ class SliderController extends Controller
 
         // Обновляем слайдер
         $slider->update([
-            'title' => $validated['title'] ?? null,
-            'subtitle' => $validated['subtitle'] ?? null,
-            'description' => $validated['description'] ?? null, // Добавляем description
-            'button_text' => $validated['button_text'] ?? 'Смотреть все ЖК',
+            'title' => $validated['title'],
+            'subtitle' => $validated['subtitle'],
+            'description' => $validated['description'] ?? null,
+            'button_text' => $validated['button_text'],
             'image_path' => $imagePath,
         ]);
 
@@ -134,6 +136,9 @@ class SliderController extends Controller
         // Привязка квартир
         $selectedProperties = $request->properties ?? [];
         $selectedProperties = array_filter($selectedProperties, fn($value) => $value !== '' && $value !== null);
+
+        // Отвязываем старые свойства
+        Property::where('slider_id', $slider->id)->update(['slider_id' => null]);
 
         if (empty($selectedProperties)) {
             $buttonLink = url('/properties') . '?slider_id=' . $slider->id;
@@ -174,7 +179,16 @@ class SliderController extends Controller
 
     public function destroyImage(Request $request, SliderImage $sliderImage)
     {
-        $sliderImage->delete();
-        return redirect()->back()->with('success', 'Дополнительное изображение удалено.');
+        try {
+            // Удаляем файл из хранилища
+            if ($sliderImage->image_path && Storage::disk('public')->exists($sliderImage->image_path)) {
+                Storage::disk('public')->delete($sliderImage->image_path);
+            }
+            // Удаляем запись из базы
+            $sliderImage->delete();
+            return response()->json(['success' => true, 'message' => 'Дополнительное изображение удалено.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
     }
 }

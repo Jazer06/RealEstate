@@ -17,7 +17,14 @@
         </div>
     @endif
 
-    <form action="{{ route('dashboard.sliders.update', $slider) }}" method="POST" enctype="multipart/form-data" class="p-4" style="background-color: #3a3a3a; border-radius: 8px;">
+    <form id="slider-update-form"
+          action="{{ route('dashboard.sliders.update', $slider) }}"
+          method="POST"
+          enctype="multipart/form-data"
+          class="p-4"
+          style="background-color: #3a3a3a; border-radius: 8px;"
+          novalidate>
+
         @csrf
         @method('PUT')
 
@@ -41,9 +48,7 @@
             <input type="text" name="button_text" class="form-control bg-dark text-light" value="{{ old('button_text', $slider->button_text) }}" required>
         </div>
 
-        <div class="mb-3">
-            <input type="hidden" name="button_link" class="form-control bg-dark text-light" value="{{ old('button_link', $slider->button_link ?? '') }}">
-        </div>
+        <input type="hidden" name="button_link" value="{{ old('button_link', $slider->button_link ?? '') }}">
 
         <div class="mb-3">
             <label for="image" class="form-label text-light">Основное изображение</label>
@@ -60,41 +65,30 @@
             <label for="additional_images" class="form-label text-light">Дополнительные изображения</label>
             <input type="file" name="additional_images[]" class="form-control bg-dark text-light" multiple>
             <small class="text-muted">Максимальный размер каждого файла: 15 МБ.</small>
+
             @if ($slider->images->count() > 0)
                 <div class="mt-2">
                     <h6 class="text-light mb-2">Текущие дополнительные изображения:</h6>
                     <div class="d-flex flex-wrap gap-2">
                         @foreach ($slider->images as $image)
-                            <div class="position-relative">
+                            <div class="position-relative" id="image-{{ $image->id }}">
                                 <img src="{{ Storage::url($image->image_path) }}" alt="Additional Image" style="max-width: 100px; border-radius: 4px;">
-                                <form action="{{ route('dashboard.sliders.image.destroy', $image->id) }}" method="POST" style="position: absolute; top: 0; right: 0;" class="m-0 p-0">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn btn-danger text-white px-2 py-1 rounded" style="font-size: 0.8rem;">Удалить</button>
-                                </form>
+                                <button type="button"
+                                        class="btn btn-danger text-white px-2 py-1 rounded delete-image"
+                                        style="font-size: 0.8rem;"
+                                        data-image-id="{{ $image->id }}"
+                                        data-url="{{ route('dashboard.sliders.image.destroy', $image->id) }}">Удалить</button>
                             </div>
                         @endforeach
                     </div>
                 </div>
             @endif
-            <small class="text-muted">Загрузите новые или оставьте как есть.</small>
-        </div>
-
-        <div class="mb-3">
-            <label for="properties" class="form-label text-light">Кнопка ведёт на ЖК</label>
-            <select name="properties[]" id="properties" class="form-control bg-dark text-light" multiple>
-                <option value="" {{ empty($slider->properties->pluck('id')->toArray()) ? 'selected' : '' }}>Ведём на все ЖК</option>
-                @foreach ($allProperties as $property)
-                    <option value="{{ $property->id }}" {{ in_array($property->id, $slider->properties->pluck('id')->toArray()) ? 'selected' : '' }}>{{ $property->name }}</option>
-                @endforeach
-            </select>
         </div>
 
         <div class="mt-4">
             <button type="submit" class="btn btn-primary dashboard-btn-primary">Сохранить</button>
-            <a href="{{ route('dashboard.sliders.index') }}" class="btn btn-secondary bg-secondary text-white hover:bg-gray-600">Отмена</a>
         </div>
     </form>
 </div>
-@endsection
 
+@endsection
