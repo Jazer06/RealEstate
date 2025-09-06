@@ -48,27 +48,30 @@
                                         <h5 class="card-title fst-italic pt-2">{{ $property->title }}</h5>
                                     </div>
                                     <div class="col-sm-6">
-                                        <p class="card-text pt-2 m-0">
-                                            @if($property->price > 0)
-                                                <strong>От: {{ number_format($property->price, 0, ' ', ' ') }} ₽</strong>
-                                            @else
-                                                <strong>От: <a href="{{ route('consultation') }}" class="btn btn-outline-secondary">Узнать цену</a></strong>
-                                            @endif
-                                        </p>
-                                        <p class="m-0">
+                                        <p class="m-0" style="padding-top: 10px;">
                                             @if($property->area)
                                                 <strong>м²</strong> {{ number_format($property->area, 1, ',', ' ') }}
                                             @endif
                                         </p>
                                         @if(!empty($property->address) && $property->address !== 'Адрес не указан')
-                                            <p class="m-0">
+                                        <p class="m-0" style="padding-top: 10px;">
                                                 <strong>Адрес:</strong> {{ $property->address }}
-                                            </p>
+                                        </p>
                                         @endif
-                                        <p class="card-description">
-                                            {{ $property->description ?? '' }}
+                                        <p class="card-text mb-2" style="padding-top:10px">
+                                            @if($property->price > 0)
+                                                <strong> Цена:{{ number_format($property->price, 0, ' ', ' ') }} ₽</strong>
+                                            @else
+                                                <strong>Цена: <a href="{{ route('consultation') }}" class="btn btn-outline-secondary">Узнать цену</a></strong>
+                                            @endif
                                         </p>
                                     </div>
+                                </div>
+                                <div>
+                                    <p class="card-description p-2">
+                                        {{ $property->description ?? '' }}
+                                    </p>
+                                    
                                 </div>
                             </div>
                         </div>
