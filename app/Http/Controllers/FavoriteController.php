@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Favorite;
@@ -8,16 +7,8 @@ use App\Models\PurchaseRequest;
 use App\Models\WhatsAppSender;
 use Illuminate\Http\Request;
 
-/**
- * Контроллер для управления избранными объектами недвижимости и заявками на покупку.
- */
 class FavoriteController extends Controller
 {
-    /**
-     * Отображает список избранных объектов недвижимости текущего пользователя.
-     *
-     * @return \Illuminate\View\View
-     */
     public function index()
     {
         $propertyIds = Favorite::where('user_id', auth()->id())->pluck('property_id');
@@ -26,35 +17,31 @@ class FavoriteController extends Controller
         return view('favorites.index', compact('favorites'));
     }
 
-    /**
-     * Добавляет или удаляет объект недвижимости из избранного текущего пользователя.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Property $property
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function toggle(Request $request, Property $property)
     {
-        $favorite = Favorite::where('user_id', auth()->id())->where('property_id', $property->id)->first();
+        $userId = auth()->id();
+        $favorite = Favorite::where('user_id', $userId)->where('property_id', $property->id)->first();
+
         if ($favorite) {
             $favorite->delete();
-            return redirect()->back()->with('success', 'Удалено из избранного!');
+            $message = 'Удалено из избранного!';
+        } else {
+            Favorite::create([
+                'user_id' => $userId,
+                'property_id' => $property->id,
+            ]);
+            $message = 'Добавлено в избранное!';
         }
 
-        Favorite::create([
-            'user_id' => auth()->id(),
-            'property_id' => $property->id,
-        ]);
-        return redirect()->back()->with('success', 'Добавлено в избранное!');
+        // Проверяем, является ли запрос AJAX (для кнопки "Узнать цену")
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true, 'message' => $message]);
+        }
+
+        // Для обычных запросов (кнопка с сердцем) возвращаем редирект
+        return redirect()->back()->with('success', $message);
     }
 
-    /**
-     * Создаёт заявку на покупку объекта недвижимости и отправляет уведомление в WhatsApp.
-     *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Property $property
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function createPurchaseRequest(Request $request, Property $property)
     {
         $request->validate([
@@ -89,13 +76,6 @@ class FavoriteController extends Controller
         return redirect()->back()->with('success', '✅ Заявка отправлена! Наш менеджер с вами свяжется.');
     }
 
-    /**
-     * Отправляет уведомление о новой заявке на покупку в WhatsApp-группу.
-     *
-     * @param \App\Models\PurchaseRequest $purchaseRequest
-     * @param \App\Models\Property $property
-     * @return void
-     */
     private function sendPurchaseRequestToWhatsApp(PurchaseRequest $purchaseRequest, Property $property)
     {
         $message = "📢 *Новая заявка на покупку!*\n"
@@ -112,12 +92,6 @@ class FavoriteController extends Controller
         }
     }
 
-    /**
-     * Удаляет объект из избранного текущего пользователя.
-     *
-     * @param \App\Models\Favorite $favorite
-     * @return \Illuminate\Http\RedirectResponse
-     */
     public function destroy(Favorite $favorite)
     {
         if ($favorite->user_id !== auth()->id()) {

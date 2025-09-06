@@ -197,7 +197,14 @@
                                             @if($property->price > 0)
                                                 <strong>Цена: {{ number_format($property->price, 0, ' ', ' ') }} ₽</strong>
                                             @else
-                                                <strong>Цена: <a href="{{ route('consultation') }}" class="btn btn-outline-secondary">Узнать цену</a></strong>
+                                                @auth
+                                                    <form action="{{ route('favorites.toggle', $property->id) }}" method="POST" class="add-to-favorites-form">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-outline-secondary" onclick="event.stopPropagation();">Узнать цену</button>
+                                                    </form>
+                                                @else
+                                                    <a href="{{ route('login') }}" class="btn btn-outline-secondary" onclick="event.stopPropagation();">Узнать цену</a>
+                                                @endauth
                                             @endif
                                         </p>
                                     </div>
@@ -226,3 +233,4 @@
         @endif
     </div>
 @endsection
+

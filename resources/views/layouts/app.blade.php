@@ -6,7 +6,8 @@
     <meta name="description" content="Продажа квартир в Дагестане: Махачкала, Каспийск, Дербент. Купите жилье от застройщика недорого!">
     <meta name="keywords" content="купить квартиру в Дагестане, недвижимость Махачкала, новостройки Каспийск, квартиры Дербент, жилье в Дагестане">
     <meta name="author" content="Sofiarealty">
-    <title>{{ config('app.name', 'Sofiarealty') }} | Купить квартиру в Дагестане</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <title>{{ config('app.name', 'Sofiarealty') }} | @yield('title', 'Купить квартиру в Дагестане')</title>
 
     <!-- Slick CSS -->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
@@ -24,7 +25,7 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Moderustic:wght@300..800&display=stylesheet">
 </head>
 <body>
     @include('layouts.header')
@@ -56,6 +57,69 @@
     <script src="{{ asset('js/nouislider.min.js') }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/show-card.js') }}"></script>
+    <script>
+        document.querySelectorAll('.add-to-favorites-form').forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                const formData = new FormData(this);
+
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || '',
+                        'Accept': 'application/json'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        setTimeout(() => {
+                            window.location.href = '{{ route("profile") }}';
+                        }, 1000);
+                    }
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                });
+            });
+        });
+
+        // Обработка кнопки с сердцем
+        document.querySelectorAll('.favorite-form').forEach(form => {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+                event.stopPropagation();
+
+                const formData = new FormData(this);
+
+                fetch(this.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    form.submit();
+                })
+                .catch(error => {
+                    console.error('Ошибка:', error);
+                });
+            });
+        });
+    </script>
+
     @yield('scripts')
 </body>
 </html>

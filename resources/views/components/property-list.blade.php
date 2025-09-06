@@ -19,7 +19,7 @@
                                  style="position: absolute; top: 12px; right: 12px; padding: 15px; z-index: 10;"
                                  onclick="event.stopPropagation();">
                                 @auth
-                                    <form action="{{ route('favorites.toggle', $property->id) }}" method="POST">
+                                    <form action="{{ route('favorites.toggle', $property->id) }}" method="POST" class="favorite-form">
                                         @csrf
                                         <button type="submit"
                                                 class="favorite-icons {{ auth()->user()->favorites->contains($property->id) ? 'favorite-added' : '' }}"
@@ -48,7 +48,7 @@
                                         <p class="modal-property-title" style="padding-top:10px">
                                             <b>
                                                 {{ $sliders->firstWhere('id', $property->slider_id)->title ?? $property->title }}
-                                            </b> 
+                                            </b>
                                         </p>
                                         <h5 class="card-title fst-italic pt-2">{{ $property->title }}</h5>
                                     </div>
@@ -67,7 +67,14 @@
                                             @if($property->price > 0)
                                                 <strong>Цена: {{ number_format($property->price, 0, ' ', ' ') }} ₽</strong>
                                             @else
-                                                <strong>Цена: <a href="{{ route('consultation') }}" class="btn btn-outline-secondary">Узнать цену</a></strong>
+                                                @auth
+                                                    <form action="{{ route('favorites.toggle', $property->id) }}" method="POST" class="add-to-favorites-form">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-outline-secondary" onclick="event.stopPropagation();">Узнать цену</button>
+                                                    </form>
+                                                @else
+                                                    <a href="{{ route('login') }}" class="btn btn-outline-secondary" onclick="event.stopPropagation();">Узнать цену</a>
+                                                @endauth
                                             @endif
                                         </p>
                                     </div>
@@ -95,3 +102,16 @@
         {{ $properties->links('pagination::bootstrap-5') }}
     @endif
 </div>
+@if (session('success'))
+    <div class="alert alert-success alert-dismissible fade show" role="alert">
+        {{ session('success') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+@if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        {{ session('error') }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+@endif
+

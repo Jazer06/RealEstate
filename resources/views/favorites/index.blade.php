@@ -34,11 +34,6 @@
                             </p>
                             <h5 class="card-title fst-italic pt-2">{{ $property->title }}</h5>
                             <p class="card-text text-muted small m-0">
-                                @if($property->price > 0)
-                                    Цена: <strong>{{ number_format($property->price, 0, '.', ' ') }} ₽</strong><br>
-                                @else
-                                    Цена: <strong><a href="{{ route('consultation') }}" class="btn btn-light btn-sm">Узнать цену</a></strong><br>
-                                @endif
                                 @if($property->area) Площадь: {{ $property->area }} м²<br> @endif
                                 @if($property->rooms) Комнат: {{ $property->rooms }}<br> @endif
                                 @if($property->type) Тип: {{ $property->type }}<br> @endif
