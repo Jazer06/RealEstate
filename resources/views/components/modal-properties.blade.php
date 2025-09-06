@@ -12,10 +12,10 @@
                              class="modal-property-img">
                     </div>
                     <div class="modal-property-body">
-                        <p class="modal-property-title">
+                        <p class="modal-property-title d-flex justify-content-center p-2" style="color: #9370db;">
                             {{ $sliders->firstWhere('id', $property->slider_id)->title ?? '' }}
                         </p>
-                        <h6 class="modal-property-title">{{ Str::limit($property->title, 20) }}</h6>
+                        <h6 class="modal-property-title d-flex justify-content-center">{{ Str::limit($property->title, 20) }}</h6>
                         <p class="modal-property-price d-flex justify-content-center p-2">
                             @if($property->price > 0)
                                 От: {{ number_format($property->price, 0, ' ', ' ') }} ₽

@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Slider;
 
 class ProfileController extends Controller
 {
@@ -19,11 +20,12 @@ class ProfileController extends Controller
 
         $user = Auth::user();
         $favorites = $user->favorites()->latest()->paginate(9); // Загружаем избранные объекты с пагинацией
+        $sliders = Slider::all(); // Загружаем все слайдеры
 
-        return view('profile', compact('user', 'favorites'));
+        return view('profile', compact('user', 'favorites', 'sliders'));
     }
 
-  public function update(Request $request)
+    public function update(Request $request)
     {
         $user = Auth::user();
     

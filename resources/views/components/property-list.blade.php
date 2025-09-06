@@ -45,6 +45,11 @@
                             <div class="card-body-content flex-grow-1">
                                 <div class="row">
                                     <div class="col-sm-6">
+                                        <p class="modal-property-title" style="padding-top:10px">
+                                            <b>
+                                                {{ $sliders->firstWhere('id', $property->slider_id)->title ?? $property->title }}
+                                            </b> 
+                                        </p>
                                         <h5 class="card-title fst-italic pt-2">{{ $property->title }}</h5>
                                     </div>
                                     <div class="col-sm-6">
@@ -54,13 +59,13 @@
                                             @endif
                                         </p>
                                         @if(!empty($property->address) && $property->address !== 'Адрес не указан')
-                                        <p class="m-0" style="padding-top: 10px;">
+                                            <p class="m-0" style="padding-top: 10px;">
                                                 <strong>Адрес:</strong> {{ $property->address }}
-                                        </p>
+                                            </p>
                                         @endif
                                         <p class="card-text mb-2" style="padding-top:10px">
                                             @if($property->price > 0)
-                                                <strong> Цена:{{ number_format($property->price, 0, ' ', ' ') }} ₽</strong>
+                                                <strong>Цена: {{ number_format($property->price, 0, ' ', ' ') }} ₽</strong>
                                             @else
                                                 <strong>Цена: <a href="{{ route('consultation') }}" class="btn btn-outline-secondary">Узнать цену</a></strong>
                                             @endif
@@ -71,7 +76,6 @@
                                     <p class="card-description p-2">
                                         {{ $property->description ?? '' }}
                                     </p>
-                                    
                                 </div>
                             </div>
                         </div>

@@ -13,7 +13,7 @@
                              alt="{{ $property->title }}">
                         <!-- Кнопка избранного -->
                         <div class="card-footer-button"
-                             style="position: absolute; top: 12px; right: 12px; padding: 15px; z-index: 10;"
+                             style="position: absolute; top: 12px; right: 12px; z-index: 10;"
                              onclick="event.stopPropagation();">
                             <form action="{{ route('favorites.toggle', $property->id) }}" method="POST">
                                 @csrf
@@ -29,9 +29,16 @@
                     </div>
                     <div class="card-body d-flex flex-column">
                         <div class="card-body-content flex-grow-1">
+                            <p class="modal-property-title">
+                                {{ $sliders->firstWhere('id', $property->slider_id)->title ?? $property->title }}
+                            </p>
                             <h5 class="card-title fst-italic pt-2">{{ $property->title }}</h5>
                             <p class="card-text text-muted small m-0">
-                                Цена: <strong>{{ number_format($property->price, 0, '.', ' ') }} ₽</strong><br>
+                                @if($property->price > 0)
+                                    Цена: <strong>{{ number_format($property->price, 0, '.', ' ') }} ₽</strong><br>
+                                @else
+                                    Цена: <strong><a href="{{ route('consultation') }}" class="btn btn-light btn-sm">Узнать цену</a></strong><br>
+                                @endif
                                 @if($property->area) Площадь: {{ $property->area }} м²<br> @endif
                                 @if($property->rooms) Комнат: {{ $property->rooms }}<br> @endif
                                 @if($property->type) Тип: {{ $property->type }}<br> @endif
@@ -41,7 +48,7 @@
                         <!-- Форма заявки -->
                         <form action="{{ route('purchase-requests.store', $property->id) }}" method="POST" class="mt-3" onclick="event.stopPropagation();">
                             @csrf
-                            <textarea style="resize: none;" name="comment" class="form-control form-control-sm mb-2 " rows="3" placeholder="Комментарий к заявке (необязательно)"></textarea>
+                            <textarea style="resize: none;" name="comment" class="form-control form-control-sm mb-2" rows="3" placeholder="Комментарий к заявке (необязательно)"></textarea>
                             <button type="submit" class="btn btn-sm sub-btn w-100">Отправить заявку</button>
                         </form>
                     </div>
@@ -54,5 +61,3 @@
         @endforelse
     </div>
 </div>
-
-
