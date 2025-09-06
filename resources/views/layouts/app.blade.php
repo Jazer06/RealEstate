@@ -57,7 +57,9 @@
     <script src="{{ asset('js/nouislider.min.js') }}"></script>
     <script src="{{ asset('js/scripts.js') }}"></script>
     <script src="{{ asset('js/show-card.js') }}"></script>
+
     <script>
+        // Обработка кнопки "Узнать цену"
         document.querySelectorAll('.add-to-favorites-form').forEach(form => {
             form.addEventListener('submit', function (event) {
                 event.preventDefault();
@@ -111,6 +113,7 @@
                     if (!response.ok) {
                         throw new Error('Network response was not ok');
                     }
+                    // Кнопка с сердцем ожидает редирект, поэтому отправляем форму
                     form.submit();
                 })
                 .catch(error => {

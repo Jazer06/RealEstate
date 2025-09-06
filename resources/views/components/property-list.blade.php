@@ -19,7 +19,7 @@
                                  style="position: absolute; top: 12px; right: 12px; padding: 15px; z-index: 10;"
                                  onclick="event.stopPropagation();">
                                 @auth
-                                    <form action="{{ route('favorites.toggle', $property->id) }}" method="POST" class="favorite-form">
+                                    <form action="{{ route('favorites.toggle', $property->id) }}" method="POST">
                                         @csrf
                                         <button type="submit"
                                                 class="favorite-icons {{ auth()->user()->favorites->contains($property->id) ? 'favorite-added' : '' }}"
@@ -45,11 +45,6 @@
                             <div class="card-body-content flex-grow-1">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <p class="modal-property-title" style="padding-top:10px">
-                                            <b>
-                                                {{ $sliders->firstWhere('id', $property->slider_id)->title ?? $property->title }}
-                                            </b>
-                                        </p>
                                         <h5 class="card-title fst-italic pt-2">{{ $property->title }}</h5>
                                     </div>
                                     <div class="col-sm-6">
@@ -59,9 +54,9 @@
                                             @endif
                                         </p>
                                         @if(!empty($property->address) && $property->address !== 'Адрес не указан')
-                                            <p class="m-0" style="padding-top: 10px;">
+                                        <p class="m-0" style="padding-top: 10px;">
                                                 <strong>Адрес:</strong> {{ $property->address }}
-                                            </p>
+                                        </p>
                                         @endif
                                         <p class="card-text mb-2" style="padding-top:10px">
                                             @if($property->price > 0)
@@ -83,6 +78,7 @@
                                     <p class="card-description p-2">
                                         {{ $property->description ?? '' }}
                                     </p>
+                                    
                                 </div>
                             </div>
                         </div>
@@ -102,16 +98,3 @@
         {{ $properties->links('pagination::bootstrap-5') }}
     @endif
 </div>
-@if (session('success'))
-    <div class="alert alert-success alert-dismissible fade show" role="alert">
-        {{ session('success') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
-@if (session('error'))
-    <div class="alert alert-danger alert-dismissible fade show" role="alert">
-        {{ session('error') }}
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-    </div>
-@endif
-

@@ -111,6 +111,14 @@
         <div class="alert alert-success mb-4 text-center floating-alert">
             <i class="fas fa-check-circle mr-2"></i>
             {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger mb-4 text-center floating-alert">
+            <i class="fas fa-exclamation-circle mr-2"></i>
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
@@ -149,7 +157,7 @@
                                  style="position: absolute; top: 12px; right: 12px; padding: 15px; z-index: 10;"
                                  onclick="event.stopPropagation();">
                                 @auth
-                                    <form action="{{ route('favorites.toggle', $property->id) }}" method="POST">
+                                    <form action="{{ route('favorites.toggle', $property->id) }}" method="POST" class="favorite-form">
                                         @csrf
                                         <button type="submit"
                                                 class="favorite-icons {{ auth()->user()->favorites->contains($property->id) ? 'favorite-added' : '' }}"
@@ -178,7 +186,7 @@
                                         <p class="modal-property-title" style="padding-top:10px">
                                             <b>
                                                 {{ $sliders->firstWhere('id', $property->slider_id)->title ?? $property->title }}
-                                            </b> 
+                                            </b>
                                         </p>
                                         <h5 class="card-title fst-italic pt-2">{{ $property->title }}</h5>
                                     </div>
@@ -233,4 +241,3 @@
         @endif
     </div>
 @endsection
-
