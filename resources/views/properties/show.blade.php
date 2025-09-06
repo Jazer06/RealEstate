@@ -191,33 +191,36 @@
                         </div>
                     @endif
                 </div>
-
-                <!-- Адрес — отдельная строка -->
-                @if($property->address)
-                    <div class="d-flex align-items-center mb-2">
-                        <svg class="me-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #f39c12;">
-                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                            <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                        <strong>Адрес:</strong>
-                        <span class="ms-1 text-truncate" style="max-width: 100%; word-break: break-word;">
-                            {{ $property->address }}
-                        </span>
-                    </div>
-                @endif
+@if(!empty($property->address) && $property->address !== 'Адрес не указан')
+    <div class="d-flex align-items-center mb-2">
+        <svg class="me-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #f39c12;">
+            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+            <circle cx="12" cy="10" r="3"></circle>
+        </svg>
+        <strong>Адрес:</strong>
+        <span class="ms-1 text-truncate" style="max-width: 100%; word-break: break-word;">
+            {{ $property->address }}
+        </span>
+    </div>
+@endif
 
                 <!-- Описание -->
-                <div class="d-flex align-items-start">
-                    <svg class="me-2 mt-1" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #7f8c8d;">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                        <polyline points="10 9 9 9 8 9"></polyline>
-                    </svg>
+            <div class="d-flex align-items-start">
+                <svg class="me-2 mt-1" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #7f8c8d;">
+                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                    <polyline points="14 2 14 8 20 8"></polyline>
+                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                    <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+                <div>
                     <strong>Описание:</strong>
-                    <span class="ms-1" style="white-space: pre-line;">{{ $property->description ?? 'Нет описания' }}</span>
+                    <div class="mt-1" style="white-space: pre-line;">
+                        {{ $property->description ?? 'Нет описания' }}
+                    </div>
                 </div>
+            </div>
+
             </div>
         </div>
     </div>
