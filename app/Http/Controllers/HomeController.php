@@ -50,7 +50,7 @@ class HomeController extends Controller
         $areaMax = $request->input('area_range_max', $areaMaxDefault);
         $query->whereBetween('area', [$areaMin, $areaMax]);
 
-        $properties = $query->latest()->paginate(5)->withQueryString();
+        $properties = $query->latest()->paginate(6)->withQueryString();
         $totalProperties = $properties->total();
 
         $bannerTitle = Setting::where('key', 'banner_title')->value('value') ?? '';
