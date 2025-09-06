@@ -29,9 +29,11 @@
                     </div>
                     <div class="card-body d-flex flex-column">
                         <div class="card-body-content flex-grow-1">
+                            <p class="modal-property-title">
+                                {{ $sliders->firstWhere('id', $property->slider_id)->title ?? $property->title }}
+                            </p>
                             <h5 class="card-title fst-italic pt-2">{{ $property->title }}</h5>
                             <p class="card-text text-muted small m-0">
-
                                 @if($property->area) Площадь: {{ $property->area }} м²<br> @endif
                                 @if($property->rooms) Комнат: {{ $property->rooms }}<br> @endif
                                 @if($property->type) Тип: {{ $property->type }}<br> @endif
@@ -41,7 +43,7 @@
                         <!-- Форма заявки -->
                         <form action="{{ route('purchase-requests.store', $property->id) }}" method="POST" class="mt-3" onclick="event.stopPropagation();">
                             @csrf
-                            <textarea style="resize: none;" name="comment" class="form-control form-control-sm mb-2 " rows="3" placeholder="Комментарий к заявке (необязательно)"></textarea>
+                            <textarea style="resize: none;" name="comment" class="form-control form-control-sm mb-2" rows="3" placeholder="Комментарий к заявке (необязательно)"></textarea>
                             <button type="submit" class="btn btn-sm sub-btn w-100">Отправить заявку</button>
                         </form>
                     </div>
@@ -54,5 +56,3 @@
         @endforelse
     </div>
 </div>
-
-
