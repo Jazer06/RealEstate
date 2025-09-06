@@ -10,6 +10,7 @@
                 <div class="custom-slider">
                     @php
                         $allImages = [];
+                        $hasPlan = $property->images()->where('is_plan', true)->first() !== null;
                         // Основное фото
                         if ($property->image_path) {
                             $allImages[] = [
@@ -48,6 +49,10 @@
                                     <div class="slide-badge">
                                         📐 План дома
                                     </div>
+                                @elseif($index === 0 && !$hasPlan)
+                                    <div class="slide-badge">
+                                         📐 План дома
+                                    </div>
                                 @endif
                             </div>
                         @endforeach
@@ -56,6 +61,10 @@
                             <img src="https://via.placeholder.com/600x400?text=Нет+фото" 
                                  alt="Нет фото" 
                                  class="img-fluid custom-slide-image">
+                            <!-- Значок 📐 для первой картинки, если нет плана и нет других фото -->
+                            <div class="slide-badge">
+                                📐
+                            </div>
                         </div>
                     @endif
                 </div>
@@ -78,6 +87,11 @@
                             @else
                                 <!-- Обычные фото — без рамки -->
                                 <div class="thumb-wrapper">
+                                    @if($index === 0 && !$hasPlan)
+                                        <div class="thumb-badge-label bg-primary text-white">
+                                            📐
+                                        </div>
+                                    @endif
                                     <div class="custom-thumb"
                                          style="background-image: url('{{ $image['url'] }}');"
                                          title="Фото">
@@ -130,8 +144,11 @@
                             <path d="M16 8h-6a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h6"></path>
                             <path d="M16 10v4"></path>
                         </svg>
-                        <strong>Цена:</strong>
-                        <span class="price-highlight ms-1">{{ number_format($property->price, 0, '.', ' ') }} ₽</span>
+                        @if($property->price > 0)
+                            <strong>Цена: {{ number_format($property->price, 0, ' ', ' ') }} ₽</strong>
+                        @else
+                            <strong>Цена: <a href="{{ route('consultation') }}" class="btn btn-outline-secondary">Узнать цену</a></strong>
+                        @endif
                     </div>
 
                     <!-- Площадь -->
@@ -176,16 +193,18 @@
                 </div>
 
                 <!-- Адрес — отдельная строка -->
-                <div class="d-flex align-items-center mb-2">
-                    <svg class="me-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #f39c12;">
-                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-                        <circle cx="12" cy="10" r="3"></circle>
-                    </svg>
-                    <strong>Адрес:</strong>
-                    <span class="ms-1 text-truncate" style="max-width: 100%; word-break: break-word;">
-                        {{ $property->address ?? 'Не указан' }}
-                    </span>
-                </div>
+                @if($property->address)
+                    <div class="d-flex align-items-center mb-2">
+                        <svg class="me-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #f39c12;">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <strong>Адрес:</strong>
+                        <span class="ms-1 text-truncate" style="max-width: 100%; word-break: break-word;">
+                            {{ $property->address }}
+                        </span>
+                    </div>
+                @endif
 
                 <!-- Описание -->
                 <div class="d-flex align-items-start">
@@ -203,3 +222,4 @@
         </div>
     </div>
 </div>
+@endsection

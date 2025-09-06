@@ -913,7 +913,7 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     width: 100%;
     border-bottom-left-radius: 15px;
     border-bottom-right-radius: 15px;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
     color: transparent;
     z-index: 2;

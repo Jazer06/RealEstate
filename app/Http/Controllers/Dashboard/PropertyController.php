@@ -34,18 +34,21 @@ class PropertyController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|max:30000000', 
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0|max:30000000',
             'address' => 'nullable|string|max:255',
             'area' => 'nullable|numeric|min:0',
-            'rooms' => 'nullable|integer|min:0',
-            'type' => 'nullable|string|in:квартира,дом,коммерческая',
+            'rooms' => 'required|integer|min:0',
+            'type' => 'required|string|in:квартира,дом,коммерческая',
             'slider_id' => 'nullable|exists:sliders,id',
-            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120', 
+            'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'plan_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'additional_images' => 'nullable|array|max:5',
             'additional_images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
         ]);
+
+        // Автозаполнение для address, если не указано
+        $validated['address'] = $validated['address'] ?? 'Адрес не указан';
 
         $property = new Property($validated);
         $property->user_id = Auth::id();
@@ -97,12 +100,12 @@ class PropertyController extends Controller
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price' => 'required|numeric|max:30000000', 
+            'description' => 'required|string',
+            'price' => 'required|numeric|min:0|max:30000000',
             'address' => 'nullable|string|max:255',
             'area' => 'nullable|numeric|min:0',
-            'rooms' => 'nullable|integer|min:0',
-            'type' => 'nullable|string|in:квартира,дом,коммерческая',
+            'rooms' => 'required|integer|min:0',
+            'type' => 'required|string|in:квартира,дом,коммерческая',
             'slider_id' => 'nullable|exists:sliders,id',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'plan_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
@@ -111,6 +114,9 @@ class PropertyController extends Controller
             'delete_images' => 'nullable|array',
             'delete_images.*' => 'integer|exists:property_images,id',
         ]);
+
+        // Автозаполнение для address, если не указано
+        $validated['address'] = $validated['address'] ?? 'Адрес не указан';
 
         if ($request->hasFile('image_path')) {
             if ($property->image_path) {

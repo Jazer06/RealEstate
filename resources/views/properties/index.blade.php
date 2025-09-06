@@ -182,7 +182,11 @@
                                     </div>
                                     <div class="col-sm-6">
                                         <p class="card-text pt-2 m-0">
-                                            <strong>От: {{ number_format($property->price, 0, ' ', ' ') }} ₽</strong><br>
+                                            @if($property->price > 0)
+                                                <strong>От: {{ number_format($property->price, 0, ' ', ' ') }} ₽</strong>
+                                            @else
+                                                <strong>От: <a href="{{ route('consultation') }}" class="btn btn-outline-secondary">Узнать цену</a></strong>
+                                            @endif
                                         </p>
                                         <p class="m-0">
                                             @if($property->area)
@@ -199,6 +203,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             @empty

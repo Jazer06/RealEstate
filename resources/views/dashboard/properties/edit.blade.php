@@ -39,7 +39,7 @@
             </div>
 
             <div class="col-md-6">
-                <label for="price" class="form-label text-light">Цена, ₽</label>
+                <label for="price" class="form-label text-light">Цена, ₽ Указываем 0, если хотим кнопку подробнее</label>
                 <input type="number" name="price" id="price" class="form-control bg-dark text-light" value="{{ old('price', $property->price) }}">
                 @error('price') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
             </div>
