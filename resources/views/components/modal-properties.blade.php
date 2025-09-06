@@ -12,8 +12,17 @@
                              class="modal-property-img">
                     </div>
                     <div class="modal-property-body">
+                        <p class="modal-property-title">
+                            {{ $sliders->firstWhere('id', $property->slider_id)->title ?? '' }}
+                        </p>
                         <h6 class="modal-property-title">{{ Str::limit($property->title, 20) }}</h6>
-                        <p class="modal-property-price">От: {{ number_format($property->price, 0, ' ', ' ') }} ₽</p>
+                        <p class="modal-property-price d-flex justify-content-center p-2">
+                            @if($property->price > 0)
+                                От: {{ number_format($property->price, 0, ' ', ' ') }} ₽
+                            @else
+                                <strong><a href="{{ route('consultation') }}" class="btn btn-light">Цена</a></strong>
+                            @endif
+                        </p>
                     </div>
                 </div>
             @endforeach

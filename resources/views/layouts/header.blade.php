@@ -1,55 +1,60 @@
+@php
+    $latestProperties = App\Models\Property::latest()->take(5)->get();
+    $sliders = App\Models\Slider::all(); // Получаем все слайдеры
+@endphp
+
 <nav class="navbar navbar-light" id="mainNavbar">
     <div class="container">
         <a class="navbar-brand" href="{{ url('/') }}">Sofiarealty</a>
-            <div class="d-flex align-items-center gap-3">
-                <a href="tel:{{ $phoneNumber ?? '+1234567890' }}" class="nav-link d-flex align-items-center phone-icon">
-                    <i class="bi bi-telephone-fill text-dark"></i>
-                    <span class="d-none d-md-inline fs-6 text-dark">
-                        {{ $phoneNumber ?? '+7 (953) 555-33-32' }}
-                    </span>
+        <div class="d-flex align-items-center gap-3">
+            <a href="tel:{{ $phoneNumber ?? '+1234567890' }}" class="nav-link d-flex align-items-center phone-icon">
+                <i class="bi bi-telephone-fill text-dark"></i>
+                <span class="d-none d-md-inline fs-6 text-dark">
+                    {{ $phoneNumber ?? '+7 (953) 555-33-32' }}
+                </span>
+            </a>
+            @auth
+                <a class="nav-link favorite-icon" href="{{ route('profile') }}" title="Избранное">
+                    <i class="bi bi-heart"></i>
                 </a>
-                @auth
-                    <a class="nav-link  favorite-icon" href="{{ route('profile') }}" title="Избранное">
-                        <i class="bi bi-heart"></i>
+                <div class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        @if (Auth::check() && Auth::user()->avatar)
+                            <img 
+                                src="{{ Storage::url(Auth::user()->avatar) }}" 
+                                alt="{{ Auth::user()->name }}" 
+                                class="rounded-circle" 
+                                style="width: 40px; height: 40px; object-fit: cover;">
+                        @else
+                            <span class="rounded-circle" 
+                                  style="width: 40px; height: 40px; background: #ccc; display: inline-flex; align-items: center; justify-content: center; color: white;">
+                                {{ Auth::check() ? substr(Auth::user()->name, 0, 1) : 'Г' }}
+                            </span>
+                        @endif
                     </a>
-                    <div class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" id="userDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            @if (Auth::check() && Auth::user()->avatar)
-                                <img 
-                                    src="{{ Storage::url(Auth::user()->avatar) }}" 
-                                    alt="{{ Auth::user()->name }}" 
-                                    class="rounded-circle" 
-                                    style="width: 40px; height: 40px; object-fit: cover;">
-                            @else
-                                <span class="rounded-circle" 
-                                      style="width: 40px; height: 40px; background: #ccc; display: inline-flex; align-items: center; justify-content: center; color: white;">
-                                    {{ Auth::check() ? substr(Auth::user()->name, 0, 1) : 'Г' }}
-                                </span>
-                            @endif
-                        </a>
-                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="{{ route('profile') }}">В профиль</a></li>
-                            <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileSettingsModal">Настройки профиля</a></li>
-                            @if (Auth::user()->isAdmin())
-                                <li><a class="dropdown-item" href="{{ route('dashboard') }}">Админка</a></li>
-                            @endif
-                            <li>
-                                <form action="{{ route('logout') }}" method="POST" class="m-0">
-                                    @csrf
-                                    <button type="submit" class="dropdown-item">Выход</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                @else
-                    <a class="nav-link ms-3" href="{{ route('login') }}" title="Вход или регистрация">
-                        <i class="bi bi-person-fill" style="font-size: 1.5rem;"></i>
-                    </a>
-                @endauth
-                <button class="navbar-toggler" type="button" data-bs-toggle="modal" data-bs-target="#menuModal">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-            </div>
+                    <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                        <li><a class="dropdown-item" href="{{ route('profile') }}">В профиль</a></li>
+                        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#profileSettingsModal">Настройки профиля</a></li>
+                        @if (Auth::user()->isAdmin())
+                            <li><a class="dropdown-item" href="{{ route('dashboard') }}">Админка</a></li>
+                        @endif
+                        <li>
+                            <form action="{{ route('logout') }}" method="POST" class="m-0">
+                                @csrf
+                                <button type="submit" class="dropdown-item">Выход</button>
+                            </form>
+                        </li>
+                    </ul>
+                </div>
+            @else
+                <a class="nav-link ms-3" href="{{ route('login') }}" title="Вход или регистрация">
+                    <i class="bi bi-person-fill" style="font-size: 1.5rem;"></i>
+                </a>
+            @endauth
+            <button class="navbar-toggler" type="button" data-bs-toggle="modal" data-bs-target="#menuModal">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
         <ul class="nav justify-content-start fs-6 mt-2 w-100 border-to fw-bold main-nav-links">
             <li class="nav-item">
                 <a class="nav-link fs-14" href="{{ route('properties.index') }}">Объекты недвижимости</a>
@@ -73,9 +78,7 @@
         </ul>
     </div>
 </nav>
-@php
-    $latestProperties = App\Models\Property::latest()->take(5)->get();
-@endphp
+
 <div class="modal fade" id="menuModal" tabindex="-1" aria-labelledby="menuModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
@@ -140,7 +143,7 @@
                         </li>
                     @endauth
                 </ul>
-                @include('components.modal-properties', ['properties' => $latestProperties])
+                @include('components.modal-properties', ['properties' => $latestProperties, 'sliders' => $sliders])
             </div>
             <div class="modal-footer text-center">
                 <div class="container">
