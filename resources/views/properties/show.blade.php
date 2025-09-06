@@ -144,11 +144,7 @@
                             <path d="M16 8h-6a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h6"></path>
                             <path d="M16 10v4"></path>
                         </svg>
-                        @if($property->price > 0)
-                            <strong>Цена: {{ number_format($property->price, 0, ' ', ' ') }} ₽</strong>
-                        @else
-                            <strong>Цена: <a href="{{ route('consultation') }}" class="btn btn-outline-secondary">Узнать цену</a></strong>
-                        @endif
+
                     </div>
 
                     <!-- Площадь -->

@@ -39,7 +39,7 @@
             </div>
         </div>
 
-        <div class="container" >
+        <div class="container">
             <div class="" style="background-color: #413f3f99; backdrop-filter: blur(2px); margin: -6rem 1rem;">
                 <button class="carousel-nav-btn up">←</button>
                 <button class="carousel-nav-btn down">→</button>
@@ -75,21 +75,20 @@
                 </div>
             </div>
             @if ($selectedSlider)
-            <div class="row mt-6">
+                <div class="row mt-6">
                     <div class="col-md-6 mb-4">
-                        <h3>{{ $selectedSlider->title }}</h2>
+                        <h3>{{ $selectedSlider->title }}</h3>
                     </div>
-                <div class="col-md-6">
-                    <div class="slider-description">
-                    @if ($selectedSlider->description)
-                        <p>{{ $selectedSlider->description }}</p>
-                    @else
-                        <p>Описание отсутствует</p>
-                        
+                    <div class="col-md-6">
+                        <div class="slider-description">
+                            @if ($selectedSlider->description)
+                                <p>{{ $selectedSlider->description }}</p>
+                            @else
+                                <p>Описание отсутствует</p>
+                            @endif
+                        </div>
                     </div>
-                    @endif
                 </div>
-            </div>
             @endif
         </div>
 
@@ -104,7 +103,6 @@
 @endif
 
 @section('content')
-
     @if (!$selectedSlider)
         <h2 class="mb-4 mt-54">Наши объекты недвижимости</h2>
     @endif
@@ -113,6 +111,14 @@
         <div class="alert alert-success mb-4 text-center floating-alert">
             <i class="fas fa-check-circle mr-2"></i>
             {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    @endif
+    @if (session('error'))
+        <div class="alert alert-danger mb-4 text-center floating-alert">
+            <i class="fas fa-exclamation-circle mr-2"></i>
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
 
@@ -138,7 +144,7 @@
                     <div class="card property-card h-100" onclick="window.location='{{ route('properties.show', $property->id) }}'">
                         <div class="card-img-container">
                             <img class="primary-img"
-                                 src="{{ $property->image_path ? asset('storage/' . $property->image_path) : 'https://via.placeholder.com/300x200  ' }}"
+                                 src="{{ $property->image_path ? asset('storage/' . $property->image_path) : 'https://via.placeholder.com/300x200' }}"
                                  alt="{{ $property->title }}">
 
                             @if ($property->images()->where('is_plan', true)->first())
@@ -151,7 +157,7 @@
                                  style="position: absolute; top: 12px; right: 12px; padding: 15px; z-index: 10;"
                                  onclick="event.stopPropagation();">
                                 @auth
-                                    <form action="{{ route('favorites.toggle', $property->id) }}" method="POST">
+                                    <form action="{{ route('favorites.toggle', $property->id) }}" method="POST" class="favorite-form">
                                         @csrf
                                         <button type="submit"
                                                 class="favorite-icons {{ auth()->user()->favorites->contains($property->id) ? 'favorite-added' : '' }}"
@@ -177,6 +183,11 @@
                             <div class="card-body-content flex-grow-1">
                                 <div class="row">
                                     <div class="col-sm-6">
+                                        <p class="modal-property-title" style="padding-top:10px">
+                                            <b>
+                                                {{ $sliders->firstWhere('id', $property->slider_id)->title ?? $property->title }}
+                                            </b>
+                                        </p>
                                         <h5 class="card-title fst-italic pt-2">{{ $property->title }}</h5>
                                     </div>
                                     <div class="col-sm-6">
@@ -186,15 +197,22 @@
                                             @endif
                                         </p>
                                         @if(!empty($property->address) && $property->address !== 'Адрес не указан')
-                                        <p class="m-0" style="padding-top: 10px;">
+                                            <p class="m-0" style="padding-top: 10px;">
                                                 <strong>Адрес:</strong> {{ $property->address }}
-                                        </p>
+                                            </p>
                                         @endif
                                         <p class="card-text mb-2" style="padding-top:10px">
                                             @if($property->price > 0)
-                                                <strong> Цена:{{ number_format($property->price, 0, ' ', ' ') }} ₽</strong>
+                                                <strong>Цена: {{ number_format($property->price, 0, ' ', ' ') }} ₽</strong>
                                             @else
-                                                <strong>Цена: <a href="{{ route('consultation') }}" class="btn btn-outline-secondary">Узнать цену</a></strong>
+                                                @auth
+                                                    <form action="{{ route('favorites.toggle', $property->id) }}" method="POST" class="add-to-favorites-form">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-outline-secondary" onclick="event.stopPropagation();">Узнать цену</button>
+                                                    </form>
+                                                @else
+                                                    <a href="{{ route('login') }}" class="btn btn-outline-secondary" onclick="event.stopPropagation();">Узнать цену</a>
+                                                @endauth
                                             @endif
                                         </p>
                                     </div>
@@ -203,11 +221,9 @@
                                     <p class="card-description p-2">
                                         {{ $property->description ?? '' }}
                                     </p>
-                                    
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             @empty

@@ -8,9 +8,6 @@ use App\Models\PurchaseRequest;
 use App\Models\WhatsAppSender;
 use Illuminate\Http\Request;
 
-/**
- * Контроллер для управления избранными объектами недвижимости и заявками на покупку.
- */
 class FavoriteController extends Controller
 {
     /**
@@ -31,21 +28,31 @@ class FavoriteController extends Controller
      *
      * @param \Illuminate\Http\Request $request
      * @param \App\Models\Property $property
-     * @return \Illuminate\Http\RedirectResponse
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Http\JsonResponse
      */
     public function toggle(Request $request, Property $property)
     {
-        $favorite = Favorite::where('user_id', auth()->id())->where('property_id', $property->id)->first();
+        $userId = auth()->id();
+        $favorite = Favorite::where('user_id', $userId)->where('property_id', $property->id)->first();
+
         if ($favorite) {
             $favorite->delete();
-            return redirect()->back()->with('success', 'Удалено из избранного!');
+            $message = 'Удалено из избранного!';
+        } else {
+            Favorite::create([
+                'user_id' => $userId,
+                'property_id' => $property->id,
+            ]);
+            $message = 'Добавлено в избранное!';
         }
 
-        Favorite::create([
-            'user_id' => auth()->id(),
-            'property_id' => $property->id,
-        ]);
-        return redirect()->back()->with('success', 'Добавлено в избранное!');
+        // Проверяем, является ли запрос AJAX (для кнопки "Узнать цену")
+        if ($request->expectsJson()) {
+            return response()->json(['success' => true, 'message' => $message]);
+        }
+
+        // Для обычных запросов (кнопка с сердцем) возвращаем редирект
+        return redirect()->back()->with('success', $message);
     }
 
     /**
@@ -84,6 +91,7 @@ class FavoriteController extends Controller
             ->where('property_id', $property->id)
             ->delete();
 
+        // Отправляем в WhatsApp, но не прерываем процесс при ошибке
         $this->sendPurchaseRequestToWhatsApp($purchaseRequest, $property);
 
         return redirect()->back()->with('success', '✅ Заявка отправлена! Наш менеджер с вами свяжется.');
@@ -108,7 +116,8 @@ class FavoriteController extends Controller
         $success = $whatsAppSender->send($message);
 
         if (!$success) {
-            return back()->withErrors(['whatsapp' => 'Не удалось отправить сообщение в WhatsApp.'])->withInput();
+            // Логируем ошибку, но не прерываем выполнение
+            \Log::error('Не удалось отправить сообщение в WhatsApp: ' . $message);
         }
     }
 

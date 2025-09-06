@@ -31,7 +31,7 @@
                         <div class="card-body-content flex-grow-1">
                             <h5 class="card-title fst-italic pt-2">{{ $property->title }}</h5>
                             <p class="card-text text-muted small m-0">
-                                Цена: <strong>{{ number_format($property->price, 0, '.', ' ') }} ₽</strong><br>
+
                                 @if($property->area) Площадь: {{ $property->area }} м²<br> @endif
                                 @if($property->rooms) Комнат: {{ $property->rooms }}<br> @endif
                                 @if($property->type) Тип: {{ $property->type }}<br> @endif

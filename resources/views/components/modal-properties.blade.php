@@ -12,15 +12,22 @@
                              class="modal-property-img">
                     </div>
                     <div class="modal-property-body">
-                        <p class="modal-property-title">
+                        <p class="modal-property-title d-flex justify-content-center p-2" style="color: #9370db;">
                             {{ $sliders->firstWhere('id', $property->slider_id)->title ?? '' }}
                         </p>
-                        <h6 class="modal-property-title">{{ Str::limit($property->title, 20) }}</h6>
+                        <h6 class="modal-property-title d-flex justify-content-center">{{ Str::limit($property->title, 20) }}</h6>
                         <p class="modal-property-price d-flex justify-content-center p-2">
-                            @if($property->price > 0)
-                                От: {{ number_format($property->price, 0, ' ', ' ') }} ₽
+                          @if($property->price > 0)
+                        <strong>Цена: {{ number_format($property->price, 0, ' ', ' ') }} ₽</strong>
                             @else
-                                <strong><a href="{{ route('consultation') }}" class="btn btn-light">Цена</a></strong>
+                                @auth
+                                    <form action="{{ route('favorites.toggle', $property->id) }}" method="POST" class="add-to-favorites-form">
+                                        @csrf
+                                        <button type="submit" class="btn btn-outline-secondary" onclick="event.stopPropagation();">Узнать цену</button>
+                                    </form>
+                                @else
+                                    <a href="{{ route('login') }}" class="btn btn-outline-secondary" onclick="event.stopPropagation();">Узнать цену</a>
+                                @endauth
                             @endif
                         </p>
                     </div>
@@ -29,3 +36,4 @@
         </div>
     @endif
 </div>
+
