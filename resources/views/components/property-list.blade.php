@@ -60,9 +60,11 @@
                                                 <strong>м²</strong> {{ number_format($property->area, 1, ',', ' ') }}
                                             @endif
                                         </p>
-                                        <p class="m-0">
-                                            <strong>Адрес:</strong> {{ $property->address ?? '' }}
-                                        </p>
+                                        @if(!empty($property->address) && $property->address !== 'Адрес не указан')
+                                            <p class="m-0">
+                                                <strong>Адрес:</strong> {{ $property->address }}
+                                            </p>
+                                        @endif
                                         <p class="card-description">
                                             {{ $property->description ?? '' }}
                                         </p>
