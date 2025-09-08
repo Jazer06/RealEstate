@@ -941,8 +941,8 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     display: flex;
     flex-direction: column;
     flex: 1;
-    padding: 15px;
-    min-height: 225px;
+    padding: 0px 15px 15px 15px;
+    min-height: 235px;
 }
 
 .card-body-content { flex-grow: 1; }
@@ -961,11 +961,11 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
 
 .card-description {
     margin: 0;
-    max-height: 80px;
+    max-height: 95px;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
-    -webkit-line-clamp: 3;
+    -webkit-line-clamp: 5;
     -webkit-box-orient: vertical;
     font-size: 0.85rem;
 }
