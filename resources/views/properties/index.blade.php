@@ -76,10 +76,10 @@
             </div>
             @if ($selectedSlider)
                 <div class="row mt-6">
-                    <div class="col-md-6 mb-4">
+                    <div class="col-md-12 mb-1">
                         <h3>{{ $selectedSlider->title }}</h3>
                     </div>
-                    <div class="col-md-6">
+                    <div class="mt-1">
                         <div class="slider-description">
                             @if ($selectedSlider->description)
                                 <p>{{ $selectedSlider->description }}</p>

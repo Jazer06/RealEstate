@@ -1,11 +1,11 @@
 
 body {
-    font-style: normal;
-    background-size: cover;
-    color: #2c3e50;
-    min-height: 70vh;
-    display: flex;
-    flex-direction: column;
+  font-family: "Merriweather", serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
 }
 .container {
     flex: 1 0 auto;
@@ -25,7 +25,7 @@ body {
 .mt-70 { margin-top: 70px; }
 .mt-115 { margin-top: 115px; }
 .mt-200 { margin-top: 200px; }
-.mt-40{margin-top: 40%};
+.mt-40{margin-top: 30%};
 .mt-60{margin-top: 60%};
 .text-left { text-align: left !important; }
 .text-dark { color: #2c3e50 !important; }
