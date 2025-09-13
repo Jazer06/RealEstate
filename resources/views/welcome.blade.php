@@ -1,52 +1,21 @@
 @extends('layouts.app')
 
 @section('carousel')
-<div class="full-screen-carousel">
-    <div class="carousel-inner">
-        @foreach ($sliders as $slider)
-            <div class="carousel-slide">
-                <img src="{{ $slider->image_path ? asset('storage/' . $slider->image_path) : 'https://via.placeholder.com/1200x800' }}" alt="{{ $slider->title }}">
-                <div class="container">
-                    <div class="slide-content mt-40">
-                        <div>
-                            <h1 class="slide-title">{{ $slider->title }}</h1>
-                            <p class="slide-subtitle">{{ $slider->subtitle }}</p>
-                            
-                        </div>
-                        <a href="{{ $slider->button_link }}" class="iphone-button">{{ $slider->button_text }}</a>
-                    </div>
-                </div>
+        <div class="video-background">
+            <video autoplay loop muted playsinline>
+                <source src="{{ asset('storage/banner-image/video.webm') }}" type="video/webm">
+                Ваш браузер не поддерживает видео.
+            </video>
+            <div class="gradient-overlay"></div>
+            <div class="content-overlay">
+                <h1>Sofiarealty</h1>
+                <p>Продажа квартир в новостройках — просто, быстро, надёжно</p>
             </div>
-        @endforeach
-    </div>
-</div>
-<div class="container">
-        <div class="carousel-nav-buttons">
-            <button class="carousel-nav-btn up">←</button>
-            <button class="carousel-nav-btn down">→</button>
         </div>
-    <div class="row">
-        <div class="custom-thumbs-container">
-            @foreach ($sliders as $index => $slider)
-                <div class="thumb-item @if ($loop->first) active @endif" data-slide-index="{{ $index }}">
-                    <div class="thumb-content">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="thumb-text">
-                                    <h5>{{ $slider->title }}</h5>
-                                </div>
-                            </div>
-                            <div class="col-6">
-                                <img src="{{ $slider->image_path ? asset('storage/' . $slider->image_path) : 'https://via.placeholder.com/1200x800' }}" 
-                                     alt="{{ $slider->title }}" class="thumb-image">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
-    </div>
-</div>
+
+<style>
+
+</style>
 @if (session('success'))
     <div class="alert alert-success mb-4 text-center mt-5">
         {{ session('success') }}
@@ -56,8 +25,9 @@
 
 
 @section('content')
-
-@include('components.filters')
+<div style="margin-top: -100px;">
+    @include('components.filters')
+</div>
 
 
 @include('components.property-list', ['properties' => $properties])

@@ -28,7 +28,7 @@ body {
 .mt-115 { margin-top: 145px; }
 .mt-200 { margin-top: 200px; }
 .mt-40{margin-top: 30%};
-
+.mt--100 {margin-top: -100px};
 .mt-60{margin-top: 60%};
 .text-left { text-align: left !important; }
 .text-dark { color: #2c3e50 !important; }
@@ -1084,7 +1084,69 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     font-weight: bold;
     text-transform: uppercase;
 }
+.video-background {
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+}
 
+.video-background video {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+}
+
+/* 🔥 Градиентный оверлей снизу — создаёт эффект размытия/затемнения */
+.gradient-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30%; /* Высота градиента — можно регулировать */
+    background: linear-gradient(
+        to top,
+        rgba(0, 0, 0, 0.8), /* Чёрный снизу — можно заменить на другой цвет */
+        rgba(0, 0, 0, 0)    /* Прозрачный сверху */
+    );
+    z-index: 1; /* Под контентом, но над видео */
+}
+
+.content-overlay {
+    position: absolute;
+    bottom: 10%; /* Расположим контент над градиентом */
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    color: white;
+    z-index: 2; /* Поверх градиента */
+}
+
+.content-overlay h1 {
+    font-size: 2.5rem;
+    margin: 0 0 1rem;
+}
+
+.content-overlay p {
+    font-size: 1.2rem;
+    margin: 0 0 1.5rem;
+}
+
+.content-overlay button {
+    padding: 12px 30px;
+    font-size: 1.1rem;
+    background: white;
+    color: black;
+    border: none;
+    border-radius: 30px;
+    cursor: pointer;
+    font-weight: bold;
+}
 
 .sub-btn{
     background: linear-gradient(90deg, #d8bfd8, #9370db);
