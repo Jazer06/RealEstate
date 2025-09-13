@@ -35,7 +35,7 @@
             </div>
 
             <div class="col-md-6">
-                <label for="address" class="form-label text-light">Адрес</label>
+                <label for="address" class="form-label text-light">Адрес(Можем не указывать)</label>
                 <input type="text" name="address" id="address" class="form-control bg-dark text-light" value="{{ old('address') }}">
                 @error('address') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
             </div>
@@ -90,13 +90,13 @@
             </div>
 
             <div class="col-md-6">
-                <label for="image_path" class="form-label text-light">Основное фото</label>
+                <label for="image_path" class="form-label text-light">Главная Картинка(Желательно ставить план) Широкий формат Картинки что бы не растягивалась</label>
                 <input type="file" name="image_path" id="image_path" class="form-control bg-dark text-light" accept="image/*">
                 @error('image_path') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
             </div>
 
             <div class="col-md-6">
-                <label for="plan_image" class="form-label text-light">План дома</label>
+                <label for="plan_image" class="form-label text-light">Если добавляем Картинку, то она будет выезжаеть справа от основной на карточке.(Желательно не ставить, либ лучше искать картинку)</label>
                 <input type="file" name="plan_image" id="plan_image" class="form-control bg-dark text-light" accept="image/*">
                 @error('plan_image') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
             </div>

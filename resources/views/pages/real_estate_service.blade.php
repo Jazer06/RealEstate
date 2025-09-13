@@ -13,7 +13,8 @@
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card-consult">
-            <div class="card-consult-body text-center">
+            <div class="card-consult-body text-center  bg-white" style="border-top-left-radius: 15px;
+                    border-top-right-radius: 15px;">
                 <div class="mb-3">
                     <img src="{{ asset('storage/images/home_heart.webp') }}"
                          alt="Покупка недвижимости"

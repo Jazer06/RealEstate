@@ -38,37 +38,8 @@
 
             {{-- Остальные фильтры --}}
             <div class="row align-items-end g-3">
-                {{-- Цена --}}
-                <div class="col-md-3">
-                    <label class="filter-label d-block mb-1 text-center"><b>Стоимость ₽</b></label>
-
-                    <div class="d-flex justify-content-between mb-2 gap-3">
-                        <input type="number"
-                               id="price-min-input"
-                               class="form-control form-control-sm"
-                               value="{{ request('price_range_min', $minPrice) }}"
-                               placeholder="От"
-                               min="{{ $minPrice }}"
-                               max="{{ $maxPrice }}"
-                               style="background: transparent; border: none;">
-                        <input type="number"
-                               id="price-max-input"
-                               class="form-control form-control-sm"
-                               value="{{ request('price_range_max', $maxPrice) }}"
-                               placeholder="До"
-                               min="{{ $minPrice }}"
-                               max="{{ $maxPrice }}"
-                               style="background: transparent; border: none;">
-                    </div>
-
-                    <div id="price-range-slider"></div>
-
-                    <input type="hidden" name="price_range_min" id="price-range-min" value="{{ request('price_range_min', $minPrice) }}">
-                    <input type="hidden" name="price_range_max" id="price-range-max" value="{{ request('price_range_max', $maxPrice) }}">
-                </div>
-
                 {{-- Количество комнат --}}
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="filter-label d-block mb-1 text-center"><b>Количество комнат</b></label>
                     <div class="room-buttons pt-3 ps-3 pe-3">
                         <label class="room-button-text">
@@ -89,7 +60,7 @@
                 </div>
 
                 {{-- Площадь --}}
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <label class="filter-label d-block mb-1 text-center"><b>Площадь, м²</b></label>
                     <div class="d-flex justify-content-between mb-2 gap-3">
                         <input type="number"
@@ -117,7 +88,7 @@
                 </div>
 
                 {{-- Кнопки --}}
-                <div class="col-md-3 d-flex align-items-center justify-content-center gap-3 pt-3 ps-3 pe-3">
+                <div class="col-md-4 d-flex align-items-center justify-content-center gap-3 pt-3 ps-3 pe-3">
                     <button type="submit" class="iphone-button-black">Показать</button>
                     <a href="{{ Route::currentRouteName() == 'home' ? route('home') . '#filters' : route('properties.index') . '#filters' }}"
                        class="btn-reset"

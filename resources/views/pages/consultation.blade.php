@@ -21,7 +21,7 @@
     <!-- Преимущества консультации -->
     <div class="row justify-content-center mb-5">
         <div class="col-md-4 mb-4">
-            <div class="card-consult shadow-sm h-100">
+            <div class="card-consult shadow-sm h-100 bg-white">
                 <div class="card-consult-body text-center">
                     <i class="bi bi-house-door-fill text-feoil" style="font-size: 2.5rem;"></i>
                     <h5 class="card-consult-title mt-3">Подбор недвижимости</h5>
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="col-md-4 mb-4">
-            <div class="card-consult shadow-sm h-100">
+            <div class="card-consult shadow-sm h-100 bg-white">
                 <div class="card-consult-body text-center">
                     <i class="bi bi-bank text-feoil" style="font-size: 2.5rem;"></i>
                     <h5 class="card-consult-title mt-3">Помощь с ипотекой</h5>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="col-md-4 mb-4">
-            <div class="card-consult shadow-sm h-100">
+            <div class="card-consult shadow-sm h-100 bg-white">
                 <div class="card-consult-body text-center">
                     <i class="bi bi-shield-check text-feoil" style="font-size: 2.5rem;"></i>
                     <h5 class="card-consult-title mt-3">Юридическая проверка</h5>
@@ -53,7 +53,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="shadow-sm" style="border-radius: 12px;">
-                <div class="card-consult-body">
+                <div class="card-consult-body bg-white" style="border-top-left-radius: 15px; border-top-right-radius: 15px;">
                     <h3 class="text-center mb-4">Запишитесь на бесплатную консультацию</h3>
                     @if (session('success'))
                         <div class="alert alert-success alert-dismissible fade show mb-4" role="alert">

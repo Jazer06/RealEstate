@@ -1,5 +1,5 @@
 <div class="tab-pane fade show  p-4" id="home" role="tabpanel" aria-labelledby="home-tab">
-    <h5 class="card-title text-xl font-semibold mb-3">Управление главной страницей</h5>
+    <h5 class="card-title text-xl font-semibold mb-3 text-light">Управление главной страницей</h5>
 
     @if (session('success'))
         <div class="alert alert-success alert-dismissible fade show mb-4 dashboard-alert-success" role="alert">

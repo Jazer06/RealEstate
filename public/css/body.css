@@ -1,5 +1,6 @@
 
 body {
+    background-color: #e4e4e48c;
   font-family: "Merriweather", serif;
   font-optical-sizing: auto;
   font-weight: <weight>;
@@ -23,7 +24,7 @@ body {
 .mt-45 { margin-top: 45px; }
 .mt-54 { margin-top: 54px; }
 .mt-70 { margin-top: 70px; }
-.mt-115 { margin-top: 115px; }
+.mt-115 { margin-top: 145px; }
 .mt-200 { margin-top: 200px; }
 .mt-40{margin-top: 30%};
 .mt-60{margin-top: 60%};
@@ -555,7 +556,7 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     margin: 20px 0;
     border-radius: 12px !important;
     border: none !important;
-    background-color: #d6d1ee !important;
+    /*background-color: #d6d1ee !important;*/
 }
 
 .noUi-base .noUi-background {
@@ -651,9 +652,10 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
 .room-button-text span { font-size: 0.7rem; }
 
 .room-button input:checked + span, .room-button-text input:checked + span {
-    background: #6b7280;
+        background: rgb(0 0 0 / 55%);
+    backdrop-filter: blur(15px);
     color: white;
-    border: 1px solid #6b7280;
+    border: 5px solid rgb(126 119 119 / 65%);
 }
 
 .btn-show, .btn-reset {
@@ -741,14 +743,15 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
 }
 
 .filter-glass {
-    background: rgb(218 188 237 / 18%);
+    background: rgb(0 0 0 / 10%);
     backdrop-filter: blur(-20px);
     padding: 25px;
     border-radius: 12px;
+    border: 5px solid #ffffff33;
 }
 
 .glass-effect-banner {
-    background: rgba(175, 148, 193, 0.2);
+       background: rgb(131 131 131 / 20%);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 15px;
@@ -787,8 +790,8 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
 }
 
 .gallery-image-1 { clip-path: polygon(100% 15%, 0 0, 0 85%, 100% 100%); }
-.gallery-image-2 { clip-path: polygon(0 0, 100% 0, 100% 60%, 50% 100%, 0 100%); }
-.gallery-image-3 { clip-path: polygon(50% 0, 100% 0, 100% 100%, 0 100%, 0 50%); }
+.gallery-image-2 { clip-path: polygon(0% 0%, 100% 0, 100% 50%, 0 99%, 0% 100%); }
+.gallery-image-3 { clip-path: polygon(100% 0, 100% 0%, 100% 100%, 0 100%, 0% 50%); }
 .gallery-image-4 { clip-path: polygon(0 15%, 100% 0, 100% 85%, 0 100%); }
 
 .gallery-offset-banner img {
@@ -881,7 +884,7 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     position: relative;
-    height: 100%;
+  
 }
 
 .property-card:hover { transform: translateY(-1px); }

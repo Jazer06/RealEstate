@@ -53,16 +53,21 @@
     </div>
 @endif
 @endsection
+
+
 @section('content')
-    @include('components.filters')
-    @include('components.property-list', ['properties' => $properties])
-    @if($totalProperties === 0)
-        <div class="alert alert-warning mt-4 glass-effect-banner">
-            По вашему запросу ничего не найдено.
-        </div>
-    @endif
-    @include('components.banner')
-    @include('components.contacts-form')
 
+@include('components.filters')
+
+
+@include('components.property-list', ['properties' => $properties])
+
+@if($totalProperties === 0)
+    <div class="alert alert-warning mt-4">
+        По вашему запросу ничего не найдено.
+    </div>
+@endif
+
+@include('components.banner')
+@include('components.contacts-form')
 @endsection
-

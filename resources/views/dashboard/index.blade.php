@@ -5,7 +5,7 @@
 <body class="dashboard-page">
     <div class="container mt-6">
         <div class="dashboard-container py-4 mt-6">
-            <h1 class="text-3xl font-bold mb-4">Админ-панель</h1>
+            <h1 class="text-3xl font-bold mb-4 text-light">Админ-панель</h1>
             <ul class="nav nav-tabs mb-4 dashboard-nav-tabs" id="adminTabs" role="tablist">
                 @foreach([
                     ['id' => 'home', 'label' => 'Главная страница'],
