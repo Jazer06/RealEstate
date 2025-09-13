@@ -22,20 +22,17 @@
                     </select>
 
                     {{-- Жилой комплекс (справа от типа) --}}
-                    <div class="d-md-none">
-                        <select name="slider_id"
-                                id="slider_id"
-                                class="navbar-select"
-                                style="max-width: 280px;">
-                            <option value="">Любой ЖК</option>
-                            @foreach($sliders as $s)
-                                <option value="{{ $s->id }}" {{ (string)request('slider_id') === (string)$s->id ? 'selected' : '' }}>
-                                    {{ $s->title }}
-                                </option>
-                            @endforeach
-                        </select>
-                            
-                    </div>
+                    <select name="slider_id"
+                            id="slider_id"
+                            class="navbar-select"
+                            style="max-width: 280px;">
+                        <option value="">Любой ЖК</option>
+                        @foreach($sliders as $s)
+                            <option value="{{ $s->id }}" {{ (string)request('slider_id') === (string)$s->id ? 'selected' : '' }}>
+                                {{ $s->title }}
+                            </option>
+                        @endforeach
+                    </select>
                 </div>
             </div>
 
