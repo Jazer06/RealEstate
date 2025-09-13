@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
+    <div class="row justify-content-center bg-white p-5 br-12">
         <div class="col-sm-7 col-md-5">
             <div class="auth-form">
                 <h2 class="login-title mb-4">Создать аккаунт</h2>

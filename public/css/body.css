@@ -32,7 +32,7 @@ body {
 .text-dark { color: #2c3e50 !important; }
 .pr-30 { padding-right: 30px; }
 .m-0 { margin: 0; }
-
+.br-12 {border-radius:12px }
 /* ==================== CAROUSEL ==================== */
 
 .castom-thumb-image{
@@ -455,11 +455,82 @@ body {
 }
 
 
-.btn-login { background-color: #4b0082; color: white; }
-.btn-forgot, .btn-register { background-color: transparent; color: #2c3e50; }
-.iphone-button:hover {
+/* Общие стили для всех кнопок */
+.iphone-button {
+    padding: 12px 24px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    outline: none;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Кнопка входа — фиолетовая (выделенная) */
+.btn-login {
+    background-color: #4b0082;
+    color: white;
+    border: 2px solid #4b0082;
+}
+
+.btn-login:hover {
+    background-color: #3a0066;
+    border-color: #3a0066;color: white;
     transform: translateY(-2px);
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 4px 12px rgba(75, 0, 130, 0.3);
+}
+
+.btn-login:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Кнопки "Забыл пароль" и "Регистрация" — прозрачные, но стильно выглядят */
+.btn-forgot,
+.btn-register {
+    background-color: transparent;
+    color: #2c3e50;
+    border: 2px solid #2c3e50;
+    font-weight: 500;
+}
+
+.btn-forgot:hover,
+.btn-register:hover {
+    background-color: #f8f9fa;
+    color: #1a252f;
+    border-color: #1a252f;
+    transform: translateY(-1px);
+    box-shadow: 0 3px 10px rgba(44, 62, 80, 0.15);
+}
+
+.btn-forgot:active,
+.btn-register:active {
+    transform: translateY(0);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Дополнительно: легкий градиент при наведении (по желанию) */
+.btn-login::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: left 0.5s;
+    pointer-events: none;
+}
+
+.btn-login:hover::before {
+    left: 100%;
+}
 }
 
 /* ==================== PAGINATION ==================== */

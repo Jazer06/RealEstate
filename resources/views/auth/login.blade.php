@@ -7,7 +7,7 @@
             {{ session('status') }}
         </div>
     @endif
-    <div class="row">
+    <div class="row bg-light br-12 p-5">
         <div class="col-sm-7 col-md-5">
             <div class="login-form">
                 <h1 class="login-title">Войти в личный <br> кабинет</h1>

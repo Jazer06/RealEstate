@@ -2,8 +2,7 @@
 
 @section('content')
 <div class="container">
-    <div class="row justify-content-center">
-        <!-- Форма восстановления пароля -->
+    <div class="row justify-content-center bg-light p-5 br-12">
         <div class="col-md-4">
             <div class="auth-form">
                 <h2 class="login-title mb-4">Восстановить пароль</h2>
@@ -62,8 +61,6 @@
                 </div>
             </div>
         </div>
-
-        <!-- Изображение справа -->
         <div class="col-sm-5 col-md-7 gradient-bg d-flex justify-content-center align-items-center">
             <img src="{{ asset('storage/images/home_reset.webp') }}"
                  alt="Восстановление пароля"
@@ -81,7 +78,6 @@ document.addEventListener('DOMContentLoaded', function () {
     const submitBtn = document.getElementById('submitBtn');
 
     form.addEventListener('submit', function () {
-        // Блокируем кнопку, чтобы избежать двойной отправки
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm" role="status"></span> Отправка...';
     });
