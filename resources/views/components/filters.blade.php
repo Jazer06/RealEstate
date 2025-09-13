@@ -26,12 +26,12 @@
                             id="slider_id"
                             class="navbar-select d-md-none"
                             style="max-width: 280px;">
-                    <option value="" disabled {{ request('slider_id') ? '' : 'selected' }}>Выберите ЖК</option>
-                    @foreach($allSliders as $s)
-                        <option value="{{ $s->id }}" {{ (string)request('slider_id') === (string)$s->id ? 'selected' : '' }}>
-                            {{ $s->title }}
-                        </option>
-                    @endforeach
+                            <option value="" disabled {{ request('slider_id') ? '' : 'selected' }}>Выберите ЖК</option>
+                            @foreach($allSliders as $s)
+                                <option value="{{ $s->id }}" {{ (string)request('slider_id') === (string)$s->id ? 'selected' : '' }}>
+                                    {{ $s->title }}
+                                </option>
+                            @endforeach
 
                     </select>
                 </div>
