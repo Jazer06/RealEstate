@@ -1101,40 +1101,43 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     z-index: -1;
 }
 
-/* 🔥 Градиентный оверлей снизу — создаёт эффект размытия/затемнения */
+/* Gradient overlay at the bottom for fade effect */
 .gradient-overlay {
     position: absolute;
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 30%; /* Высота градиента — можно регулировать */
+    height: 30%;
     background: linear-gradient(
         to top,
-        rgba(0, 0, 0, 0.8), /* Чёрный снизу — можно заменить на другой цвет */
-        rgba(0, 0, 0, 0)    /* Прозрачный сверху */
+        rgba(0, 0, 0, 0.8),
+        rgba(0, 0, 0, 0)
     );
-    z-index: 1; /* Под контентом, но над видео */
+    z-index: 1;
 }
 
 .content-overlay {
     position: absolute;
-    bottom: 10%; /* Расположим контент над градиентом */
+    bottom: 10%;
     left: 0;
     width: 100%;
     padding: 20px;
     text-align: center;
     color: white;
-    z-index: 2; /* Поверх градиента */
+    z-index: 2;
+    box-sizing: border-box; /* Ensure padding doesn't cause overflow */
 }
 
 .content-overlay h1 {
     font-size: 2.5rem;
     margin: 0 0 1rem;
+    line-height: 1.2; /* Improve readability */
 }
 
 .content-overlay p {
     font-size: 1.2rem;
     margin: 0 0 1.5rem;
+    line-height: 1.4;
 }
 
 .content-overlay button {
@@ -1146,8 +1149,14 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     border-radius: 30px;
     cursor: pointer;
     font-weight: bold;
+    touch-action: manipulation; /* Improve touch responsiveness */
+    transition: transform 0.2s ease; /* Smooth scaling on tap */
 }
-
+/* Ensure viewport scaling for mobile browsers */
+@viewport {
+    width: device-width;
+    zoom: 1.0;
+}
 .sub-btn{
     background: linear-gradient(90deg, #d8bfd8, #9370db);
     border: none !important;
