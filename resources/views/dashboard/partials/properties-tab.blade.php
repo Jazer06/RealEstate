@@ -6,8 +6,7 @@
             <thead>
                 <tr>
                     <th scope="col">Название</th>
-                    <th scope="col">Адрес</th>
-                    <th scope="col">Цена</th>
+                    <th scope="col">ЖК</th>
                     <th scope="col">Изображение</th>
                     <th scope="col">Действия</th>
                 </tr>
@@ -16,8 +15,7 @@
                 @forelse ($properties as $property)
                     <tr class="align-middle">
                         <td>{{ $property->title ?: '-' }}</td>
-                        <td>{{ $property->address ?: '-' }}</td>
-                        <td>{{ number_format($property->price, 0, ',', ' ') }} ₽</td>
+                        <td>{{ $property->slider ? $property->slider->title : 'Не указан' }}</td>
                         <td>
                             @if ($property->image_path)
                                 <img src="{{ asset('storage/' . $property->image_path) }}" alt="{{ $property->title }}" class="img-thumbnail dashboard-img-thumbnail">
@@ -38,7 +36,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="text-center text-muted py-3">Объектов нет. Добавьте новый!</td>
+                        <td colspan="4" class="text-center text-muted py-3">Объектов нет. Добавьте новый!</td>
                     </tr>
                 @endforelse
             </tbody>
