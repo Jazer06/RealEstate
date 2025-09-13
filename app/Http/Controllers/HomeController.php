@@ -10,13 +10,11 @@ use App\Models\Setting;
 class HomeController extends Controller
 {
     public function index(Request $request)
-    {
+    {   
         $sliders = Slider::all();
-
-        // Диапазоны по умолчанию
         $minPrice = 0;
         $maxPrice = 30000000;
-        $areaMinDefault = 20;
+        $areaMinDefault = 16;
         $areaMaxDefault = 200;
 
         $query = Property::query();
@@ -49,9 +47,11 @@ class HomeController extends Controller
         $areaMin = $request->input('area_range_min', $areaMinDefault);
         $areaMax = $request->input('area_range_max', $areaMaxDefault);
         $query->whereBetween('area', [$areaMin, $areaMax]);
+        // Получаем все подходящие записи
+        $properties = $query->latest()->get();
 
-        $properties = $query->latest()->paginate(6)->withQueryString();
-        $totalProperties = $properties->total();
+        // Общее количество — используем count()
+        $totalProperties = $properties->count();
 
         $bannerTitle = Setting::where('key', 'banner_title')->value('value') ?? '';
         $bannerDescription = Setting::where('key', 'banner_description')->value('value') ?? '';

@@ -79,7 +79,7 @@
 </style>
 
 <div class="container-obj mt-54">
-    <div class="item-obj col-md-3 mt-54 d-none d-md-block" style="overflow-y: auto;">
+    <div class="item-obj col-md-3 mt-54 d-none d-md-block" style="height: 80vh; overflow-y: auto;">
         <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
             @foreach ($sliders as $index => $slider)
             <div class="text-center bold">

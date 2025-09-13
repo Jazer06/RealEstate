@@ -40,7 +40,7 @@
         </div>
 
         <div class="container">
-            <div class="" style="background-color: #413f3f99; backdrop-filter: blur(2px); margin: -6rem 1rem;">
+            <div class="" style="background-color: #413f3f99; backdrop-filter: blur(2px); margin: -13rem 1rem;">
                 <button class="carousel-nav-btn up">←</button>
                 <button class="carousel-nav-btn down">→</button>
             </div>
@@ -76,17 +76,19 @@
             </div>
             @if ($selectedSlider)
                 <div class="row mt-6">
-                    <div class="col-md-12 mb-1">
-                        <h3>{{ $selectedSlider->title }}</h3>
-                    </div>
-                    <div class="mt-1">
-                        <div class="slider-description">
-                            @if ($selectedSlider->description)
-                                <p>{{ $selectedSlider->description }}</p>
-                            @else
-                                <p>Описание отсутствует</p>
-                            @endif
+                    <div class="br-12 bg-light p-5 mt-90">
+                        <div class="col-md-12 ">
+                            <h3 >{{ $selectedSlider->title }}</h3>
                         </div>
+                        <div class="mt-1">
+                            <div class="slider-description">
+                                @if ($selectedSlider->description)
+                                    <p>{{ $selectedSlider->description }}</p>
+                                @else
+                                    <p>Описание отсутствует</p>
+                                @endif
+                            </div>
+                        </div>    
                     </div>
                 </div>
             @endif
@@ -138,7 +140,8 @@
             По вашему запросу ничего не найдено.
         </div>
     @else
-        <div class="row mt-6">
+        <div class="row mt-54 p-5 br-12 bg-light">
+            <hr>
             @forelse ($properties as $property)
                 <div class="col-xl-4 col-sm-12 mb-4">
                     <div class="card property-card h-100" onclick="window.location='{{ route('properties.show', $property->id) }}'">
@@ -231,6 +234,7 @@
                     <p class="text-muted">Объекты пока не добавлены.</p>
                 </div>
             @endforelse
+            <hr>
         </div>
     @endif
 
