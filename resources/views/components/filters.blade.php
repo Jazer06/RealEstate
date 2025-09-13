@@ -40,7 +40,7 @@
             <div class="row align-items-end g-3">
                 {{-- Количество комнат --}}
                 <div class="col-md-4">
-                    <label class="filter-label d-block mb-1 text-center"><b>Количество комнат</b></label>
+                    <label class="filter-label d-block mb-1 text-center "><b class="text-black">Количество комнат</b></label>
                     <div class="room-buttons pt-3 ps-3 pe-3">
                         <label class="room-button-text">
                             <input type="radio" name="rooms" value="0" {{ request('rooms') === '0' ? 'checked' : '' }}>
@@ -61,24 +61,22 @@
 
                 {{-- Площадь --}}
                 <div class="col-md-4">
-                    <label class="filter-label d-block mb-1 text-center"><b>Площадь, м²</b></label>
+                    <label class="filter-label d-block mb-1 text-center"><b class="text-black">Площадь, м²</b></label>
                     <div class="d-flex justify-content-between mb-2 gap-3">
                         <input type="number"
                                id="area-min-input"
-                               class="form-control form-control-sm"
+                               class="form-control form-control-sm text-black bg-light"
                                value="{{ request('area_range_min', $areaMin) }}"
                                placeholder="От"
                                min="10"
-                               max="500"
-                               style="background: transparent; border: none;">
+                               max="500">
                         <input type="number"
                                id="area-max-input"
-                               class="form-control form-control-sm"
+                               class="form-control form-control-sm text-black bg-light"
                                value="{{ request('area_range_max', $areaMax) }}"
                                placeholder="До"
                                min="10"
-                               max="500"
-                               style="background: transparent; border: none;">
+                               max="500">
                     </div>
 
                     <div id="area-range-slider"></div>
