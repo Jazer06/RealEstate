@@ -760,7 +760,7 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
 .btn-show:hover::after { transform: translateX(2px); }
 .btn-reset { background-color: #f87171; }
 .btn-reset:hover {
-    background-color: #6b7280;
+        background-color: #a76262;
     transform: translateY(-1px);
 }
 

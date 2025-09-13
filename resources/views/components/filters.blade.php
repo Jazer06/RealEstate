@@ -87,7 +87,7 @@
 
                 {{-- Кнопки --}}
                 <div class="col-md-4 d-flex align-items-center justify-content-center gap-3 pt-3 ps-3 pe-3">
-                    <button type="submit" class="iphone-button-black">Показать</button>
+                    <button type="submit" class="iphone-button-black bg-light   ">Показать</button>
                     <a href="{{ Route::currentRouteName() == 'home' ? route('home') . '#filters' : route('properties.index') . '#filters' }}"
                        class="btn-reset"
                        id="resetFilters"
