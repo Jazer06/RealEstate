@@ -106,7 +106,7 @@
 
 @section('content')
     @if (!$selectedSlider)
-        <h2 class="mb-4 mt-54">Наши объекты недвижимости</h2>
+        <h2 class="mb-4 mt-54 text-center">Наши объекты недвижимости</h2>
     @endif
 
     @if (session('success'))
@@ -125,7 +125,7 @@
     @endif
 
     {{-- ФИЛЬТРЫ --}}
-    @include('components.filters', [
+    @include('components.filter', [
         'minPrice' => $minPrice,
         'maxPrice' => $maxPrice,
         'priceMin' => $priceMin,
