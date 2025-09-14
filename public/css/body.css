@@ -1201,6 +1201,155 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     border-radius: 50%;
 }
 
+    :root {
+        --cards-mobile: 0;
+        --card-mobile-height: min(80vh, 35rem);
+        --card-mobile-padding-top: 1em;
+        --card-mobile-margin: 4vw;
+    }
+
+    .card-mobile {
+        position: sticky;
+        top: 0;
+        margin-bottom: 30px;
+        border-radius: 20px;
+    }
+
+    .card-mobile-content {
+        box-sizing: border-box;
+        border-radius: 20px;
+        height: var(--card-mobile-height);
+        transition: all 0.5s;
+        overflow: hidden;
+        position: relative;
+        min-height: 28rem;
+        background: linear-gradient(135deg, #f5f5f5, #a0a0a0);
+    }
+
+    .card-mobile-content h2 {
+        font-size: 1.4rem;
+        text-transform: capitalize;
+        color: black;
+    }
+
+    .card-mobile-content span,
+    .card-mobile-content p {
+        color: #555;
+        font-size: 0.85rem;
+    }
+
+    .card-mobile-content p {
+        line-height: 1.5;
+        max-width: 30rem;
+        margin-top: 0.5rem;
+    }
+
+    .card-mobile-content .header {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1em 1.2em 0.5em 1.2em;
+    }
+
+    .card-mobile-content .body {
+        padding: 0 1.2rem;
+    }
+
+    .card-mobile-content .actions {
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        margin-top: 0.5em;
+        padding: 0 1.2rem;
+    }
+
+    .card-mobile-content .actions .book-now {
+        color: #fff;
+        background: black;
+        border: none;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        text-transform: capitalize;
+        padding: 0.3em 0.4em 0.3em 0.8em;
+        border-radius: 2rem;
+        outline: 0.05em solid #1a2a44;
+        transition: 0.2s ease-in-out;
+        text-decoration: none;
+    }
+
+    .card-mobile-content .actions .book-now:hover {
+        background: #fff;
+        color: #1a2a44;
+        outline: 0.05em solid #1a2a44;
+    }
+
+    .card-mobile-content .actions .book-now svg {
+        width: 1.2rem;
+        background: #fff;
+        color: #1a2a44;
+        border-radius: 50%;
+        padding: 0.3em;
+        margin-left: 0.5em;
+    }
+
+    .card-mobile-content .image-container {
+        height: 55%;
+        overflow: hidden;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+    }
+
+    .card-mobile-content .image-container::before {
+        position: absolute;
+        content: "";
+        inset: 0;
+        background: rgba(0, 0, 0, 0.3);
+    }
+
+    .card-mobile-content .image-container img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .reverse .card-mobile-content .image-container {
+        position: relative;
+        width: auto;
+    }
+
+    .card-mobile-content ul {
+        display: flex;
+        width: 100%;
+        gap: 0.4rem;
+    }
+
+    .text {
+        text-transform: capitalize;
+        list-style: none;
+        background: rgba(255, 255, 255, 0.11);
+        border-radius: 0.8rem;
+        box-shadow: 0 0.2rem 1.5rem rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(0.2em);
+        -webkit-backdrop-filter: blur(0.2em);
+        border: 0.05rem solid rgba(255, 255, 255, 0.26);
+        padding: 0.25rem 0.5rem;
+    }
+
+    .info {
+        position: absolute;
+        bottom: 15px;
+        left: 1rem;
+        right: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        color: #f2f2f2;
+        font-size: 0.8rem;
+    }
+
 /* ==================== MEDIA QUERIES ==================== */
 @media (min-width: 1200px) {
   .custom-thumbs-container {

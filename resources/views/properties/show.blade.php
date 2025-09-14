@@ -6,7 +6,7 @@
     <div class="row">
         <!-- Слайдер с фото -->
         <div class="col-md-12">
-            <div class="custom-slider-wrapper shadow-sm">
+            <div class="custom-slider-wrapper">
                 <div class="custom-slider">
                     @php
                         $allImages = [];
@@ -70,7 +70,7 @@
                 </div>
 
                 <!-- Миниатюры -->
-                <div class="custom-thumbnails">
+                <div class="custom-thumbnails br-12 mt-2">
                     @foreach($allImages as $index => $image)
                         <div class="thumb-container" data-index="{{ $index }}">
                             @if($image['type'] === 'plan')
@@ -104,7 +104,7 @@
             </div>
         </div>
     </div>
-    <div class="row mt-5">
+    <div class="row mt-3">
         <div class="col-md-12">
             <div class="custom-property-info info-card depth-card position-relative">
 
