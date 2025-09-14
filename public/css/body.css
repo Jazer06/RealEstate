@@ -1201,6 +1201,7 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     border-radius: 50%;
 }
 
+
     :root {
         --cards-mobile: 0;
         --card-mobile-height: min(80vh, 35rem);
@@ -1253,6 +1254,16 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
 
     .card-mobile-content .body {
         padding: 0 1.2rem;
+        max-height: 6rem; /* Ограничиваем высоту текста */
+        overflow: hidden; /* Скрываем переполнение */
+    }
+
+    .card-mobile-content .body p {
+        display: -webkit-box;
+        -webkit-line-clamp: 4; /* Ограничиваем количество строк */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .card-mobile-content .actions {
@@ -1261,6 +1272,10 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
         justify-content: end;
         margin-top: 0.5em;
         padding: 0 1.2rem;
+        position: absolute; /* Фиксируем кнопку */
+        bottom: 5.5rem; 
+        right: 1.2rem;
+        z-index: 10; /* Поверх изображения */
     }
 
     .card-mobile-content .actions .book-now {
@@ -1349,7 +1364,6 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
         color: #f2f2f2;
         font-size: 0.8rem;
     }
-
 /* ==================== MEDIA QUERIES ==================== */
 @media (min-width: 1200px) {
   .custom-thumbs-container {

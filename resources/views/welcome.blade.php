@@ -35,7 +35,6 @@ $cards = $sliders->map(function ($slider) {
     ];
 })->toArray();
 @endphp
-
 <script>
     const cardsData = @json($cards);
     const availableTags = [
@@ -70,7 +69,6 @@ $cards = $sliders->map(function ($slider) {
         return [...new Set(tags)];
     }
 
-
     function getTagsFromText(text) {
         let tags = [];
         for (let tag in keywordMap) {
@@ -80,7 +78,6 @@ $cards = $sliders->map(function ($slider) {
         }
         return tags.length ? tags : ["ЖК"];
     }
-
 
     function getMixedTags(card, baseTags = ["ЖК"], randomCount = 2) {
         return [...new Set([...baseTags, ...getRandomTags(randomCount)])];
@@ -147,8 +144,6 @@ $cards = $sliders->map(function ($slider) {
 
     cardsContainer.innerHTML = cardsData.map(renderCard).join("");
 </script>
-
-
 
 <div class="d-none d-md-block" style="margin-top: -100px;">
     @include('components.filters')
