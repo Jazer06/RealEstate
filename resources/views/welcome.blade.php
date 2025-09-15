@@ -26,6 +26,7 @@ $cards = $sliders->map(function ($slider) {
     return [
         'title' => $slider->title,
         'desc'  => $slider->description ?? 'Описание отсутствует',
+        'address' => $slider->adress, // Используем правильное имя поля address
         'image' => $slider->image_path
             ? asset('storage/' . $slider->image_path)
             : 'https://via.placeholder.com/320x180',
@@ -125,7 +126,10 @@ $cards = $sliders->map(function ($slider) {
                 <div class="card-mobile-content">
                     ${card.reverse ? renderImage(card) : ""}
                     <div class="header"><h2>${card.title}</h2></div>
-                    <div class="body"><p>${card.desc}</p></div>
+                    <div class="body">
+                        <p class="mb-0 adress-span"><strong>Адрес:</strong> ${card.address || 'Адрес не указан'}</p>
+                        <p>${card.desc}</p>
+                    </div>
                     <div class="actions">
                         <a href="${card.link}" class="book-now">
                             Узнать больше

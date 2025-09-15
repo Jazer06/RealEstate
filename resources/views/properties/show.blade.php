@@ -134,19 +134,24 @@
                         </a>
                     @endauth
                 </div>
-
-                <!-- Параметры (в одну или две строки) -->
                 <div class="d-flex flex-wrap gap-3 mb-2">
                     <!-- Цена -->
                     <div class="d-flex align-items-center">
                         <svg class="me-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #e74c3c;">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <path d="M16 8h-6a2 2 0 0 0 -2 2v4a2 2 0 0 0 2 2h6"></path>
-                            <path d="M16 10v4"></path>
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
                         </svg>
-
+                        <strong>ЖК:</strong>
+                        <span class="ms-1">{{ $slider->title ?? 'Не указано' }}</span>
                     </div>
-
+                    <div class="d-flex align-items-center">
+                        <svg class="me-2" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="color: #e74c3c;">
+                            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                            <circle cx="12" cy="10" r="3"></circle>
+                        </svg>
+                        <strong>Адрес:</strong>
+                        <span class="ms-1">{{ $slider->adress ?? 'Адрес не указан' }}</span>
+                    </div>
                     <!-- Площадь -->
                     @if($property->area)
                         <div class="d-flex align-items-center">

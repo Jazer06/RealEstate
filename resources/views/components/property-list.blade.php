@@ -85,7 +85,7 @@
             <div class="text-center bold">
                <b>
                    {{$slider->title}}
-               </b> 
+               </b>
             </div>
                 <button class="nav-link @if ($loop->first) active @endif"
                         id="v-pills-tab{{ $index + 1 }}-tab"
@@ -115,6 +115,9 @@
                         <div class="container">
                             <div class="row">
                                 <div class="text-center d-none d-md-block" style="margin-top: -80px"><h3>{{$slider->title}}</h3></div>
+                                   <p class="mt-2">
+                                    	Адрес:{{$slider->adress}}
+                                    </p>
                                 @forelse ($properties->where('slider_id', $slider->id) as $property)
                                     <div class="col-xl-6 mb-4">
                                         <div class="card property-card h-100 mb-2" onclick="window.location='{{ route('properties.show', $property->id) }}'">

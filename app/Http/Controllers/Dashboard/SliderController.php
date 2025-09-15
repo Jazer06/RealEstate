@@ -28,6 +28,7 @@ class SliderController extends Controller
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:255',
             'description' => 'nullable|string',
+            'adress' => 'nullable|string', // Валидация для нового поля adress
             'button_text' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
             'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
@@ -46,6 +47,7 @@ class SliderController extends Controller
             'title' => $validated['title'] ?? null,
             'subtitle' => $validated['subtitle'] ?? null,
             'description' => $validated['description'] ?? null,
+            'adress' => $validated['adress'] ?? null, // Сохранение нового поля
             'button_text' => $validated['button_text'] ?? 'Смотреть все ЖК',
             'button_link' => null,
             'image_path' => $imagePath,
@@ -86,60 +88,59 @@ class SliderController extends Controller
         return view('dashboard.sliders.edit', compact('slider', 'allProperties'));
     }
 
-public function update(Request $request, Slider $slider)
-{
-    // $this->authorize('update', $slider'); // Временно отключено для отладки
+    public function update(Request $request, Slider $slider)
+    {
+        // $this->authorize('update', $slider); // Временно отключено для отладки
 
-    $validated = $request->validate([
-        'title' => 'required|string|max:255',
-        'subtitle' => 'required|string|max:255',
-        'description' => 'nullable|string',
-        'button_text' => 'required|string|max:255',
-        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
-        'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
-        // Убрал валидацию properties, так как поле не в форме
-    ]);
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'subtitle' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'adress' => 'nullable|string', // Валидация для нового поля adress
+            'button_text' => 'required|string|max:255',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+        ]);
 
-    \Log::info('Validated data:', $validated); // Логирование для отладки
+        \Log::info('Validated data:', $validated); // Логирование для отладки
 
-    $imagePath = $slider->image_path;
-    if ($request->hasFile('image')) {
-        if ($imagePath && Storage::disk('public')->exists($imagePath)) {
-            Storage::disk('public')->delete($imagePath);
+        $imagePath = $slider->image_path;
+        if ($request->hasFile('image')) {
+            if ($imagePath && Storage::disk('public')->exists($imagePath)) {
+                Storage::disk('public')->delete($imagePath);
+            }
+            $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
+            $imagePath = $request->file('image')->storeAs('images/sliders', $imageName, 'public');
         }
-        $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
-        $imagePath = $request->file('image')->storeAs('images/sliders', $imageName, 'public');
-    }
 
-    // Обновляем слайдер (только поля, без properties)
-    $slider->update([
-        'title' => $validated['title'],
-        'subtitle' => $validated['subtitle'],
-        'description' => $validated['description'] ?? null,
-        'button_text' => $validated['button_text'],
-        'image_path' => $imagePath,
-    ]);
+        // Обновляем слайдер
+        $slider->update([
+            'title' => $validated['title'],
+            'subtitle' => $validated['subtitle'],
+            'description' => $validated['description'] ?? null,
+            'adress' => $validated['adress'] ?? null, // Обновление нового поля
+            'button_text' => $validated['button_text'],
+            'image_path' => $imagePath,
+        ]);
 
-    // Обработка дополнительных изображений
-    if ($request->hasFile('additional_images')) {
-        foreach ($request->file('additional_images') as $additionalImage) {
-            $additionalImageName = time() . '_' . $additionalImage->getClientOriginalName();
-            $additionalImagePath = $additionalImage->storeAs('images/sliders', $additionalImageName, 'public');
-            SliderImage::create([
-                'slider_id' => $slider->id,
-                'image_path' => $additionalImagePath,
-            ]);
+        // Обработка дополнительных изображений
+        if ($request->hasFile('additional_images')) {
+            foreach ($request->file('additional_images') as $additionalImage) {
+                $additionalImageName = time() . '_' . $additionalImage->getClientOriginalName();
+                $additionalImagePath = $additionalImage->storeAs('images/sliders', $additionalImageName, 'public');
+                SliderImage::create([
+                    'slider_id' => $slider->id,
+                    'image_path' => $additionalImagePath,
+                ]);
+            }
         }
+
+        // Обновляем button_link
+        $buttonLink = url('/properties') . '?slider_id=' . $slider->id;
+        $slider->update(['button_link' => $buttonLink]);
+
+        return redirect()->route('dashboard')->with('success', 'Слайд обновлён!');
     }
-
-    // Обновляем button_link (это не трогает свойства, просто ссылку)
-    $buttonLink = url('/properties') . '?slider_id=' . $slider->id;
-    $slider->update(['button_link' => $buttonLink]);
-
-    // Убрал весь блок с отвязкой и привязкой properties — теперь они не меняются!
-
-    return redirect()->route('dashboard')->with('success', 'Слайд обновлён!');
-}
 
     public function destroy(Slider $slider)
     {

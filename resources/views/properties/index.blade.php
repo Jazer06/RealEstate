@@ -80,6 +80,11 @@
                         <div class="col-md-12 ">
                             <h3 >{{ $selectedSlider->title }}</h3>
                         </div>
+						<p class="mt-2">
+							<b>
+							   Адрес: {{$selectedSlider->adress}}	
+							</b>
+                        </p>
                         <div class="mt-1">
                             <div class="slider-description">
                                 @if ($selectedSlider->description)

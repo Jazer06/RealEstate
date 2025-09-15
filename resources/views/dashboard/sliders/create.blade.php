@@ -36,6 +36,11 @@
         </div>
 
         <div class="mb-3">
+            <label for="adress" class="form-label text-light">Адрес</label>
+            <textarea name="adress" class="form-control bg-dark text-light" rows="3">{{ old('adress') }}</textarea>
+        </div>
+
+        <div class="mb-3">
             <label for="button_text" class="form-label text-light">Текст кнопки</label>
             <input type="text" name="button_text" class="form-control bg-dark text-light" value="{{ old('button_text') }}">
         </div>
