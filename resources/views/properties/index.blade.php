@@ -95,7 +95,7 @@
                     </div>
                     @if ($selectedSlider->video_path)
                         <div class=" mt-4 text-center">
-                            <video controls class=" rounded-lg shadow-md" style="object-fit: cover; height: 400px; border-radius: 12px;">
+                            <video controls class=" rounded-lg shadow-md img-fluid" style="object-fit: cover; height: 400px; border-radius: 12px;">
                                 <source src="{{ asset('storage/' . $selectedSlider->video_path) }}" type="video/mp4">
                                 Ваш браузер не поддерживает видео.
                             </video>
