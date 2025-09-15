@@ -143,7 +143,7 @@
                         </li>
                     @endauth
                 </ul>
-                @include('components.modal-properties', ['properties' => $latestProperties, 'sliders' => $sliders])
+                @include('components.modal-properties', ['sliders' => $sliders])
             </div>
             <div class="modal-footer text-center">
                 <div class="container">

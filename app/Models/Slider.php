@@ -13,6 +13,7 @@ class Slider extends Model
         'image_path',
         'description',
         'adress',
+        'video_path', 
     ];
 
     public function properties()

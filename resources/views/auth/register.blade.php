@@ -1,91 +1,100 @@
 @extends('layouts.auth')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center bg-white p-5 br-12">
-        <div class="col-sm-7 col-md-5">
-            <div class="auth-form">
-                <h2 class="login-title mb-4">Создать аккаунт</h2>
-                <p class="login-subtitle mb-4">Заполните поля ниже, чтобы зарегистрироваться</p>
+<style>
+    body {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-attachment: fixed;
+        overflow-x: hidden;
+    }
 
-                <form method="POST" action="{{ route('register') }}">
+
+</style>
+<div class="container">
+    @if (session('status'))
+        <div class="alert alert-success alert-dismissible fade show mx-auto" role="alert" style="max-width: 440px; background: rgba(40, 167, 69, 0.2); border: 1px solid rgba(40, 167, 69, 0.3); backdrop-filter: blur(8px); color: #a0f0c0;">
+            {{ session('status') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="color: #a0f0c0;"></button>
+        </div>
+    @endif
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="login-card">
+                <div class="text-center mb-4">
+                    <h1 class="login-title">Создать аккаунт</h1>
+                    <p class="login-subtitle">Заполните поля ниже, чтобы зарегистрироваться</p>
+                </div>
+
+                <form method="POST" action="{{ route('register') }}" class="form">
                     <input type="hidden" name="custom_csrf_token" value="{{ $custom_csrf_token }}">
 
-                    <div class="mb-3">
-                        <label for="name" class="form-label text-left text-dark">Имя</label>
-                        <input id="name" type="text"
-                               class="form-control @error('name') is-invalid @enderror"
-                               name="name" value="{{ old('name') }}" required autocomplete="name" autofocus>
+                    <div class="mb-4">
+                        <label for="name" class="form-label">Имя</label>
+                        <input id="name" type="text" class="form-control custom-input @error('name') is-invalid @enderror" name="name" value="{{ old('name') }}" required autocomplete="name" autofocus placeholder="Ваше имя">
                         @error('name')
-                            <span class="invalid-feedback">
+                            <div class="invalid-feedback d-block">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </div>
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label text-left text-dark">Email</label>
-                        <input id="email" type="email"
-                               class="form-control @error('email') is-invalid @enderror"
-                               name="email" value="{{ old('email') }}" required autocomplete="email">
+                    <div class="mb-4">
+                        <label for="email" class="form-label">Email</label>
+                        <input id="email" type="email" class="form-control custom-input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="example@mail.com">
                         @error('email')
-                            <span class="invalid-feedback">
+                            <div class="invalid-feedback d-block">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </div>
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="password" class="form-label text-left text-dark">Пароль</label>
-                        <input id="password" type="password"
-                               class="form-control @error('password') is-invalid @enderror"
-                               name="password" required autocomplete="new-password">
+                    <div class="mb-4">
+                        <label for="password" class="form-label">Пароль</label>
+                        <input id="password" type="password" class="form-control custom-input @error('password') is-invalid @enderror" name="password" required autocomplete="new-password" placeholder="••••••••">
                         @error('password')
-                            <span class="invalid-feedback">
+                            <div class="invalid-feedback d-block">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </div>
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="password-confirm" class="form-label text-left text-dark">Подтвердите пароль</label>
-                        <input id="password-confirm" type="password"
-                               class="form-control"
-                               name="password_confirmation" required autocomplete="new-password">
+                    <div class="mb-4">
+                        <label for="password-confirm" class="form-label">Подтвердите пароль</label>
+                        <input id="password-confirm" type="password" class="form-control custom-input" name="password_confirmation" required autocomplete="new-password" placeholder="••••••••">
                     </div>
 
-                    <!-- Чекбокс политики конфиденциальности -->
-                    <div class="mb-3">
-                        <div class="form-check">
-                            <input
-                                type="checkbox"
-                                name="privacy_policy"
-                                id="privacy-policy"
-                                class="form-check-input @error('privacy_policy') is-invalid @enderror"
-                                required
-                            >
-                            <label for="privacy-policy" class="form-check-label">
-                            <a href="/privacy-policy" target="_blank" class="text-blue-600 hover:underline">Принимаю условия регистрации и соглашаюсь на обработку персональных данных</a>
+                    <div class="mb-4">
+                        <div class="form-check d-flex align-items-center">
+                            <input type="checkbox" name="privacy_policy" id="privacy-policy" class="form-check-input custom-checkbox @error('privacy_policy') is-invalid @enderror" required>
+                            <label for="privacy-policy" class="form-check-label ms-2">
+                                <a href="/privacy-policy" target="_blank" class="text-center" style="font-size: 10px;">Принимаю условия регистрации и соглашаюсь на обработку персональных данных</a>
                             </label>
                             @error('privacy_policy')
-                                <span class="invalid-feedback">
+                                <div class="invalid-feedback d-block">
                                     <strong>{{ $message }}</strong>
-                                </span>
+                                </div>
                             @enderror
                         </div>
                     </div>
 
-                    <div class="d-grid mt-5">
-                        <button type="submit" class="btn iphone-button btn-login">Зарегистрироваться</button>
+                    <div class="d-grid gap-3 mt-4">
+                        <button type="submit" class="btn iphone-button btn-register">
+                            <i class="fas fa-user-plus me-2"></i> Зарегистрироваться
+                        </button>
                     </div>
                 </form>
+
+                <div class="mt-4 text-center">
+                    <a href="{{ route('home') }}" class="d-inline-flex align-items-center">
+                        <i class="fas fa-arrow-left me-1"></i> Вернуться на главную
+                    </a>
+                </div>
             </div>
-        </div>
-        <div class="col-sm-5 col-md-7 gradient-bg d-flex justify-content-center align-items-center">
-            <img src="{{ asset('storage/images/home_registration.webp') }}" 
-                 alt="Home Login Image" 
-                 class="img-fluid d-none d-sm-block" 
-                 style="width: 330px; height: auto; object-fit: contain;">
         </div>
     </div>
 </div>

@@ -1,71 +1,78 @@
 @extends('layouts.auth')
 
 @section('content')
+<style>
+    body {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-attachment: fixed;
+        overflow-x: hidden;
+    }
+
+
+</style>
 <div class="container">
-    <div class="row justify-content-center bg-light p-5 br-12">
-        <div class="col-md-4">
-            <div class="auth-form">
-                <h2 class="login-title mb-4">Восстановить пароль</h2>
-                <p class="login-subtitle mb-4">Введите email, чтобы сбросить пароль</p>
+    @if (session('status'))
+        <div class="alert alert-success alert-dismissible fade show mx-auto" role="alert" style="max-width: 440px; background: rgba(40, 167, 69, 0.2); border: 1px solid rgba(40, 167, 69, 0.3); backdrop-filter: blur(8px); color: #a0f0c0;">
+            Ссылка для сброса пароля отправлена на ваш email.
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="color: #a0f0c0;"></button>
+        </div>
+    @endif
 
-                @if (session('status'))
-                    <div class="alert alert-success mb-3" role="alert">
-                        Ссылка для сброса пароля отправлена на ваш email.
-                    </div>
-                @endif
+    @if ($errors->any())
+        <div class="alert alert-danger alert-dismissible fade show mx-auto" role="alert" style="max-width: 440px; background: rgba(229, 62, 62, 0.2); border: 1px solid rgba(229, 62, 62, 0.3); backdrop-filter: blur(8px); color: #fbb;">
+            <ul class="mb-0">
+                @foreach ($errors->all() as $error)
+                    <li>{{ str_replace([
+                        'The email field is required.',
+                        'The email must be a valid email address.'
+                    ], [
+                        'Поле Email обязательно.',
+                        'Email должен быть корректным.'
+                    ], $error) }}</li>
+                @endforeach
+            </ul>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="color: #fbb;"></button>
+        </div>
+    @endif
 
-                @if ($errors->any())
-                    <div class="alert alert-danger mb-3">
-                        <ul class="mb-0">
-                            @foreach ($errors->all() as $error)
-                                <li>{{ str_replace([
-                                    'The email field is required.',
-                                    'The email must be a valid email address.'
-                                ], [
-                                    'Поле Email обязательно.',
-                                    'Email должен быть корректным.'
-                                ], $error) }}</li>
-                            @endforeach
-                        </ul>
-                    </div>
-                @endif
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="login-card">
+                <div class="text-center mb-4">
+                    <h1 class="login-title">Восстановить пароль</h1>
+                    <p class="login-subtitle">Введите email, чтобы сбросить пароль</p>
+                </div>
 
-                <form method="POST" action="{{ route('password.email') }}" id="passwordResetForm">
+                <form method="POST" action="{{ route('password.email') }}" id="passwordResetForm" class="form">
                     @csrf
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label text-left text-dark">Email</label>
-                        <input id="email" type="email"
-                               class="form-control @error('email') is-invalid @enderror"
-                               name="email" value="{{ old('email') }}"
-                               required autocomplete="email" autofocus
-                               placeholder="Ваш email">
+                    <div class="mb-4">
+                        <label for="email" class="form-label">Email</label>
+                        <input id="email" type="email" class="form-control custom-input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="example@mail.com">
                         @error('email')
-                            <span class="invalid-feedback" role="alert">
+                            <div class="invalid-feedback d-block">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </div>
                         @enderror
                     </div>
 
-                    <div class="d-grid mt-5">
+                    <div class="d-grid gap-3 mt-4">
                         <button type="submit" class="btn iphone-button btn-login" id="submitBtn">
-                            Отправить ссылку
+                            <i class="fas fa-envelope me-2"></i> Отправить ссылку
                         </button>
                     </div>
                 </form>
 
-                <div class="mt-3 text-center">
-                    <a href="{{ route('login') }}" class="text-decoration-none">
-                        ← Вернуться к входу
+                <div class="mt-4 text-center">
+                    <a href="{{ route('login') }}" class="d-inline-flex align-items-center">
+                        <i class="fas fa-arrow-left me-1"></i> Вернуться к входу
                     </a>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-5 col-md-7 gradient-bg d-flex justify-content-center align-items-center">
-            <img src="{{ asset('storage/images/home_reset.webp') }}"
-                 alt="Восстановление пароля"
-                 class="img-fluid d-none d-sm-block"
-                 style="width: 380px; height: auto; object-fit: contain;">
         </div>
     </div>
 </div>

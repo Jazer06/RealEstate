@@ -8,7 +8,7 @@
             <h1 class="text-3xl font-bold mb-4 text-light">Админ-панель</h1>
             <ul class="nav nav-tabs mb-4 dashboard-nav-tabs" id="adminTabs" role="tablist">
                 @foreach([
-                    ['id' => 'home', 'label' => 'Главная страница'],
+                    ['id' => 'home', 'label' => 'Добавить ЖК'],
                     ['id' => 'properties', 'label' => 'Объекты'],
                     ['id' => 'contacts', 'label' => 'Заявки'],
                     ['id' => 'purchase-requests', 'label' => 'Заявки на покупку'],

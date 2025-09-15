@@ -23,7 +23,7 @@
         <div class="col-md-4 mb-4">
             <div class="card-consult shadow-sm h-100 bg-white">
                 <div class="card-consult-body text-center">
-                    <i class="bi bi-house-door-fill text-feoil" style="font-size: 2.5rem;"></i>
+                    <i class="bi bi-house-door-fill text-muted" style="font-size: 2.5rem;"></i>
                     <h5 class="card-consult-title mt-3">Подбор недвижимости</h5>
                     <p class="card-consult-text">Найдем объект, который идеально соответствует вашим пожеланиям и бюджету.</p>
                 </div>
@@ -32,7 +32,7 @@
         <div class="col-md-4 mb-4">
             <div class="card-consult shadow-sm h-100 bg-white">
                 <div class="card-consult-body text-center">
-                    <i class="bi bi-bank text-feoil" style="font-size: 2.5rem;"></i>
+                    <i class="bi bi-bank text-muted" style="font-size: 2.5rem;"></i>
                     <h5 class="card-consult-title mt-3">Помощь с ипотекой</h5>
                     <p class="card-consult-text">Подберем лучшие ипотечные программы и поможем с оформлением документов.</p>
                 </div>
@@ -41,7 +41,7 @@
         <div class="col-md-4 mb-4">
             <div class="card-consult shadow-sm h-100 bg-white">
                 <div class="card-consult-body text-center">
-                    <i class="bi bi-shield-check text-feoil" style="font-size: 2.5rem;"></i>
+                    <i class="bi bi-shield-check text-muted" style="font-size: 2.5rem;"></i>
                     <h5 class="card-consult-title mt-3">Юридическая проверка</h5>
                     <p class="card-consult-text">Гарантируем чистоту сделки с полной проверкой документов.</p>
                 </div>
@@ -64,28 +64,28 @@
                     <form method="POST" action="{{ route('contact.store') }}" enctype="multipart/form-data" id="consultation-form">
                         @csrf
                         <div class="mb-3">
-                            <label for="consultation-name" class="form-label">Ваше Имя</label>
+                            <label for="consultation-name" class="form-label text-black">Ваше Имя</label>
                             <input type="text" name="name" id="consultation-name" class="form-control @error('name') is-invalid @enderror" maxlength="20" pattern="[а-яА-ЯёЁa-zA-Z\s\-]+" required value="{{ old('name') }}">
                             @error('name')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="consultation-phone" class="form-label">Ваш Телефон</label>
+                            <label for="consultation-phone" class="form-label text-black">Ваш Телефон</label>
                             <input type="tel" name="phone" id="consultation-phone" class="form-control @error('phone') is-invalid @enderror" maxlength="18" placeholder="+7 (xxx) xxx-xx-xx" value="{{ old('phone') ?: '+7' }}" required>
                             @error('phone')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror
                         </div>
                         <div class="mb-3">
-                            <label for="description_type" class="form-label">Причина обращения</label>
+                            <label for="description_type" class="form-label text-black">Причина обращения</label>
                             <select name="description_type" id="description_type" class="form-select mb-2" onchange="document.getElementById('description').value = this.value">
                                 <option value="">Выберите тип</option>
                                 <option value="Покупка недвижимости">Покупка недвижимости</option>
                                 <option value="Консультация">Консультация</option>
                                 <option value="Другое">Другое</option>
                             </select>
-                            <label for="description" class="form-label">Описание</label>
+                            <label for="description" class="form-label text-black">Описание</label>
                             <textarea style="resize: none;" name="description" id="description" class="form-control @error('description') is-invalid @enderror" rows="3" maxlength="100" required>{{ old('description') }}</textarea>
                             @error('description')
                                 <div class="invalid-feedback">{{ $message }}</div>
@@ -101,7 +101,7 @@
                                     class="form-check-input @error('privacy_policy') is-invalid @enderror"
                                     required
                                 >
-                                <label for="privacy-policy" class="form-check-label">
+                                <label for="privacy-policy" class="form-check-label text-black">
                                    Нажимая на кнопку вы даете согласие на обработку персональных данных и соглашаетесь с <a href="/privacy-policy" target="_blank" class="text-blue-600 hover:underline">политикой конфиденциальности</a>
                                 </label>
                                 @error('privacy_policy')

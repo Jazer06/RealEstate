@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
 <div class="dashboard-container py-4 mt-5">
-    <h1 class="text-3xl font-bold mb-4">Добавить новый слайд</h1>
+    <h1 class="text-3xl font-bold mb-4">Добавить новый ЖК</h1>
 
     @if ($errors->any())
         <div class="alert alert-danger alert-dismissible fade show mb-4 dashboard-alert-success" role="alert" style="background-color: #704a4a; color: #e0e0e0; border: none;">
@@ -51,13 +51,19 @@
 
         <div class="mb-3">
             <label for="image" class="form-label text-light">Основное изображение</label>
-            <input type="file" name="image" class="form-control bg-dark text-light">
+            <input type="file" name="image" class="form-control bg-dark text-light" accept="image/*">
             <small class="text-light">Максимальный размер: 15 МБ.</small>
         </div>
 
         <div class="mb-3">
+            <label for="video" class="form-label text-light">Видео</label>
+            <input type="file" name="video" class="form-control bg-dark text-light" accept="video/*">
+            <small class="text-light">Максимальный размер: 20 МБ.</small>
+        </div>
+
+        <div class="mb-3">
             <label for="additional_images" class="form-label text-light">Дополнительные изображения</label>
-            <input type="file" name="additional_images[]" class="form-control bg-dark text-light" multiple>
+            <input type="file" name="additional_images[]" class="form-control bg-dark text-light" multiple accept="image/*">
             <small class="text-light">Максимальный размер каждого файла: 15 МБ.</small>
         </div>
 

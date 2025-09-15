@@ -4,7 +4,7 @@
 <link rel="stylesheet" href="{{ asset('css/dashboard.css') }}">
 
 <div class="dashboard-container py-4 mt-5">
-    <h1 class="text-3xl font-bold mb-4">Редактировать слайд</h1>
+    <h1 class="text-3xl font-bold mb-4">Редактировать ЖК</h1>
 
     @if ($errors->any())
         <div class="alert alert-danger alert-dismissible fade show mb-4 dashboard-alert-success" role="alert" style="background-color: #704a4a; color: #e0e0e0; border: none;">
@@ -62,14 +62,33 @@
                     <img src="{{ Storage::url($slider->image_path) }}" alt="Current Image" style="max-width: 200px; border-radius: 4px;">
                 </div>
             @endif
-            <input type="file" name="image" class="form-control bg-dark text-light">
-            <small class="text-muted">Максимальный размер: 15 МБ. Оставьте пустым, если не хотите менять изображение.</small>
+            <input type="file" name="image" class="form-control bg-dark text-light" accept="image/*">
+            <small class=" text-light">Максимальный размер: 15 МБ. Оставьте пустым, если не хотите менять изображение.</small>
+        </div>
+
+        <div class="mb-3">
+            <label for="video" class="form-label text-light">Видео</label>
+            @if ($slider->video_path)
+                <div class="mb-2">
+                    <video controls style="max-width: 200px; border-radius: 4px;">
+                        <source src="{{ Storage::url($slider->video_path) }}" type="video/mp4">
+                        Ваш браузер не поддерживает видео.
+                    </video>
+                    <button type="button"
+                            class="btn btn-danger text-white px-2 py-1 rounded delete-video"
+                            style="font-size: 0.8rem;"
+                            data-slider-id="{{ $slider->id }}"
+                            data-url="{{ route('dashboard.sliders.video.destroy', $slider->id) }}">Удалить видео</button>
+                </div>
+            @endif
+            <input type="file" name="video" class="form-control bg-dark text-light" accept="video/*">
+            <small class="text-light">Максимальный размер: 20 МБ. Оставьте пустым, если не хотите менять видео.</small>
         </div>
 
         <div class="mb-3">
             <label for="additional_images" class="form-label text-light">Дополнительные изображения</label>
-            <input type="file" name="additional_images[]" class="form-control bg-dark text-light" multiple>
-            <small class="text-muted">Максимальный размер каждого файла: 15 МБ.</small>
+            <input type="file" name="additional_images[]" class="form-control bg-dark text-light" multiple accept="image/*">
+            <small class="text-light">Максимальный размер каждого файла: 15 МБ.</small>
 
             @if ($slider->images->count() > 0)
                 <div class="mt-2">
@@ -96,4 +115,63 @@
     </form>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Удаление дополнительного изображения
+        document.querySelectorAll('.delete-image').forEach(button => {
+            button.addEventListener('click', function () {
+                if (confirm('Вы уверены, что хотите удалить это изображение?')) {
+                    const imageId = this.getAttribute('data-image-id');
+                    const url = this.getAttribute('data-url');
+                    fetch(url, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            document.getElementById(`image-${imageId}`).remove();
+                            alert(data.message);
+                        } else {
+                            alert('Ошибка: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        alert('Ошибка: ' + error.message);
+                    });
+                }
+            });
+        });
+
+        // Удаление видео
+        document.querySelectorAll('.delete-video').forEach(button => {
+            button.addEventListener('click', function () {
+                if (confirm('Вы уверены, что хотите удалить это видео?')) {
+                    const sliderId = this.getAttribute('data-slider-id');
+                    const url = this.getAttribute('data-url');
+                    fetch(url, {
+                        method: 'DELETE',
+                        headers: {
+                            'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        },
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            this.parentElement.remove();
+                            alert(data.message);
+                        } else {
+                            alert('Ошибка: ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        alert('Ошибка: ' + error.message);
+                    });
+                }
+            });
+        });
+    });
+</script>
 @endsection

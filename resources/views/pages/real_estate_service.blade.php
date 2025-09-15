@@ -25,13 +25,13 @@
                 <h2 class="mb-3">Полное сопровождение сделки</h2>
                 <p class="text-muted mb-4">Наши эксперты помогут вам на каждом этапе покупки недвижимости, обеспечивая комфорт и уверенность.</p>
                 <ul class="text-start list-unstyled">
-                    <li><i class="bi bi-check-circle-fill text-dark-feol me-2"></i>Поиск объектов по вашим критериям</li>
-                    <li><i class="bi bi-check-circle-fill text-dark-feol me-2"></i>Организация просмотров</li>
-                    <li><i class="bi bi-check-circle-fill text-dark-feol me-2"></i>Проверка юридической чистоты</li>
-                    <li><i class="bi bi-check-circle-fill text-dark-feol me-2"></i>Оформление ипотеки</li>
-                    <li><i class="bi bi-check-circle-fill text-dark-feol me-2"></i>Сопровождение при сделке</li>
+                    <li><i class="bi bi-check-circle-fill  me-2"></i>Поиск объектов по вашим критериям</li>
+                    <li><i class="bi bi-check-circle-fill  me-2"></i>Организация просмотров</li>
+                    <li><i class="bi bi-check-circle-fill me-2"></i>Проверка юридической чистоты</li>
+                    <li><i class="bi bi-check-circle-fill  me-2"></i>Оформление ипотеки</li>
+                    <li><i class="bi bi-check-circle-fill  me-2"></i>Сопровождение при сделке</li>
                 </ul>
-                <a href="{{ route('contacts') }}" class="iphone-button-black mt-4 mb-5">Заказать услугу</a>
+                <a href="{{ route('contacts') }}" class="iphone-button-black mt-4 mb-5 text-black" style="text-decoration: none;">Заказать услугу</a>
             </div>
         </div>
     </div>

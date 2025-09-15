@@ -74,28 +74,35 @@
                     @endforeach
                 </div>
             </div>
+
             @if ($selectedSlider)
-                <div class="row mt-6">
-                    <div class="br-12 bg-light p-5 mt-90">
-                        <div class="col-md-12 ">
-                            <h3 >{{ $selectedSlider->title }}</h3>
-                        </div>
-						<p class="mt-2">
-							<b>
-							   Адрес: {{$selectedSlider->adress}}	
-							</b>
-                        </p>
-                        <div class="mt-1">
-                            <div class="slider-description">
-                                @if ($selectedSlider->description)
-                                    <p>{{ $selectedSlider->description }}</p>
-                                @else
-                                    <p>Описание отсутствует</p>
-                                @endif
-                            </div>
-                        </div>    
+            <div class="row mt-6">
+                <div class="br-12 bg-light p-5 mt-90 rounded-xl shadow-lg">
+                    <div class="col-md-12">
+                        <h3 class="text-2xl font-bold text-gray-800">{{ $selectedSlider->title }}</h3>
                     </div>
+                    <p class="mt-2 text-lg text-gray-600">
+                        <b>Адрес: {{ $selectedSlider->adress }}</b>
+                    </p>
+                    <div class="mt-1">
+                        <div class="slider-description text-gray-700">
+                            @if ($selectedSlider->description)
+                                <p>{{ $selectedSlider->description }}</p>
+                            @else
+                                <p>Описание отсутствует</p>
+                            @endif
+                        </div>
+                    </div>
+                    @if ($selectedSlider->video_path)
+                        <div class=" mt-4 text-center">
+                            <video controls class=" rounded-lg shadow-md" style="object-fit: cover; height: 400px; border-radius: 12px;">
+                                <source src="{{ asset('storage/' . $selectedSlider->video_path) }}" type="video/mp4">
+                                Ваш браузер не поддерживает видео.
+                            </video>
+                        </div>
+                    @endif
                 </div>
+            </div>
             @endif
         </div>
 
@@ -128,16 +135,16 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-
-    {{-- ФИЛЬТРЫ --}}
-    @include('components.filter', [
-        'minPrice' => $minPrice,
-        'maxPrice' => $maxPrice,
-        'priceMin' => $priceMin,
-        'priceMax' => $priceMax,
-        'areaMin' => $areaMin,
-        'areaMax' => $areaMax,
-    ])
+    <div style="margin-top: -70px;">
+        @include('components.filter', [
+            'minPrice' => $minPrice,
+            'maxPrice' => $maxPrice,
+            'priceMin' => $priceMin,
+            'priceMax' => $priceMax,
+            'areaMin' => $areaMin,
+            'areaMax' => $areaMax,
+        ])
+    </div>
 
     {{-- СПИСОК ОБЪЕКТОВ --}}
     @if($totalProperties === 0)

@@ -1,71 +1,89 @@
 @extends('layouts.auth')
 
 @section('content')
+<style>
+    body {
+        background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-attachment: fixed;
+        overflow-x: hidden;
+    }
+
+
+</style>
+
 <div class="container">
     @if (session('status'))
-        <div class="alert alert-success">
+        <div class="alert alert-success alert-dismissible fade show mx-auto" role="alert" style="max-width: 440px; background: rgba(40, 167, 69, 0.2); border: 1px solid rgba(40, 167, 69, 0.3); backdrop-filter: blur(8px); color: #a0f0c0;">
             {{ session('status') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close" style="color: #a0f0c0;"></button>
         </div>
     @endif
-    <div class="row bg-light br-12 p-5">
-        <div class="col-sm-7 col-md-5">
-            <div class="login-form">
-                <h1 class="login-title">Войти в личный <br> кабинет</h1>
-                <p class="login-subtitle">Пожалуйста, заполните поля ниже для входа в систему</p>
+
+    <div class="row justify-content-center">
+        <div class="col-12 col-md-8 col-lg-6">
+            <div class="login-card">
+                <div class="text-center mb-4">
+                    <h1 class="login-title">Войти в личный <br> кабинет</h1>
+                    <p class="login-subtitle">Пожалуйста, заполните поля ниже для входа в систему</p>
+                </div>
 
                 <form method="POST" action="{{ route('login') }}" class="form">
                     <input type="hidden" name="custom_csrf_token" value="{{ $custom_csrf_token }}">
 
-                    <div class="mb-3">
-                        <label for="email" class="form-label text-left text-dark">Адрес электронной почты</label>
-                        <input id="email" type="email" class="form-control custom-input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                    <div class="mb-4">
+                        <label for="email" class="form-label">Адрес электронной почты</label>
+                        <input id="email" type="email" class="form-control custom-input @error('email') is-invalid @enderror" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus placeholder="example@mail.com">
                         @error('email')
-                            <span class="invalid-feedback">
+                            <div class="invalid-feedback d-block">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </div>
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <label for="password" class="form-label text-left text-dark">Пароль</label>
-                        <input id="password" type="password" class="form-control custom-input @error('password') is-invalid @enderror" name="password" required autocomplete="current-password">
+                    <div class="mb-4">
+                        <label for="password" class="form-label">Пароль</label>
+                        <input id="password" type="password" class="form-control custom-input @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="••••••••">
                         @error('password')
-                            <span class="invalid-feedback">
+                            <div class="invalid-feedback d-block">
                                 <strong>{{ $message }}</strong>
-                            </span>
+                            </div>
                         @enderror
                     </div>
 
-                    <div class="mb-3">
-                        <div class="form-check">
+                    <div class="mb-4">
+                        <div class="form-check d-flex align-items-center">
                             <input class="form-check-input custom-checkbox" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
-                            <label class="form-check-label text-dark" for="remember">Запомнить меня</label>
+                            <label class="form-check-label ms-2" for="remember">Запомнить меня</label>
                         </div>
                     </div>
 
-                    <div class="d-flex flex-column gap-2 mt-4">
-                        <button type="submit" class="btn iphone-button btn-login">Войти</button>
+                    <div class="d-grid gap-3 mt-4">
+                        <button type="submit" class="btn iphone-button btn-login">
+                            <i class="fas fa-sign-in-alt me-2"></i> Войти
+                        </button>
 
                         @if (Route::has('password.request'))
-                            <a href="{{ route('password.request') }}" class="btn iphone-button btn-forgot">Забыли пароль?</a>
+                            <a href="{{ route('password.request') }}" class="btn iphone-button btn-forgot">
+                                <i class="fas fa-key me-2"></i> Забыли пароль?
+                            </a>
                         @endif
 
-                        <a href="{{ route('register') }}" class="btn iphone-button btn-register">Регистрация</a>
+                        <a href="{{ route('register') }}" class="btn iphone-button btn-register">
+                            <i class="fas fa-user-plus me-2"></i> Регистрация
+                        </a>
                     </div>
                 </form>
 
-                <div class="mt-3 text-center">
-                    <a href="{{ route('home') }}" class="text-decoration-none">
-                        ← Вернуться на главную
+                <div class="mt-4 text-center">
+                    <a href="{{ route('home') }}" class="d-inline-flex align-items-center">
+                        <i class="fas fa-arrow-left me-1"></i> Вернуться на главную
                     </a>
                 </div>
             </div>
-        </div>
-        <div class="col-sm-5 col-md-7 gradient-bg d-flex justify-content-center align-items-center">
-            <img src="{{ asset('storage/images/home_login.webp') }}" 
-                 alt="Home Login Image" 
-                 class="img-fluid d-none d-sm-block" 
-                 style="width: 330px; height: auto; object-fit: contain;">
         </div>
     </div>
 </div>

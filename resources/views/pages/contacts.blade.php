@@ -35,7 +35,7 @@
             </ul>
             <div class="text-center mt-4">
                 @if($phoneNumber)
-                    <a href="tel:{{ $phoneNumber }}" class="iphone-button-black me-2">Позвонить</a>
+                    <a href="tel:{{ $phoneNumber }}" class="iphone-button-black me-2 text-black" style="text-decoration: none;">Позвонить</a>
                 @endif
                 <button type="button" class="iphone-button-black" data-bs-toggle="modal" data-bs-target="#contactModal">
                     Написать

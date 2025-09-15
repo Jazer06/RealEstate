@@ -28,32 +28,39 @@ class SliderController extends Controller
             'title' => 'nullable|string|max:255',
             'subtitle' => 'nullable|string|max:255',
             'description' => 'nullable|string',
-            'adress' => 'nullable|string', // Валидация для нового поля adress
+            'adress' => 'nullable|string',
             'button_text' => 'nullable|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'video' => 'nullable|mimetypes:video/mp4,video/mpeg,video/quicktime|max:20000',
             'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
             'properties' => 'nullable|array',
             'properties.*' => 'nullable|exists:properties,id',
         ]);
 
         $imagePath = null;
+        $videoPath = null;
+
         if ($request->hasFile('image')) {
             $imageName = time() . '_' . $request->file('image')->getClientOriginalName();
             $imagePath = $request->file('image')->storeAs('images/sliders', $imageName, 'public');
         }
 
-        // Создаем слайдер
+        if ($request->hasFile('video')) {
+            $videoName = time() . '_' . $request->file('video')->getClientOriginalName();
+            $videoPath = $request->file('video')->storeAs('videos/sliders', $videoName, 'public');
+        }
+
         $slider = Slider::create([
             'title' => $validated['title'] ?? null,
             'subtitle' => $validated['subtitle'] ?? null,
             'description' => $validated['description'] ?? null,
-            'adress' => $validated['adress'] ?? null, // Сохранение нового поля
+            'adress' => $validated['adress'] ?? null,
             'button_text' => $validated['button_text'] ?? 'Смотреть все ЖК',
             'button_link' => null,
             'image_path' => $imagePath,
+            'video_path' => $videoPath,
         ]);
 
-        // Загрузка дополнительных изображений
         if ($request->hasFile('additional_images')) {
             foreach ($request->file('additional_images') as $additionalImage) {
                 $additionalImageName = time() . '_' . $additionalImage->getClientOriginalName();
@@ -65,7 +72,6 @@ class SliderController extends Controller
             }
         }
 
-        // Привязка квартир
         $selectedProperties = $request->properties ?? [];
         $selectedProperties = array_filter($selectedProperties, fn($value) => $value !== '' && $value !== null);
 
@@ -90,21 +96,24 @@ class SliderController extends Controller
 
     public function update(Request $request, Slider $slider)
     {
-        // $this->authorize('update', $slider); // Временно отключено для отладки
+        $this->authorize('update', $slider);
 
         $validated = $request->validate([
             'title' => 'required|string|max:255',
             'subtitle' => 'required|string|max:255',
             'description' => 'nullable|string',
-            'adress' => 'nullable|string', // Валидация для нового поля adress
+            'adress' => 'nullable|string',
             'button_text' => 'required|string|max:255',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'video' => 'nullable|mimetypes:video/mp4,video/mpeg,video/quicktime|max:20000',
             'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
         ]);
 
-        \Log::info('Validated data:', $validated); // Логирование для отладки
+        \Log::info('Validated data:', $validated);
 
         $imagePath = $slider->image_path;
+        $videoPath = $slider->video_path;
+
         if ($request->hasFile('image')) {
             if ($imagePath && Storage::disk('public')->exists($imagePath)) {
                 Storage::disk('public')->delete($imagePath);
@@ -113,17 +122,24 @@ class SliderController extends Controller
             $imagePath = $request->file('image')->storeAs('images/sliders', $imageName, 'public');
         }
 
-        // Обновляем слайдер
+        if ($request->hasFile('video')) {
+            if ($videoPath && Storage::disk('public')->exists($videoPath)) {
+                Storage::disk('public')->delete($videoPath);
+            }
+            $videoName = time() . '_' . $request->file('video')->getClientOriginalName();
+            $videoPath = $request->file('video')->storeAs('videos/sliders', $videoName, 'public');
+        }
+
         $slider->update([
             'title' => $validated['title'],
             'subtitle' => $validated['subtitle'],
             'description' => $validated['description'] ?? null,
-            'adress' => $validated['adress'] ?? null, // Обновление нового поля
+            'adress' => $validated['adress'] ?? null,
             'button_text' => $validated['button_text'],
             'image_path' => $imagePath,
+            'video_path' => $videoPath,
         ]);
 
-        // Обработка дополнительных изображений
         if ($request->hasFile('additional_images')) {
             foreach ($request->file('additional_images') as $additionalImage) {
                 $additionalImageName = time() . '_' . $additionalImage->getClientOriginalName();
@@ -135,7 +151,6 @@ class SliderController extends Controller
             }
         }
 
-        // Обновляем button_link
         $buttonLink = url('/properties') . '?slider_id=' . $slider->id;
         $slider->update(['button_link' => $buttonLink]);
 
@@ -146,12 +161,14 @@ class SliderController extends Controller
     {
         $this->authorize('delete', $slider);
 
-        // Удаляем основное изображение
         if ($slider->image_path && Storage::disk('public')->exists($slider->image_path)) {
             Storage::disk('public')->delete($slider->image_path);
         }
 
-        // Удаляем дополнительные изображения
+        if ($slider->video_path && Storage::disk('public')->exists($slider->video_path)) {
+            Storage::disk('public')->delete($slider->video_path);
+        }
+
         foreach ($slider->images as $image) {
             if ($image->image_path && Storage::disk('public')->exists($image->image_path)) {
                 Storage::disk('public')->delete($image->image_path);
@@ -159,7 +176,6 @@ class SliderController extends Controller
             $image->delete();
         }
 
-        // Отвязываем квартиры
         Property::where('slider_id', $slider->id)->update(['slider_id' => null]);
 
         $slider->delete();
@@ -170,13 +186,24 @@ class SliderController extends Controller
     public function destroyImage(Request $request, SliderImage $sliderImage)
     {
         try {
-            // Удаляем файл из хранилища
             if ($sliderImage->image_path && Storage::disk('public')->exists($sliderImage->image_path)) {
                 Storage::disk('public')->delete($sliderImage->image_path);
             }
-            // Удаляем запись из базы
             $sliderImage->delete();
             return response()->json(['success' => true, 'message' => 'Дополнительное изображение удалено.']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
+        }
+    }
+
+    public function destroyVideo(Request $request, Slider $slider)
+    {
+        try {
+            if ($slider->video_path && Storage::disk('public')->exists($slider->video_path)) {
+                Storage::disk('public')->delete($slider->video_path);
+            }
+            $slider->update(['video_path' => null]);
+            return response()->json(['success' => true, 'message' => 'Видео удалено.']);
         } catch (\Exception $e) {
             return response()->json(['success' => false, 'message' => $e->getMessage()], 500);
         }

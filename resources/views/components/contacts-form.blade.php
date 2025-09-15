@@ -77,7 +77,7 @@
                             class="form-check-input @error('privacy_policy') is-invalid @enderror"
                             required
                         >
-                        <label for="privacy-policy" class="form-check-label">
+                        <label for="privacy-policy" class="form-check-label text-black">
                             Нажимая на кнопку вы даете согласие на обработку персональных данных и соглашаетесь с  <a href="/privacy-policy" target="_blank" class="text-blue-600 hover:underline">политикой конфиденциальности</a>
                         </label>
                         @error('privacy_policy')

@@ -68,6 +68,7 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
         'edit' => 'dashboard.properties.edit',
         'update' => 'dashboard.properties.update',
         'destroy' => 'dashboard.properties.destroy',
+
     ]);
 
     Route::resource('sliders', SliderController::class)->names([
@@ -78,7 +79,7 @@ Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
         'update' => 'dashboard.sliders.update',
         'destroy' => 'dashboard.sliders.destroy',
     ]);
-
+    Route::delete('/dashboard/sliders/{slider}/video', [App\Http\Controllers\Dashboard\SliderController::class, 'destroyVideo'])->name('dashboard.sliders.video.destroy');
     Route::delete('/sliders/{sliderImage}/image-destroy', [SliderController::class, 'destroyImage'])->name('dashboard.sliders.image.destroy');
 
     // Управление заявками (контакты)

@@ -175,7 +175,7 @@ html {
     background: rgba(255, 255, 255, 0.1);
     border: 1px solid rgba(255, 255, 255, 0.2);
     padding: 10px 10px;
-    color: #333; /* Цвет текста по умолчанию */
+    color: #000000; 
     position: relative;
     border-radius: 0;
     backdrop-filter: blur(12px);
@@ -184,7 +184,7 @@ html {
 
 .dropdown-item:hover {
     background: rgba(255, 255, 255, 0.2);
-    color: #4b0082; 
+    color: #5b595c; 
     backdrop-filter: blur(15px);
     box-shadow: 
         0 2px 8px rgba(0, 0, 0, 0.08),
@@ -198,9 +198,8 @@ html {
     top: 0;
     bottom: 0;
     width: 3px;
-    background: linear-gradient(to bottom, #4b0082, #8a6cff);
+    background: linear-gradient(to bottom, #282729, #e3e3e3);
     border-radius: 0 3px 3px 0;
-    box-shadow: 0 0 10px rgba(75, 0, 130, 0.3);
 }
 
 /* === Шрифты === */
