@@ -23,7 +23,7 @@
         <div class="col-md-4 mb-4">
             <div class="card-consult shadow-sm h-100 bg-white">
                 <div class="card-consult-body text-center">
-                    <i class="bi bi-house-door-fill text-muted" style="font-size: 2.5rem;"></i>
+                    <i class="bi bi-house-door-fill text-black" style="font-size: 2.5rem;"></i>
                     <h5 class="card-consult-title mt-3">Подбор недвижимости</h5>
                     <p class="card-consult-text">Найдем объект, который идеально соответствует вашим пожеланиям и бюджету.</p>
                 </div>
@@ -32,7 +32,7 @@
         <div class="col-md-4 mb-4">
             <div class="card-consult shadow-sm h-100 bg-white">
                 <div class="card-consult-body text-center">
-                    <i class="bi bi-bank text-muted" style="font-size: 2.5rem;"></i>
+                    <i class="bi bi-bank text-black" style="font-size: 2.5rem;"></i>
                     <h5 class="card-consult-title mt-3">Помощь с ипотекой</h5>
                     <p class="card-consult-text">Подберем лучшие ипотечные программы и поможем с оформлением документов.</p>
                 </div>
@@ -41,7 +41,7 @@
         <div class="col-md-4 mb-4">
             <div class="card-consult shadow-sm h-100 bg-white">
                 <div class="card-consult-body text-center">
-                    <i class="bi bi-shield-check text-muted" style="font-size: 2.5rem;"></i>
+                    <i class="bi bi-shield-check text-black" style="font-size: 2.5rem;"></i>
                     <h5 class="card-consult-title mt-3">Юридическая проверка</h5>
                     <p class="card-consult-text">Гарантируем чистоту сделки с полной проверкой документов.</p>
                 </div>
