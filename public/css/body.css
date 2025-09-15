@@ -1500,7 +1500,6 @@ background: linear-gradient(90deg, #5c5c5c, #000000);
     .custom-input:focus {
         background: rgba(255, 255, 255, 0.08);
         border-color: #667eea;
-
         outline: none;
         color: #ffffff;
     }
@@ -1553,8 +1552,8 @@ background: linear-gradient(90deg, #5c5c5c, #000000);
     }
 
     .btn-login:hover {
-    background: linear-gradient(135deg, #b9b9b9 0%, #cecece 100%);
-        transform: translateY(-3px);
+        background: linear-gradient(135deg, #b9b9b9 0%, #cecece 100%);
+
 
     }
 
@@ -1567,7 +1566,6 @@ background: linear-gradient(90deg, #5c5c5c, #000000);
     .btn-forgot:hover {
         background: rgba(255, 255, 255, 0.08);
         color: #e0e0e0;
-        transform: translateY(-3px);
         border-color: rgba(255, 255, 255, 0.2);
     }
 
@@ -1579,7 +1577,6 @@ background: linear-gradient(90deg, #5c5c5c, #000000);
 
     .btn-register:hover {
         background: linear-gradient(135deg, #38a169 0%, #2c7a7b 100%);
-        transform: translateY(-3px);
         color: white;
 
     }
