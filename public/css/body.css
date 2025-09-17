@@ -600,7 +600,7 @@ background: linear-gradient(90deg, #ffffff, #000000, #ffffff);
     border: 1px solid transparent;
     color: #000000;
     margin-top: 10px;
-    font-size: 1rem;
+    font-size: 1.3rem;
     outline: none;
     width: auto;
 }
@@ -824,7 +824,7 @@ background: linear-gradient(90deg, #3b363c, #3b393f);
 }
 
 .filter-glass {
-    background: rgb(0 0 0 / 49%);
+    background: rgb(0 0 0 / 29%);
     backdrop-filter: blur(-20px);
     padding: 25px;
     border-radius: 12px;
@@ -1492,7 +1492,7 @@ background: linear-gradient(90deg, #5c5c5c, #000000);
         border-radius: 14px;
         padding: 14px 18px;
         font-size: 1rem;
-        color: #ffffff;
+        color: black !important;
         transition: all 0.3s ease;
         backdrop-filter: blur(4px);
     }
@@ -1594,19 +1594,6 @@ background: linear-gradient(90deg, #5c5c5c, #000000);
         text-decoration: underline;
     }
 
-    @media (max-width: 576px) {
-        .login-card {
-            padding: 1.8rem;
-            margin: 1rem;
-        }
-        .login-title {
-            font-size: 1.75rem;
-        }
-        .iphone-button {
-            font-size: 1rem;
-            padding: 14px 20px;
-        }
-    }
 /* ==================== MEDIA QUERIES ==================== */
 @media (min-width: 1200px) {
   .custom-thumbs-container {

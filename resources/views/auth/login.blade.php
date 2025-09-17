@@ -5,11 +5,6 @@
     body {
         background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
         min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        background-attachment: fixed;
-        overflow-x: hidden;
     }
 
 

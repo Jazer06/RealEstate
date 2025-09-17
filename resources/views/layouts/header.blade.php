@@ -57,7 +57,7 @@
         </div>
         <ul class="nav justify-content-start fs-6 mt-2 w-100 border-to fw-bold main-nav-links">
             <li class="nav-item">
-                <a class="nav-link fs-14" href="{{ route('properties.index') }}">Объекты недвижимости</a>
+                <a class="nav-link fs-14" href="{{ route('properties.index') }}">Поиск квартир</a>
             </li>
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle fs-14" href="#" role="button" id="servicesDropdown" data-bs-toggle="dropdown" aria-expanded="false">

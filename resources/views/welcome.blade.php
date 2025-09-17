@@ -3,13 +3,12 @@
 @section('carousel')
 <div class="video-background">
     <video autoplay loop muted playsinline>
-        <source src="{{ asset('storage/banner-image/video.webm') }}" type="video/webm">
+        <source src="{{ asset('storage/banner-image/video2.mp4') }}" type="video/webm">
         Ваш браузер не поддерживает видео.
     </video>
     <div class="gradient-overlay"></div>
     <div class="content-overlay ml-54">
-        <h1>Sofiarealty</h1>
-        <p>Продажа квартир в новостройках — просто, быстро, надёжно</p>
+        <p class="fs-1">Здесь начинаются перемены к лучшему!</p>
     </div>
 </div>
 @if (session('success'))

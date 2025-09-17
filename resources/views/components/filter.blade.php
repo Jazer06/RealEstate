@@ -7,7 +7,7 @@
             <div class="mb-3">
                 <div class="d-flex align-items-center gap-2 flex-wrap">
                     <label class="filter-label d-block mb-1">
-                        <b class="fs-2rem fst-italic text-black">Выбрать</b>
+                        <b class="fs-2rem  text-black">Выбрать</b>
                     </label>
 
                     {{-- Тип недвижимости --}}
@@ -17,6 +17,7 @@
                             style="max-width: 250px;">
                         <option value="">Любую недвижимость</option>
                         <option value="квартира" {{ request('type') == 'квартира' ? 'selected' : '' }}>Квартиру</option>
+                        <option value="апартаменты" {{ request('type') == 'апартаменты' ? 'selected' : '' }}>Аппартаменты</option>
                         <option value="дом" {{ request('type') == 'дом' ? 'selected' : '' }}>Дом</option>
                         <option value="коммерческая" {{ request('type') == 'коммерческая' ? 'selected' : '' }}>Коммерческую</option>
                     </select>

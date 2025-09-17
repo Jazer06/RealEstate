@@ -64,6 +64,7 @@
                 <select name="type" id="type" class="form-select bg-dark text-light">
                     <option value="">Выберите тип</option>
                     <option value="квартира" {{ old('type') == 'квартира' ? 'selected' : '' }}>Квартира</option>
+                    <option value="апартаменты" {{ old('type') == 'апартаменты' ? 'selected' : '' }}>Аппартаменты</option>
                     <option value="дом" {{ old('type') == 'дом' ? 'selected' : '' }}>Дом</option>
                     <option value="коммерческая" {{ old('type') == 'коммерческая' ? 'selected' : '' }}>Коммерческая</option>
                 </select>

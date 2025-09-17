@@ -118,7 +118,7 @@
 
 @section('content')
     @if (!$selectedSlider)
-        <h2 class="mb-4 mt-54 text-center">Наши объекты недвижимости</h2>
+        <h2 class="mb-4 mt-54 text-center mb-4">Наши объекты недвижимости</h2>
     @endif
 
     @if (session('success'))
@@ -135,7 +135,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    <div style="margin-top: -70px;">
+    <div style="margin-top: -20px;">
         @include('components.filter', [
             'minPrice' => $minPrice,
             'maxPrice' => $maxPrice,
@@ -208,7 +208,7 @@
                                     <div class="col-sm-6">
                                         <p class="m-0" style="padding-top: 10px;">
                                             @if($property->area)
-                                                <strong>м²</strong> {{ number_format($property->area, 1, ',', ' ') }}
+                                                {{ number_format($property->area, 1, ',', ' ') }} <strong>м²</strong>
                                             @endif
                                         </p>
                                         @if(!empty($property->address) && $property->address !== 'Адрес не указан')
