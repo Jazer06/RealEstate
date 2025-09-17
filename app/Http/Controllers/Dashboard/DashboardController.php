@@ -14,11 +14,11 @@ use Illuminate\Support\Facades\Auth;
 class DashboardController extends Controller
 {
     public function index()
-    {  
-        $properties = Property::where('user_id', Auth::id())->paginate(5);
-        $sliders = Slider::paginate(5);
-        $contacts = Contact::paginate(5);
-        $purchaseRequests = PurchaseRequest::with(['user', 'property'])->paginate(5);
+    {   
+        $properties = Property::where('user_id', Auth::id())->paginate(20);
+        $sliders = Slider::paginate(20);
+        $contacts = Contact::paginate(20);
+        $purchaseRequests = PurchaseRequest::with(['user', 'property'])->paginate(20);
 
         return view('dashboard.index', compact('properties', 'sliders', 'contacts', 'purchaseRequests'));
     }

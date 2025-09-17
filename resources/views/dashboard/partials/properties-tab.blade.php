@@ -1,6 +1,7 @@
 <div class="tab-pane fade p-4" id="properties" role="tabpanel" aria-labelledby="properties-tab">
     <h5 class="card-title text-xl font-semibold mb-3">Управление объектами недвижимости</h5>
     <a href="{{ route('dashboard.properties.create') }}" class="btn btn-primary mb-3">Добавить объект</a>
+    <p class="text-muted small mb-3">Текущий максимальный порядок отображения: {{ \App\Models\Property::max('sort_order') ?? '0' }} (меньше — выше в списке)</p>
     <div class="table-responsive">
         <table class="table table-dark table-striped table-hover dashboard-table">
             <thead>
@@ -8,6 +9,7 @@
                     <th scope="col">Название</th>
                     <th scope="col">ЖК</th>
                     <th scope="col">Изображение</th>
+                    <th scope="col">Порядок</th> <!-- Добавляем столбец для sort_order -->
                     <th scope="col">Действия</th>
                 </tr>
             </thead>
@@ -23,6 +25,7 @@
                                 <span class="text-muted">Нет изображения</span>
                             @endif
                         </td>
+                        <td>{{ $property->sort_order ?? 'Не задан' }}</td> <!-- Отображаем sort_order -->
                         <td>
                             <div class="btn-group" role="group">
                                 <a href="{{ route('dashboard.properties.edit', $property) }}" class="btn btn-warning btn-sm text-white dashboard-btn-warning">Редактировать</a>
@@ -36,7 +39,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center text-muted py-3">Объектов нет. Добавьте новый!</td>
+                        <td colspan="5" class="text-center text-muted py-3">Объектов нет. Добавьте новый!</td>
                     </tr>
                 @endforelse
             </tbody>

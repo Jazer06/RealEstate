@@ -116,7 +116,7 @@
                     @endauth
                     <!-- Пункты навигации -->
                     <li class="list-group-item">
-                        <a href="{{ route('properties.index') }}" class="text-decoration-none text-light">Объекты недвижимости</a>
+                        <a href="{{ route('properties.index') }}" class="text-decoration-none text-light">Поиск квартир</a>
                     </li>
                     <li class="list-group-item">
                         <a class="text-decoration-none dropdown-toggle text-light" href="#" role="button" id="servicesModalDropdown" data-bs-toggle="dropdown" aria-expanded="false">

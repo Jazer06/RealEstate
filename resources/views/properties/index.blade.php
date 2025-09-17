@@ -14,6 +14,10 @@
                         <div class="container">
                             <div class="slide-content mt-40">
                                 <h1 class="slide-title text-white shadow-[0_4px_4px_rgba(0,0,0,0.25)]">{{ $selectedSlider->title }}</h1>
+                                <h2 class="slide-subtitle mt-200">
+                                    {{ $selectedSlider->subtitle }}
+                                    
+                                </h2>
                             </div>
                         </div>
                     </div>
@@ -152,7 +156,7 @@
             По вашему запросу ничего не найдено.
         </div>
     @else
-        <div class="row mt-54 p-5 br-12 bg-light">
+    <div class="row mt-54 p-5 br-12 bg-light">
             <hr>
             @forelse ($properties as $property)
                 <div class="col-xl-4 col-sm-12 mb-4">
@@ -256,4 +260,45 @@
             {{ $properties->appends(request()->query())->links('pagination::bootstrap-5') }}
         @endif
     </div>
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const slides = document.querySelectorAll('input[name="construction-slide"]');
+    let index = 0;
+
+    if (slides.length > 0) {
+        slides[0].checked = true; // открыть первую
+
+        setInterval(() => {
+            index = (index + 1) % slides.length;
+            slides[index].checked = true;
+        }, 5000); // каждые 5 сек
+    }
+});
+</script>
+
+@if ($selectedSlider && $selectedSlider->images->where('is_construction', true)->count() > 0)
+    <div class="mb-4">
+        <h2 class="text-xl font-semibold mb-3 text-black text-center mt-5">Ход строительства</h2>
+        <div class="construction-slide-wrapper">
+            <div class="construction-slide-container">
+                @foreach ($selectedSlider->images->where('is_construction', true) as $index => $image)
+                    <div class="construction-slide-item">
+                        <input type="radio" name="construction-slide" id="c{{ $index + 1 }}" {{ $index === 0 ? 'checked' : '' }}>
+                        <label for="c{{ $index + 1 }}" class="construction-slide-card" style="background-image: url('{{ Storage::url($image->image_path) }}')">
+                            <div class="construction-slide-row">
+                                <div class="construction-slide-description">
+                                    <h4>{{ $selectedSlider->title }} </h4>
+                                    <p>Ход строительства</p>
+                                </div>
+                            </div>
+                        </label>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+@endif
+
 @endsection

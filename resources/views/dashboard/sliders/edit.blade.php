@@ -63,7 +63,7 @@
                 </div>
             @endif
             <input type="file" name="image" class="form-control bg-dark text-light" accept="image/*">
-            <small class=" text-light">Максимальный размер: 15 МБ. Оставьте пустым, если не хотите менять изображение.</small>
+            <small class="text-light">Максимальный размер: 15 МБ. Оставьте пустым, если не хотите менять изображение.</small>
         </div>
 
         <div class="mb-3">
@@ -87,8 +87,9 @@
 
         <div class="mb-3">
             <label for="additional_images" class="form-label text-light">Дополнительные изображения</label>
-            <input type="file" name="additional_images[]" class="form-control bg-dark text-light" multiple accept="image/*">
+            <input type="file" name="additional_images[]" id="additional_images" class="form-control bg-dark text-light" multiple accept="image/*">
             <small class="text-light">Максимальный размер каждого файла: 15 МБ.</small>
+            <div id="image-checkboxes" class="mt-2"></div>
 
             @if ($slider->images->count() > 0)
                 <div class="mt-2">
@@ -97,6 +98,15 @@
                         @foreach ($slider->images as $image)
                             <div class="position-relative" id="image-{{ $image->id }}">
                                 <img src="{{ Storage::url($image->image_path) }}" alt="Additional Image" style="max-width: 100px; border-radius: 4px;">
+                                <div class="form-check mt-1">
+                                    <input type="checkbox"
+                                           name="is_construction_existing[{{ $image->id }}]"
+                                           id="is_construction_{{ $image->id }}"
+                                           value="1"
+                                           {{ $image->is_construction ? 'checked' : '' }}
+                                           class="form-check-input">
+                                    <label for="is_construction_{{ $image->id }}" class="form-check-label text-light">Ход строительства</label>
+                                </div>
                                 <button type="button"
                                         class="btn btn-danger text-white px-2 py-1 rounded delete-image"
                                         style="font-size: 0.8rem;"
@@ -111,12 +121,30 @@
 
         <div class="mt-4">
             <button type="submit" class="btn btn-primary dashboard-btn-primary">Сохранить</button>
+            <a href="{{ route('dashboard.sliders.index') }}" class="btn btn-secondary bg-secondary text-white hover:bg-gray-600">Отмена</a>
         </div>
     </form>
 </div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
+        // Динамические чекбоксы для новых изображений
+        document.getElementById('additional_images').addEventListener('change', function (e) {
+            const files = e.target.files;
+            const checkboxesContainer = document.getElementById('image-checkboxes');
+            checkboxesContainer.innerHTML = '';
+
+            for (let i = 0; i < files.length; i++) {
+                const div = document.createElement('div');
+                div.className = 'form-check';
+                div.innerHTML = `
+                    <input type="checkbox" name="is_construction[${i}]" id="is_construction_${i}" value="1" class="form-check-input">
+                    <label for="is_construction_${i}" class="form-check-label text-light">${files[i].name} — Ход строительства</label>
+                `;
+                checkboxesContainer.appendChild(div);
+            }
+        });
+
         // Удаление дополнительного изображения
         document.querySelectorAll('.delete-image').forEach(button => {
             button.addEventListener('click', function () {

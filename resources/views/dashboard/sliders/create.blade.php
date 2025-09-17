@@ -63,8 +63,9 @@
 
         <div class="mb-3">
             <label for="additional_images" class="form-label text-light">Дополнительные изображения</label>
-            <input type="file" name="additional_images[]" class="form-control bg-dark text-light" multiple accept="image/*">
+            <input type="file" name="additional_images[]" id="additional_images" class="form-control bg-dark text-light" multiple accept="image/*">
             <small class="text-light">Максимальный размер каждого файла: 15 МБ.</small>
+            <div id="image-checkboxes" class="mt-2"></div>
         </div>
 
         <div class="mt-4">
@@ -73,4 +74,22 @@
         </div>
     </form>
 </div>
+
+<script>
+    document.getElementById('additional_images').addEventListener('change', function (e) {
+        const files = e.target.files;
+        const checkboxesContainer = document.getElementById('image-checkboxes');
+        checkboxesContainer.innerHTML = ''; // Очищаем контейнер
+
+        for (let i = 0; i < files.length; i++) {
+            const div = document.createElement('div');
+            div.className = 'form-check';
+            div.innerHTML = `
+                <input type="checkbox" name="is_construction[${i}]" id="is_construction_${i}" value="1" class="form-check-input">
+                <label for="is_construction_${i}" class="form-check-label text-light">${files[i].name} — Ход строительства</label>
+            `;
+            checkboxesContainer.appendChild(div);
+        }
+    });
+</script>
 @endsection

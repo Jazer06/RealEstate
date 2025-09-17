@@ -72,6 +72,13 @@
             </div>
 
             <div class="col-md-6">
+                <label for="sort_order" class="form-label text-light">Порядок отображения (меньше — выше в списке)</label>
+                <input type="number" name="sort_order" id="sort_order" class="form-control bg-dark text-light" value="{{ old('sort_order') }}" min="0">
+                @error('sort_order') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                <small class="text-light">Текущий максимальный порядок: {{ \App\Models\Property::max('sort_order') ?? '0' }}</small>
+            </div>
+
+            <div class="col-md-6">
                 <label for="slider_id" class="form-label text-light">Жилой комплекс</label>
                 <select name="slider_id" id="slider_id" class="form-select bg-dark text-light">
                     <option value="">Без привязки</option>

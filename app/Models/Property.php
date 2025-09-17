@@ -20,6 +20,7 @@ class Property extends Model
         'rooms',
         'type',
          'slider_id',
+         'sort_order', 
     ];
 
     public function user()

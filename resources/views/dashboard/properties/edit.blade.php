@@ -1,4 +1,3 @@
-{{-- resources/views/dashboard/properties/edit.blade.php --}}
 @extends('layouts.app')
 
 @section('content')
@@ -79,6 +78,13 @@
                     <option value="коммерческая" {{ old('type', $property->type) === 'коммерческая' ? 'selected' : '' }}>Коммерческая</option>
                 </select>
                 @error('type') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+            </div>
+
+            <div class="col-md-6">
+                <label for="sort_order" class="form-label text-light">Порядок отображения (меньше — выше в списке)</label>
+                <input type="number" name="sort_order" id="sort_order" class="form-control bg-dark text-light" value="{{ old('sort_order', $property->sort_order) }}" min="0">
+                @error('sort_order') <div class="text-danger small mt-1">{{ $message }}</div> @enderror
+                <small class="text-light">Текущий максимальный порядок: {{ \App\Models\Property::max('sort_order') ?? '0' }}</small>
             </div>
 
             <div class="col-md-6">

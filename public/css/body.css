@@ -88,10 +88,9 @@ body {
     background-color: #000000ab;
     text-decoration: none;
     border-radius: 25px;
-    font-size: 16px;
-    font-weight: 300;
-    transition: transform 0.2s, box-shadow 0.2s;
-    width: 200px;
+    font-size: 20px;
+    font-weight: 500;
+
 }
 
 .slide-title {
@@ -1594,6 +1593,90 @@ background: linear-gradient(90deg, #5c5c5c, #000000);
         text-decoration: underline;
     }
 
+    /* Карусель */
+    .construction-slide-wrapper {
+        width: 100%;
+        padding: 20px 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .construction-slide-container {
+        height: 400px;
+        display: flex;
+        flex-wrap: nowrap;
+        justify-content: start;
+        max-width: 1200px;
+    }
+
+    .construction-slide-item {
+        display: flex;
+    }
+
+    .construction-slide-card {
+        width: 80px;
+        border-radius: 1rem;
+        background-size: cover;
+        background-position: center;
+        cursor: pointer;
+        overflow: hidden;
+        margin: 0 10px;
+        display: flex;
+        align-items: flex-end;
+        transition: width 0.6s cubic-bezier(.28, -0.03, 0, .99);
+        box-shadow: 0px 10px 30px -5px rgba(0, 0, 0, 0.8);
+        position: relative;
+    }
+
+    .construction-slide-card > .construction-slide-row {
+        color: #e0e0e0;
+        display: flex;
+        flex-wrap: nowrap;
+        background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.7));
+        width: 100%;
+    }
+
+    .construction-slide-card > .construction-slide-row > .construction-slide-description {
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        overflow: hidden;
+        height: 80px;
+        width: 520px;
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.3s ease;
+        transition-delay: 0.3s;
+        padding: 15px;
+    }
+
+    .construction-slide-description p {
+        color: #b0b0ba;
+        padding-top: 5px;
+        font-size: 0.9rem;
+    }
+
+    .construction-slide-description h4 {
+        text-transform: uppercase;
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    input[type="radio"] {
+        display: none;
+    }
+
+    .construction-slide-item input:checked ~ label {
+        width: 600px;
+    }
+
+    .construction-slide-item input:checked ~ label .construction-slide-description {
+        opacity: 1 !important;
+        transform: translateY(0) !important;
+    }
+
+
 /* ==================== MEDIA QUERIES ==================== */
 @media (min-width: 1200px) {
   .custom-thumbs-container {
@@ -1610,6 +1693,19 @@ background: linear-gradient(90deg, #5c5c5c, #000000);
 
 
 @media (max-width: 768px) {
+    .construction-slide-container {
+        height: 300px;
+    }
+    .construction-slide-card {
+        width: 60px;
+        border-radius: 0.75rem;
+    }
+    .construction-slide-item input:checked ~ label {
+        width: 400px;
+    }
+    .construction-slide-card > .construction-slide-row > .construction-slide-description {
+        width: 340px;
+    }
     .slide-title {
         margin-top: 350px;
         font-size: 50px;
@@ -1643,11 +1739,31 @@ background: linear-gradient(90deg, #5c5c5c, #000000);
 }
 
 @media (max-width: 576px) {
-        .slide-title {
-        margin-top: 350px;
-        font-size: 45px;
-        line-height: normal;
-        font-weight: 500;
+
+        .construction-slide-container {
+            height: 250px;
+        }
+        .construction-slide-card {
+            width: 50px;
+            border-radius: 0.5rem;
+        }
+        .construction-slide-item input:checked ~ label {
+            width: 300px;
+        }
+        .construction-slide-card > .construction-slide-row > .construction-slide-description {
+            width: 240px;
+        }
+        .construction-slide-description h4 {
+            font-size: 0.8rem;
+        }
+        .construction-slide-description p {
+            font-size: 0.7rem;
+        }
+    .slide-title {
+    margin-top: 350px;
+    font-size: 45px;
+    line-height: normal;
+    font-weight: 500;
     }
     .glass-effect-banner { padding: 0.8rem; }
     .text-highlight { font-size: clamp(0.9rem, 3vw, 1rem); }

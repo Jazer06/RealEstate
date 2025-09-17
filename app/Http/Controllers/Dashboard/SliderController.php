@@ -33,6 +33,7 @@ class SliderController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
             'video' => 'nullable|mimetypes:video/mp4,video/mpeg,video/quicktime|max:20000',
             'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'is_construction.*' => 'nullable|boolean', // Валидация для флажков "ход строительства"
             'properties' => 'nullable|array',
             'properties.*' => 'nullable|exists:properties,id',
         ]);
@@ -62,12 +63,13 @@ class SliderController extends Controller
         ]);
 
         if ($request->hasFile('additional_images')) {
-            foreach ($request->file('additional_images') as $additionalImage) {
+            foreach ($request->file('additional_images') as $index => $additionalImage) {
                 $additionalImageName = time() . '_' . $additionalImage->getClientOriginalName();
                 $additionalImagePath = $additionalImage->storeAs('images/sliders', $additionalImageName, 'public');
                 SliderImage::create([
                     'slider_id' => $slider->id,
                     'image_path' => $additionalImagePath,
+                    'is_construction' => $request->input('is_construction.' . $index, false), // Флажок "ход строительства"
                 ]);
             }
         }
@@ -107,9 +109,9 @@ class SliderController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
             'video' => 'nullable|mimetypes:video/mp4,video/mpeg,video/quicktime|max:20000',
             'additional_images.*' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:15360',
+            'is_construction.*' => 'nullable|boolean',
+            'is_construction_existing.*' => 'nullable|boolean', // Валидация для существующих изображений
         ]);
-
-        \Log::info('Validated data:', $validated);
 
         $imagePath = $slider->image_path;
         $videoPath = $slider->video_path;
@@ -140,13 +142,21 @@ class SliderController extends Controller
             'video_path' => $videoPath,
         ]);
 
+        // Обновление is_construction для существующих изображений
+        if ($request->has('is_construction_existing')) {
+            foreach ($request->input('is_construction_existing', []) as $imageId => $isConstruction) {
+                SliderImage::where('id', $imageId)->update(['is_construction' => (bool)$isConstruction]);
+            }
+        }
+
         if ($request->hasFile('additional_images')) {
-            foreach ($request->file('additional_images') as $additionalImage) {
+            foreach ($request->file('additional_images') as $index => $additionalImage) {
                 $additionalImageName = time() . '_' . $additionalImage->getClientOriginalName();
                 $additionalImagePath = $additionalImage->storeAs('images/sliders', $additionalImageName, 'public');
                 SliderImage::create([
                     'slider_id' => $slider->id,
                     'image_path' => $additionalImagePath,
+                    'is_construction' => $request->input('is_construction.' . $index, false),
                 ]);
             }
         }
@@ -156,7 +166,6 @@ class SliderController extends Controller
 
         return redirect()->route('dashboard')->with('success', 'Слайд обновлён!');
     }
-
     public function destroy(Slider $slider)
     {
         $this->authorize('delete', $slider);

@@ -46,7 +46,11 @@ class PublicPropertyController extends Controller
         $areaMax = $request->input('area_range_max', $areaMax);
         $query->whereBetween('area', [$areaMin, $areaMax]);
 
-        $properties = $query->latest()->paginate(9)->withQueryString();
+        // Сортировка по sort_order, затем по created_at
+        $properties = $query->orderBy('sort_order', 'asc')
+                           ->orderBy('created_at', 'desc')
+                           ->paginate(9)
+                           ->withQueryString();
         $totalProperties = $properties->total();
 
         // Все доступные ЖК — для фильтра

@@ -16,7 +16,10 @@ class PropertyController extends Controller
 {
     public function index()
     {
-        $properties = Property::where('user_id', Auth::id())->paginate(5);
+        $properties = Property::where('user_id', Auth::id())
+                             ->orderBy('sort_order', 'asc')
+                             ->orderBy('created_at', 'desc')
+                             ->paginate(5);
         $sliders = Slider::all();
         $contacts = Contact::paginate(5);
         $purchaseRequests = PurchaseRequest::with(['user', 'property'])->paginate(5);
@@ -39,12 +42,13 @@ class PropertyController extends Controller
             'address' => 'nullable|string|max:255',
             'area' => 'nullable|numeric|min:0',
             'rooms' => 'required|integer|min:0',
-            'type' => 'required|string|in:квартира,дом,коммерческая',
+            'type' => 'required|string|in:квартира,апартаменты,дом,коммерческая',
             'slider_id' => 'nullable|exists:sliders,id',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'plan_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'additional_images' => 'nullable|array|max:5',
             'additional_images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
+            'sort_order' => 'nullable|integer|min:0', // Валидация для sort_order
         ]);
 
         // Автозаполнение для address, если не указано
@@ -105,7 +109,7 @@ class PropertyController extends Controller
             'address' => 'nullable|string|max:255',
             'area' => 'nullable|numeric|min:0',
             'rooms' => 'required|integer|min:0',
-            'type' => 'required|string|in:квартира,дом,коммерческая',
+            'type' => 'required|string|in:квартира,апартаменты,дом,коммерческая',
             'slider_id' => 'nullable|exists:sliders,id',
             'image_path' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'plan_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:5120',
@@ -113,6 +117,7 @@ class PropertyController extends Controller
             'additional_images.*' => 'image|mimes:jpeg,png,jpg,gif,webp|max:5120',
             'delete_images' => 'nullable|array',
             'delete_images.*' => 'integer|exists:property_images,id',
+            'sort_order' => 'nullable|integer|min:0', // Валидация для sort_order
         ]);
 
         // Автозаполнение для address, если не указано
@@ -194,7 +199,10 @@ class PropertyController extends Controller
     public function contacts()
     {
         $contacts = Contact::latest()->paginate(10);
-        $properties = Property::where('user_id', Auth::id())->paginate(5);
+        $properties = Property::where('user_id', Auth::id())
+                             ->orderBy('sort_order', 'asc')
+                             ->orderBy('created_at', 'desc')
+                             ->paginate(5);
         $sliders = Slider::all();
 
         return view('dashboard.index', compact('contacts', 'properties', 'sliders'));
