@@ -51,10 +51,24 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/settings/profile', [ProfileController::class, 'index'])->name('settings.profile');
 
+    // Избранное
     Route::get('/favorites', [FavoriteController::class, 'index'])->name('favorites.index');
     Route::post('/favorites/{property}/toggle', [FavoriteController::class, 'toggle'])->name('favorites.toggle');
-    Route::post('/purchase-requests/{property}', [FavoriteController::class, 'createPurchaseRequest'])->name('purchase-requests.store');
+
+    // 🔹 Новый маршрут для кнопки "Узнать цену"
+    Route::post('/favorites/{property}/add-and-redirect', [FavoriteController::class, 'addAndRedirect'])
+        ->name('favorites.addAndRedirect');
+
+    // Заявка на покупку
+    Route::post('/purchase-requests/{property}', [FavoriteController::class, 'createPurchaseRequest'])
+        ->name('purchase-requests.store');
+
+        Route::post('/favorites/{property}/add-and-profile', [FavoriteController::class, 'addAndRedirectToProfile'])
+    ->name('favorites.addAndProfile')
+    ->middleware('auth');
+
 });
+
 
 // Панель администратора
 Route::middleware(['auth', 'admin'])->prefix('dashboard')->group(function () {
