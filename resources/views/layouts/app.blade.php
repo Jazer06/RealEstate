@@ -116,8 +116,7 @@
     @auth
         @include('profile.settings-modal', ['user' => auth()->user()])
     @endauth
-
-    <a href="tel:{{ config('header_phone_number', '+7(989)657-02-71') }}" class="btn-float-phone phone-bounce" aria-label="Позвонить">
+    <a href="tel:{{ $phoneNumber ?? '+7(989)657-02-71' }}" class="btn-float-phone phone-bounce d-md-none" aria-label="Позвонить">
         <i class="bi bi-telephone-fill"></i>
     </a>
     <button id="backToTop" class="btn-float-up" aria-label="Наверх">

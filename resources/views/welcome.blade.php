@@ -1,23 +1,29 @@
 @extends('layouts.app')
 
 @section('carousel')
-<div class="video-background">
-    <video autoplay loop muted playsinline>
-        <source src="{{ asset('storage/banner-image/video2.mp4') }}" type="video/webm">
-        Ваш браузер не поддерживает видео.
-    </video>
-    <div class="gradient-overlay"></div>
-    <div class="content-overlay ml-54">
-        <p class="fs-1">Здесь начинаются перемены к лучшему!</p>
+
+<div class="castom-carousel-wrapper mt-4">
+    <img src="{{ asset('storage/banner-image/image-mobile.webp') }}" class="castom-carousel-image">
+
+    <div class="castom-carousel-content">
+        <h4 class="castom-carousel-title">
+            Здесь начинаются перемены к лучшему!
+        </h4>
     </div>
+
+    <!-- Размытый низ -->
+    <div class="castom-blur-bottom"></div>
 </div>
+<style>
+
+
+</style>
 @if (session('success'))
     <div class="alert alert-success mb-4 text-center mt-5">
         {{ session('success') }}
     </div>
 @endif
 @endsection
-
 @section('content')
 <div class="cards-mobile d-md-none" id="cards-mobile-container"></div>
 

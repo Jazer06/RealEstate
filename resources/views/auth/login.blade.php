@@ -2,10 +2,13 @@
 
 @section('content')
 <style>
-    body {
-        background: linear-gradient(135deg, #1a1a1a 0%, #2c2c2c 100%);
-        min-height: 100vh;
-    }
+body {
+    min-height: 100vh;
+    background: 
+        linear-gradient(135deg, rgba(26,26,26,0.8) 0%, rgba(44,44,44,0.8) 100%),
+        url("/storage/banner-image/image-mobile.webp") no-repeat center center;
+        background-size: cover;
+}
 
 
 </style>

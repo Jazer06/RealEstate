@@ -10,7 +10,7 @@
             <a href="tel:{{ $phoneNumber ?? '+1234567890' }}" class="nav-link d-flex align-items-center phone-icon">
                 <i class="bi bi-telephone-fill text-dark"></i>
                 <span class="d-none d-md-inline fs-6 text-dark">
-                    {{ $phoneNumber ?? '+7 (953) 555-33-32' }}
+                    {{ $phoneNumber ?? '+7(989)657-02-71' }}
                 </span>
             </a>
             @auth

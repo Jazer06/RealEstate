@@ -1,5 +1,11 @@
+@if (!$selectedSlider)
+<div  class="mt-200">
+    <h3 class="text-center mb-4 ">Наши объекты недвижимости</h2> 
+</div>
+@endif
 <div class="filter-glass" id="filters">
     <div class="row">
+        <hr>
         <form method="GET"
               action="{{ Route::currentRouteName() == 'home' ? route('home') . '#filters' : route('properties.index') . '#filters' }}"
               class="mb-4"
@@ -39,10 +45,10 @@
             </div>
 
             {{-- Остальные фильтры --}}
-            <div class="row align-items-end g-3">
+            <div class="row  g-3">
                 {{-- Количество комнат --}}
                 <div class="col-md-4">
-                    <label class="filter-label d-block mb-1 text-center "><b class="text-black">Количество комнат</b></label>
+                    <label class="filter-label d-block mb-3 text-center filter-inp"><b class="text-white">Количество комнат</b></label>
                     <div class="room-buttons pt-3 ps-3 pe-3">
                         <label class="room-button-text">
                             <input type="radio" name="rooms" value="0" {{ request('rooms') === '0' ? 'checked' : '' }}>
@@ -63,7 +69,7 @@
 
                 {{-- Площадь --}}
                 <div class="col-md-4">
-                    <label class="filter-label d-block mb-1 text-center"><b class="text-black">Площадь, м²</b></label>
+                    <label class="filter-label d-block mb-4 text-center filter-inp"><b class="text-white">Площадь, м²</b></label>
                     <div class="d-flex justify-content-between mb-2 gap-3">
                         <input type="number"
                                id="area-min-input"
@@ -89,7 +95,7 @@
 
                 {{-- Кнопки --}}
                 <div class="col-md-4 d-flex align-items-center justify-content-center gap-3 pt-3 ps-3 pe-3">
-                    <button type="submit" class="iphone-button-black bg-light   ">Показать</button>
+                    <button type="submit" class=" adress-span-card ">Показать</button>
                     <a href="{{ Route::currentRouteName() == 'home' ? route('home') . '#filters' : route('properties.index') . '#filters' }}"
                        class="btn-reset"
                        id="resetFilters"
@@ -102,5 +108,6 @@
                 </div>
             </div>
         </form>
+        <hr>
     </div>
 </div>

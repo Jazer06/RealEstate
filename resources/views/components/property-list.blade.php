@@ -140,19 +140,20 @@
         transform: translateY(-2px);
         box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
-    .container-obj {
-    padding: 15px;
-    background: white;
-    backdrop-filter: blur(12px);
-    border-radius: 12px;
-    border: 5px solid rgb(126 119 119 / 65%);
+
 }
 </style>
 
-<div class="container-obj" style="margin-top: -70px;">
+<div class="container-obj">
     <div class="container">
         <div class="grid-row row">
-            <h1 class="cyber-title">Наши ЖК</h1>
+            <div class="row d-flex">
+                <div class="col-md-4 mt-3"> <hr></div>
+                <div class="col-md-4"><h1 class="cyber-title">Наши ЖК</h1></div>
+                <div class="col-md-4 mt-3"> <hr></div>
+            </div>
+          
+          
 
             @foreach($sliders as $slider)
                 @php
@@ -169,7 +170,7 @@
                                 <h1>{{ $slider->title }}</h1>
                                 <p>{{ $slider->description ?? 'Описание отсутствует' }}</p>
                                 @if($slider->button_text && $slider->button_link)
-                                <a href="{{ $slider->button_link }}" class="btn  btn-sm adress-span">
+                                <a href="{{ $slider->button_link }}" class="btn  btn-sm adress-span-card">
                                         {{ $slider->button_text }}
                                     </a>
                                 @endif
@@ -178,6 +179,9 @@
                     </div>
                 </div>
             @endforeach
+        </div>
+        <div class="mb-3">
+            <hr>
         </div>
     </div>
 </div>

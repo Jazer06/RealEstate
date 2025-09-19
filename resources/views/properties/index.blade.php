@@ -121,9 +121,7 @@
 @endif
 
 @section('content')
-    @if (!$selectedSlider)
-        <h2 class="mb-4 mt-54 text-center mb-4">Наши объекты недвижимости</h2>
-    @endif
+
 
     @if (session('success'))
         <div class="alert alert-success mb-4 text-center floating-alert">
@@ -139,7 +137,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     @endif
-    <div style="margin-top: -20px;">
+    <div>
         @include('components.filter', [
             'minPrice' => $minPrice,
             'maxPrice' => $maxPrice,
@@ -147,6 +145,7 @@
             'priceMax' => $priceMax,
             'areaMin' => $areaMin,
             'areaMax' => $areaMax,
+            'selectedSlider' => $selectedSlider,
         ])
     </div>
 

@@ -32,30 +32,43 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $this->validator($request->all())->validate();
+
         event(new Registered($user = $this->create($request->all())));
+
         $this->guard()->login($user);
+
         return $this->registered($request, $user) ?: redirect($this->redirectTo());
     }
 
+    /**
+     * ✅ Валидация данных
+     */
     protected function validator(array $data)
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'phone' => ['required', 'string', 'max:20', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
             'custom_csrf_token' => ['required'],
             'privacy_policy' => ['required', 'accepted'],
         ], [
             'privacy_policy.required' => 'Вы должны согласиться с политикой конфиденциальности.',
             'privacy_policy.accepted' => 'Вы должны согласиться с политикой конфиденциальности.',
+            'phone.required' => 'Поле телефон обязательно.',
+            'phone.unique' => 'Такой телефон уже зарегистрирован.',
         ]);
     }
 
+    /**
+     * ✅ Создание пользователя
+     */
     protected function create(array $data)
     {
         return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
+            'phone' => $data['phone'],
             'password' => Hash::make($data['password']),
             'role' => 'user',
         ]);

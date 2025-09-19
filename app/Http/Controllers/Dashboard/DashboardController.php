@@ -10,6 +10,8 @@ use App\Models\Setting;
 use App\Models\PurchaseRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
+
 
 class DashboardController extends Controller
 {
@@ -20,7 +22,13 @@ class DashboardController extends Controller
         $contacts = Contact::paginate(20);
         $purchaseRequests = PurchaseRequest::with(['user', 'property'])->paginate(20);
 
-        return view('dashboard.index', compact('properties', 'sliders', 'contacts', 'purchaseRequests'));
+        $users = User::select('id','name','email','phone')->paginate(20);
+        // телефон из таблицы settings
+        $phoneNumber = Setting::where('key', 'header_phone_number')->value('value') ?? '+7(989)657-02-71';
+   
+        return view('dashboard.index', compact(
+            'properties', 'sliders', 'contacts', 'purchaseRequests', 'phoneNumber', 'users'
+        ));
     }
 
     public function purchaseRequests()
@@ -35,30 +43,37 @@ class DashboardController extends Controller
         return redirect()->route('dashboard.purchase-requests.index')->with('success', 'Заявка удалена!');
     }
 
-    // Обновление телефона
+    // ✅ Обновление телефона
     public function updatePhone(Request $request)
     {
         $validated = $request->validate([
             'phone_number' => 'required|string|max:20',
         ]);
 
-        Setting::updateOrCreate(['key' => 'header_phone_number'], ['value' => $validated['phone_number'], 'type' => 'text']);
+        Setting::updateOrCreate(
+            ['key' => 'header_phone_number'],
+            ['value' => $validated['phone_number'], 'type' => 'text']
+        );
 
         return redirect()->back()->with('success', 'Телефон обновлён!');
     }
 
-    // Обновление email
+    // ✅ Обновление email
     public function updateEmail(Request $request)
     {
         $validated = $request->validate([
             'email' => 'required|email:rfc,dns|max:255',
         ]);
 
-        Setting::updateOrCreate(['key' => 'header_email'], ['value' => $validated['email'], 'type' => 'email']);
+        Setting::updateOrCreate(
+            ['key' => 'header_email'],
+            ['value' => $validated['email'], 'type' => 'email']
+        );
 
         return redirect()->back()->with('success', 'Email обновлён!');
     }
 
+    // ✅ Обновление текста баннера
     public function updateBannerText(Request $request)
     {
         $request->validate([
@@ -78,6 +93,4 @@ class DashboardController extends Controller
 
         return redirect()->back()->with('success', 'Баннер обновлён.');
     }
-
-
 }

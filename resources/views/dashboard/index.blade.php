@@ -10,6 +10,7 @@
                 @foreach([
                     ['id' => 'home', 'label' => 'Добавить ЖК'],
                     ['id' => 'properties', 'label' => 'Объекты'],
+                    ['id' => 'users', 'label' => 'Пользователи'],
                     ['id' => 'contacts', 'label' => 'Заявки'],
                     ['id' => 'purchase-requests', 'label' => 'Заявки на покупку'],
                     ['id' => 'telephone', 'label' => 'Телефон'],
@@ -34,11 +35,13 @@
             <div class="tab-content dashboard-tab-content" id="adminTabsContent">
                 @include('dashboard.partials.home-tab')
                 @include('dashboard.partials.properties-tab')
+                @include('dashboard.partials.users-tab', ['users' => $users])
                 @include('dashboard.partials.contacts-tab')
                 @include('dashboard.partials.purchase-requests-tab', ['purchaseRequests' => $purchaseRequests])
                 @include('dashboard.partials.telephone-tab')
                 @include('dashboard.partials.email-tab')
                 @include('dashboard.partials.banner-tab')
+
             </div>
         </div>
     </div>

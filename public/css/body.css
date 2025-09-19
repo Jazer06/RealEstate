@@ -8,6 +8,66 @@ body {
   font-variation-settings:
     "wdth" 100;
 }
+
+    /* Обёртка */
+.castom-carousel-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100vh; /* на весь экран */
+    overflow: hidden;
+}
+
+/* Картинка */
+.castom-carousel-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* картинка покрывает блок */
+    display: block;
+}
+
+/* Контент */
+.castom-carousel-content {
+    position: absolute;
+    bottom: 20%;
+    left: 10%;
+    z-index: 5;
+}
+
+.castom-carousel-title {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.7);
+    margin: 0;
+}
+
+/* Размытый низ */
+.castom-blur-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 180px;
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+
+    /* Плавный переход */
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+    -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+
+    /* Накладываем лёгкий градиент */
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.7) 100%);
+    z-index: 2;
+    pointer-events: none;
+}
+
+.container-obj {
+    padding: 15px;
+    background: white;
+    backdrop-filter: blur(12px);
+    border-radius: 12px;
+    border: 3px solid rgb(126 119 119 / 65%);
+}
 .container {
     flex: 1 0 auto;
     position: relative;
@@ -20,6 +80,27 @@ body {
 	    padding: 0.3em 0.7em 0.3em 0.8em;
 	    border-radius: 2rem;
 	}
+    .filter-inp{
+       color: #fff !important;
+        background: black;
+        text-transform: capitalize;
+        padding: 0.3em 0.7em 0.3em 0.8em;
+        border-radius: 2rem;
+    }
+
+    .adress-span-card{
+       color: #fff !important;
+        background: black;
+        text-transform: capitalize;
+        padding: 15px;
+        border-radius: 2rem;
+    }
+        .adress-span-card:hover{
+            color: #fff !important;
+            background: #00000069;
+            border: none;
+
+    }
 /* ==================== UTILITIES ==================== */
 .fs-2rem { font-size: 2.25rem !important; }
 .mt-6 { margin-top: 6rem !important; }
@@ -698,8 +779,8 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     justify-content: center;
     border-radius: 50%;
     cursor: pointer;
-    background: #f8f8f8;
-    color: #333;
+    background: #3f3f3f;
+    color: white;
     border: 1px solid #ddd;
     font-weight: 500;
     transition: all 0.3s ease;
@@ -781,7 +862,8 @@ input[type="number"]:focus { outline: none; box-shadow: none; }
     justify-content: center;
     align-items: center;
     padding: 20px;
-    max-height: 365px;
+    max-height: 550px;
+    background-position-y: -100px;
 }
 
 .contact-form {
@@ -1429,7 +1511,7 @@ background: linear-gradient(90deg, #5c5c5c, #000000);
 }
 
     .login-card {
-        background: rgba(35, 35, 35, 0.65); /* Полупрозрачный темный фон */
+        background: rgb(0 0 0 / 79%); /* Полупрозрачный темный фон */
         backdrop-filter: blur(16px);
         -webkit-backdrop-filter: blur(16px); /* Для Safari */
         border-radius: 28px;
@@ -1439,8 +1521,6 @@ background: linear-gradient(90deg, #5c5c5c, #000000);
         max-width: 440px;
         width: 100%;
         border: 1px solid rgba(255, 255, 255, 0.08);
-        transition: transform 0.4s cubic-bezier(0.2, 0, 0, 1.2), 
-                    box-shadow 0.4s ease;
         position: relative;
         overflow: hidden;
     }
@@ -1454,11 +1534,6 @@ background: linear-gradient(90deg, #5c5c5c, #000000);
         height: 200%;
         background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
         pointer-events: none;
-    }
-
-    .login-card:hover {
-        transform: translateY(-6px);
-
     }
 
     .login-title {
@@ -1491,7 +1566,7 @@ background: linear-gradient(90deg, #5c5c5c, #000000);
         border-radius: 14px;
         padding: 14px 18px;
         font-size: 1rem;
-        color: black !important;
+        color: white; !important;
         transition: all 0.3s ease;
         backdrop-filter: blur(4px);
     }
